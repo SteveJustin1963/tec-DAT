@@ -1,0 +1,6 @@
+Ian McLean? to Australian Vintage Computer Group
+January 23
+Ben Grimmett's speech board working on my TEC1D with the DAT board and 4MHz crystal.
+Note the bodgied BC557, 1K resistor and 10u electro hanging off the side of the board. I needed to add this back in from Craig Hart's original circuit design to switch the op-amp on only when speaking - I was getting a high pitched tone noise on the speech board when idle with the LM386 always on, probably due to old electro's. When the CPU is in Halt (instruction 76) or the LED display is off, the noise would go away. When speaking, the speech board was clear and noise free. Now it always is and working well!
+
+This is the original SPO chip from my old speech board, still working!
