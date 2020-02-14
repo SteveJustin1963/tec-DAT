@@ -4,18 +4,34 @@ By Jim Robertson
 
 ## From TE-15 
 
-SENDING IN PROGRAMS VIA TAPE 
+## SENDING IN PROGRAMS VIA TAPE 
 
 We are looking forward to readers sending programs to us. ... Provide us with a copy of the program. Save it on tape with a crystal speed of half 3.58MHz. ... We also need documentation on the program. Write what it does and where it runs in memory and include any notes you may have generated. The first thing we will do is disassemble it and load it into our IBM clone. Here we can format it for publishing. For the sake of our disassembler, please, if you can, put tables at the end of the program code and write down where the tables are located. This way we can use our HEX dump routine and tack the tables on at the end of the code.
 
-JMON UP-GRADES (parts omitted, see full article)
+## JMON UP-GRADES 
 
 JMON has been designed to be upgraded without losing software compatibility. Some likely changes are the removal of the low speed tape save (unless there is a storm of protest). This will decrease the software overhead in the tone routine and even-up the period measurement. The result will be an increase in the tolerance of different TEC frequencies and different tape speeds. This should make it possible to freely interchange half 3.58MHz and half 4.MHz tape software as well as allowing poorer quality tape players to be used. The single stepper, which has no effect on the MONitor at all, may be shifted to a more specialized ROM to increase the stepper's abilities.- The keyboard and LCD RST's will not be changed, so any routine you write using these will run on future up-grades. The same cannot be said if you directly call into JMON. So don't do it! 
 
+## ISSUE 15 CONTENT
+
+Missing from the TEC section are two usual features. The reader send-ins and tutorial section. The reason for this is mainly due to lack of room. Already the TEC section is the largest ever and the material left over will be a good start for issue 16. A different direction is planned for issue 16. The basic lay-out will be two MAJOR add-ons and the rest of the article will be filled with programs (mine and yours, so send them in). There are a couple of reader send-ins that we intend to publish, so if you have sent something in already, we haven't just tossed it in the bin!  
+
+## JIM's PACKAGE
+
+This package is centered around JMON. The main feature is a complete lineby-line disassembly of the JMON ROM. I hope that, with careful study, you will be able to look at any instruction and understand its role. My programming style is very optimized. Generally my programs are short and to the point. This does make them a little difficult to read but at the same time by studying and learning my ideas, your own programming abilities will be improved. If the role of every instruction escapes you, you will still learn important concepts and a better way to do some things. I wish I had a Jim's package when I was just starting out! The package will be 20 pages long as this is the limit of our collating photocopier. If there is enough room, some other notes and programs will be included.
+It is a pity that such a listing was not available for the earlier MONitors. Because Jim's package contains every byte in JMON, you can actually bum your own JMON ROM. Keep in mind that this means typing in 2k worth of program and one mistake will ruin the whole MONitor. If you feel up to it then go to it. We don't mind you doing this ONCE for YOUR OWN USE. This offer does not apply to schools or  ommercial buyers. If you don't wish to try to type out JMON, I present you with this offer. Purchase and pay for JMON and Jim's package together, and save $3.50. This means the total price for both is $27.50 instead of $31  ISSUE 16 and the TEC Most of issue 16's TEC pages have been allocated and about half of these are already finished. If you have some thing for us, don't waste time if you want the chance to see it in print. - Jim 
+
+## A discussion on Talking Electronics latest monitor for the TEC computer 
+Article and monitor by Jim Robertson
+
+JMON is a big step ahead for the TEC. Some of the contents of JMON are: a highly improved Monitor Program, a versatile Tape Storage Program, software for driving a liquid crystal display, a Menu Driver for utilities, a Perimeter Handler, User Reset Patch, Single Stepper and Break Pointer with register display software, and simplified access to utilities and user routines. JMON also uses indirect look-up tables stored in RAM. This idea leaves the door open for many possibilities. All the above and more is contained in 2k bytes. The following is a description of the major blocks in the ROM.
+
+## THE MONITOR PROGRAM
+To support new features added to the TEC, a new interactive monitor program has been written. The new monitor is, by itself, a considerable upgrade over previous monitors and when combined with other software in the monitor ROM, gives great features for the TEC user. Major improvements have been made in the MONitor software, to allow quicker entry and editing of code. This has been achieved by adding such features as auto key repeat and auto increment. If you add the LCD, its larger display and cursor control software open up a second level of improvement.   
+
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/dat-15-17.png)
 
-THE TAPE SOFTWARE
-
+## THE TAPE SOFTWARE
 The TAPE SAVE facility is versatile and reliable. Some of the functions include: 
 * 300 and 600 baud tape SAVE, 
 * auto execution, * LOAD selected file, 
@@ -34,9 +50,48 @@ Both tests may be combined with other options. The tape software uses the univer
 
 The one exception is when an auto execute is performed after a successful load. The tape software will display each file as it is found and also echo the tape signal.
 
-from page 22...
+## LIQUID CRYSTAL SOFTWARE
+This software is called from the monitor program. It is possible to deselect this software to allow the liquid crystal display to perform a userdefined purpose while the monitor is being used. The Liquid Crystal Display is being accessed as a primary output device to the user during the execution of the monitor. Eight data bytes are displayed at a time and a space between each for the prompt (it appears as a "greater than" sign). Four digits in the top left hand corner show the address of the first byte. In the bottom left hand corner is a current mode indicator and this lets you know which particular mode JMON is in. E.g. Data mode, Address mode etc. The prompt points to the next location to have data entered, or if at the end of the 8 bytes being displayed, the prompt parks at the top left corner indicating a screen change will occur on the next data key press. This allows revision before proceeding. It is possible to use the monitor with only the LCD unit, the only drawback being the actual current value of the address pointer is not displayed (the value shown in the address portion of the LED display). However this is only minor. 
 
-THE TAPE SYSTEM / TEC CONSIDERATIONS
+## MENU DRIVER
+This is a universal routine used to select various utilities routine from JMON. It is already used by the tape software and the utilities ROM. It may also be easily used by the TEC user. The Menu Driver displays names of functions in the TEC LED display. The number of different names is variable and may be user defined. It is possible to step forward and backward through these names. A 3-byte jump table with an entry for each name provides the address of the required routine. A jump is performed upon "GO." To have a look, call up the cassette software by pressing SHIFT and ZERO together. If you have not fitted a shift key, the cassette software can be addressed by pressing the address key, then the plus key, then zero. To move forward through the MENU, press "+". To move backward, press "-". Notice the automatic FIRST-TOLAST, LAST-TO-FIRST wrap around. Pressing "GO" will take you into the perimeter handler.
+
+## PERIMETER HANDLER
+Like the Menu Driver, this is a universal program and may be easily used by the user. This routine allows variables to be passed to routines in an easy manner. The variables are typically the start and end address of a block of memory that is to be operated on, such as a load, shift, copy, etc. A 2-character name for each 2-byte variable is displayed in the data display while the actual variable is entered and displayed in the address display. The number of variables may be from 1 to 255 and is user definable. The data display is also user definable. It is possible to step forwards and back through the perimeter handler in the same fashion as the MENU driver. When a "GO" command is received, control is passed to the required routine via a 2-byte address stored at 0888 by the calling routine.  
+
+## The SINGLE STEPPER and BREAK POINT handler.
+A single stepper program can be important when de-bugging a program. It effectively "runs" the program one step at a time and lets you know the contents of various registers at any point in the program. If you have ever produced a program that doesn't "run", you will appreciate the importance of a single stepper. Many times, the program doesn't run because of an incorrect jump value or an instruction not behaving as the programmer thinks The single stepper runs through the program one instruction at a time and you can halt it when ever you wish. By looking at the contents of the registers, you can work out exactly what is happening at each stage of the program. The single stepper operates by accessing a flip flop connected to the Maskable Interrupt line of the Z-80. It can be operated in the manual mode, in which a single instruction is executed after each press of the "GO" key. In the auto mode, 2 instructions are executed per second. 
+
+## BREAK POINTS
+Break points work with groups of instructions. They allow register examination in the same way as a single stepper. The advantage of break points is that there is no time wasted stepping slowly through a program. This is particularly important as some programs contain delay loops and they may take weeks to execute at 2Hz! Break points are one of the most effective ways to debug a program! STARTING WITH JMON JMON is straight forward to use. Some new habits must be learnt, however they are all quite easy. JMON has 4 modes of operation. They are: DATA MODE, ADDRESS MODE, SHIFT MODE and FUNCTION MODE. The data address and shift modes are not new but have been, in part, changed in their operation. The function mode is new to the TEC and I am sure you will find it useful. Below is a description of each mode. 
+
+## THE DATA MODE
+The data mode is used.to enter, examine and edit, hex code into RAM memory. It is identified by one or two dots in the data display and the word "DATA" in the bottom left hand corner of the LCD display. It is similar to the data mode on all previous MONitors. The data mode has a sub-mode called AUTO INCREMENT. This is a default setting, meaning that it is set to auto increment on reset. The user may turn off the auto increment sub-mode if desired. When in the auto increment mode, the current address pointer in the address display is automatically pre-incremented on each third data key press. A SINGLE DOT in the RIGHTMOST LED display indicates the current address will be incremented BEFORE the next nibble received from the keyboard is stored. This allows the user to review the byte just entered. If an incorrect nibble is entered, the internal nibble counter MUST BE RESET by pressing the ADDRESS KEY TWICE. Then two nibbles may be entered at that location. This is a slight annoyance at first, but it is a small price to pay for such a powerful feature as auto increment! After two nibbles have been entered, the prompt on the LCD is IMMEDIATELY updated and points to the next memory location, or in the case of the last byte on the LCD, the prompt PARKS AT THE TOP LEFT CORNER signifying an entire screen update UPON THE NEXT DATA KEY PRESS. This allows the user to revise the entered code before continuing You must be in the data mode to perform a program execution with the "GO" key. (Actually, you can be in the SHIFT mode also.) Because of the auto key repeat, and "auto increment", it is possible to fill memory locations with a value by holding down a data key. This may be useful to fill short spaces with FF's or zero's. Because the LCD prompt is advanced immediately after the second nibble being entered while the LED display is advanced on the third nibble received, the "+" key will advance only the LED display while the "-" key will shift the LCD prompt back two spaces, if either are pressed immediately after the second nibble is entered. This may seem strange but is the result of a clever design which allows for revision of entered code on either display before proceeding. 
+
+## ADDRESS MODE
+This is identified by 4 dots appearing in the address display of the LED display and "ADDR" in the LCD bottom corner. The address key is used to toggle in and out of this mode. The address mode will be entered by an address key press from either the data or function mode. An address key pressed while in the address mode will result in a return to the data mode. While in the address mode, data keys are used to enter an address while the control keys (+, GO) are used to enter the function mode. No auto zeroing has been included, therefore 4 keystrokes are required to enter any address. 
+
+## SHIFT MODE
+This mode allows easy manual use of the cursor. The shift works by holding down the shift key and at the same time, pressing a data key. The monitor must be in the data mode and only data keys work with the shift. Sixteen functions are available but only ten have been used in this monitor. 
+The shifts are:
+* Shift-zero: Cassette MENU is displayed.
+* Shift-one: Cursor back one byte.
+* Shift-two: Start single stepper at current address.
+* Shift-four: Cursor forward 4 bytes.
+* Shift-five: Break from shift lock (see function mode).
+* Shift-six: Cursor back 4 bytes.
+* Shift-seven: Enter register examination routine.
+* Shift-eight: Cursor forward 8 bytes.
+* Shift-nine: Cursor forward 1 byte.
+* Shift-A: Cursor back 8 bytes.
+
+Note that 1, 4, 6 and 9 form a cross and 8 and A form an arrow and each is positioned to correspond to their cursor movement. 
+xx
+
+
+
+
+## THE TAPE SYSTEM / TEC CONSIDERATIONS
 
 The tape software works on any type of TEC, the only consideration is the various different clock speeds. The following description generally applies to TEC's with a crystal oscillator that is fitted with a colour burst (3.58MHz) crystal and divide-by-two stage. If you are still using a 4049 based oscillator, the tape system will work ok, but it will be very important to note the TEC clock speed when saving as the TEC must be set to the same speed when re-loading. Another problem can be the drift in frequency over a temperature range and the different oscillator frequencies between TEC's. When saving a tape, the best idea is to wind the clock up to full speed, and then turn back the speed control pot one quarter of a turn. This will allow you compensate for speed drift if ever required. The tape also works very reliably with a 4MHz crystal and divide by two stage, however a tape written using a 3.58MHz oscillator cannot be loaded by a TEC that uses a 4MHz oscillator, and vice versa. If you are sending programs into TE on tape, they must be recorded with the 3.58MHz crystal. (divided by two). The tape system has been extensively tested and found to be very reliable under a wide range of conditions. We don't expect you to have any trouble in getting it to work reliably for yourself. 
 
