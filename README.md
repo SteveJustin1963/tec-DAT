@@ -75,4 +75,10 @@ The primary use for your tape save system is as a mass storage device for your f
 
 If your tape system fails to work correctly, then check the interface board or better still, have a friend check it. Eliminate any problem and re-try. If problems still exist, test the cassette player with a normal pre-taped audio tape. The music should sound normal and not flutter. If it flutters, the tape player is due for a service or replacement, or if battery operated, the batteries may be flat. Various sections may be eliminated by listening to the tape signal. If the signal saved on the tape sounds ok when played back on the player, but is not heard on the TEC, check the input section of the interface board and also the "E" output of the player with a pair of Walkman-type headphones. It is possible that the volume output is not high enough to be amplified on the interface board. This is very unlikely though on ordinary tape players but we found this to be the case with our VZ-200 data cassette player. If no signal is getting to the TEC and everything else seems to be ok, test the input buffer by setting the tape software to load and taking the input high and low with a jumper lead. The LED on the speaker should echo the inverse of the input. If not, shift the jumper to the collector lead of the input transistor and repeat the process. If the speaker LED now toggles, the input transistor is faulty. If not, investigate the latch chip. Make sure all the pins are well soldered and the feed-throughs are connecting properly. If the tape signal is heard, in the TEC speaker, but the file number is not recognised, loaded correctly, or the tape fails to load the data blocks consistently, try a better quality cassette tape. If problems persist, try a different player as the signal may be distorted or not have enough amplitude. If you still can't get it to go, a repair service is available for $9.00 plus $2.50 postage. 
 
--o0o-
+
+## THE DAT BOARD
+## The Display And Tape Board • by Jim 
+
+![](https://github.com/SteveJustin1963/tec-DAT/blob/master/schem.png)
+
+
