@@ -242,3 +242,221 @@ The single stepper INTERFACE works by interrupting the Z80 after each instructio
 
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/te-pcb.png)
 
+![](https://github.com/SteveJustin1963/tec-DAT/blob/master/connect-dia.png)
+
+## THE LIQUID CRYSTAL DISPLAY by Jim.
+
+INSIDE THE DISPLAY
+
+The display has three internal registers though which all communication is done. These are the registers: 
+
+THE DATA REGISTER 
+
+The data register is a read or write register to which all DISPLAY DATA (in ASCII format) and BIT MAPPED PROGRAMMABLE CHARACTERS are sent. This DATA register acts as a TEMPORARY BUFFER between the internal DISPLAY RAM or CHARACTER GENERATOR RAM (both described below) and the host computer (our TEC). Characters may also be read from this register. Internal operations transfer data between this register and the internal RAM (or between RAM and this register). This register is located on port 84H. 
+
+THE INSTRUCTION (or CONTROL) REGISTER
+
+The instruction register receives all instruction bytes. ALL bytes sent to this  register will be interpreted as CONTROL by the LCD. This is a WRITE ONLY register and is decoded on port 04. 
+
+THE ADDRESS COUNTER/BUSY FLAG
+
+Bit 7 of this register is used as the busy flag. After EVERY operation it goes HIGH to indicate that the display is not ready to perform ANY type of additional operation yet. As soon as the display becomes "on line" again, it will go LOW. The lower 7 bits are the current address of the internal cursor. All read or write operations occur between the data register and the address held in this register.
+This register is READ ONLY. (The ADDRESS COUNTER is set or altered by instructions sent to the INSTRUCTION REGISTER and then transferred into THE ADDRESS REGISTER by an INTERNAL operation). This register is located on port 04 with the control register. Internal decoding gates the R/W line to select between each register. As well as the registers, the display contains both RAM and ROM. Below is a description of the internal memory inside the LCD. 
+
+THE DISPLAY RAM
+
+All the display information sent to the DATA REGISTER is transferred into the DISPLAY RAM by an internal operation. This RAM can hold 80 bytes of display information. While the LCD may only display 32 characters at a time, the extra bytes allow for the display to be shifted or can serve as general purpose storage RAM. An unusual feature of the display RAM is that the address from the last location on the top line (27H) to the address on the bottom line (40H) IS NOT CONSECUTIVE. 
+
+THE CHARACTER GENERATOR ROM
+
+This ROM contains 192 different 5x7 dot matrix characters. These include full upper and lower case Alphabet characters, numbers, maths symbols, Greek and Japanese characters. All of the most used characters are here. Any type of character we need that is not there, can be made up on the CHARACTER GENERATOR RAM.
+
+THE CHARACTER GENERATOR RAM
+
+The CHARACTER GENERATOR RAM allows us to define up to 8 different characters of our choice. The format of each is a 5x8 dot matrix with the cursor making up the 8th row. Any or all can be displayed together on different parts of the LCD and also may appear in several places at once. We can use this to make games characters.
+
+GETTING SOMETHING ON THE LCD
+
+Using the LCD is easy because it contains its own "intelligent" chips which do all the hard work for us. From JMON, putting anything on the LCD is VERY easy because the LCD has been set-up by JMON. JMON sets the LCD to shift the cursor right after each entry. You cannot see the cursor as it has been turned off by the software in JMON. To aid with the experiments below, put FF at 0821 (the LCD will stop changing after the first F) and AA at 08FF. These disable the LCD from the MONitor (the FF at 0821) and stop the MONitor rebooting its variables on a reset (the AA at 08FF). The MONitor will reset to 0A00 to remind you that the variables have not be re- booted on reset. (Unless a key was held down while reset was pushed, in which case you must again put FF at 0821 and AA at 08FF). Ok, lets start by putting the letter L on the screen. Firstly we must clear the screen and send the cursor home. This may be done by one instruction - 01. We output this to the control register on port 04. Before we can output to the LCD we must wait until it is ready. Because this is required to be done frequently, the RST 30 instruction has been used to do this for us. The RST 30 reads the LCD busy flag and loops until it goes LOW. 
+
+Ok lets type this in:
+
+0A00 F7     RST 30
+0A01 3E 01  LD A,01
+0A03 D3 04  OUT (04),A
+0A05 76     HALT
+
+Reset, Go
+
+The display will go blank and the (invisible) cursor will return to home (top left-hand corner). The 01 instruction sets all the display RAM locations to 20H (space). The 01 instruction doesn't affect any previous mode setting or display options (discussed below). Now enter this with the RST over the HALT at 0A05: 
+
+0A05 F7       RST 30
+0A06 3E 4C    LD A,4C "(L)"
+0A08 D3 84    OUT (84),A
+0A0A 76       HALT
+
+Reset, Go
+
+The letter L appears in the top left corner. Ok, now as before, put this in with the RST over the HALT:
+
+0A0A F7       RST 30
+0A0B 3E 43    LD A,43 "(C)"
+OAOD D3 84    OUT (84),A
+OAOF F7       RST 30
+0A10 3E 44    LD A,44 "(D)"
+0Al2 D3 84    OUT (84),A
+0A14 76       HALT
+
+Reset, Go
+
+The above section outputs two more bytes to the DATA REGISTER. Until now we have just been using a simple method to output data. This has shown us the basic way to talk to the LCD. Now that we have come this far and learned the basics, we'll advance to something more useful. The code below will output a word onto the bottom line of the LCD. The display DATA will be held in a table at OBOO. 
+
+0A14 F7         RST 30
+0A15 3E CO      LD A,C0
+0A17 D3 04      OUT (04),A
+0A19 01 84 06   LD BC,0684
+0A1C 21 00 OB   LD HL,0B00
+0A1F F7         RST 30
+0A20 ED A3      OUTI
+0A22 20 FB      JRNZ 0A1F
+0A24 76         HALT
+
+0B00 4D 41 53 54 45 52 
+
+To set the cursor to the bottom line we output 80 to the instruction register (bit 7 sets the cursor address entry) + 40 (which is the actual address of bottom left display) = CO. The OUTI instruction is new to our repertoire. It's operation is to output the byte addressed by HL to the port addressed by C. HL is then incremented and B is decremented. If B becomes ZERO the ZERO FLAG is set and the operation is complete. This instruction can output up to 256 bytes at a time. Because we need to check the busy flag we loop back to the RST 30 until all the bytes have been done. If we didn't need to check the busy flag we could have used the OTIR instruction which automatically repeats itself until B=0. All the above is done with the cursor switched off. For the next section we want to have the cursor on. To switch on the cursor output OE to the instruction register on port 04. 
+
+0A00 F7     RST 30
+0A01 3E OE  LD A,0E
+0A03 D3 04  OUT (04),A
+0A05 76     HALT
+0A06 C7     RST 00 
+
+Now let's see what does what on the display. Using the above routine, output the bytes below one at a time, to port 04 and HALT between each. (leave what's on the display there). Check the function of each on the table of controls.
+
+18 1C 1C 1C 02 14
+14 10 0C 0F 08 0C
+
+Good luck!! 
+
+SETTING THE ENTRY MODE
+
+The display may be configured to perform several different functions UPON EACH DATA BYTE ENTRY. They are: 
+
+1 INCREMENT CURSOR ADDRESS after storing inputted data byte (06H). This is our normal mode. 
+
+2 DECREMENT CURSOR ADDRESS after storing input (04). 
+
+3 SHIFT THE DISPLAY RIGHT after entry (05).  
+
+4 SHIFT THE DISPLAY LEFT after entry (07).
+
+Each mode is selected by outputting the byte shown to port 04. Once the entry mode is set it IS ONLY CHANGED BY ANOTHER ENTRY MODE SET COMMAND. None of the other control bytes will alter the entry mode. The shift on entry feature (05,07) has been found to be difficult to use and even appears to contain design bugs. You may experiment with it but we won't be using it in these notes. The CURSOR DECREMENT may come in handy sometimes but it's more likely to be useful to processors which move blocks of data around in a more limited way to the Z80. 
+
+RUNNING WORDS ON THE LCD
+
+Running words along the LCD is also simple because the LCD'S intelligent chips do most the work for us again. Our job is to enter the words we want to scroll (up to 16 characters per line for this routine) and send shift commands each time we want a shift. The routine below is entered in 3 sections. Each section is a logical progression and increases the programs abilities. You can look at the instructions in each section and compare it to what the section does. This way you can learn how to put blocks together to use the display any way you want. Before entering the code below put FF at 0821 and AA at 08FF as described before. Enter this and INCLUDE the NOPS and the table at OBOO then run it: 
+
+0A00 3E 01      LD A,01
+0A02 D3 04      OUT (04),A
+0A04 F7         RST 30
+0A05 3E 06      LD A,06
+0A07 D3 04      OUT (04),A
+0A09 F7         RST 30
+0A0A 3E OC      LD A,OC
+OAOC D3 04      OUT (04),A
+OAOE F7         RST 30
+OAOF 00         NOP
+0A10 00         NOP
+0A11 00         NOP
+0Al2 00         NOP
+0A13 00         NOP
+0A14 01 84 10   LD BC,1084
+0A17 21 00 OB   LD HL,OBOO
+0A1A F7         RST 30
+0A1C ED A3      OUTI
+°AID 20 FB      JRNZ 0A1A
+0A1F F7         RST 30
+0A20 3E CO      LD A,C0
+0A22 D3 04      OUT (04),A
+0A24 F7         RST 30
+0A25 21 30 OB   LD HL,0B30
+0A28 06 10      LD 6,10
+0A2A F7         RST 30 
+0A2B ED A3      OUTI
+0A2D 20 FB      JRNZ 0A2A
+0A2F 76         HALT
+
+0B00: 54 41 4C 4B 49 4E 47 20
+0B08: 20 20 20 20 20 20 20 20
+
+(TALKING)
+
+0B30: 45 4C 45 43 54 52 4F 4E
+0B38: 49 43 53 20 20 20 20 20
+
+(ELECTRONICS) 
+
+This will put "TALKING" on the top line and "ELECTRONICS" on the bottom line of the LCD and stop. Study the above section and see if you can work out the role of each instruction. Now we'll add the shift section. Enter this with the first "NOP" over the last "HALT" and run it:  
+
+0A2F 00         NOP
+0A30 00         NOP
+0A31 3E 18      LD A,18
+0A33 D3 04      OUT (04),A
+0A35 01 00 60   LD BC,6000
+0A38 OB         DEC BC
+0A39 78         LD A,B
+0A3A B1         OR C
+0A3B 20 FB      JRNZ 0A38
+0A3D 18 F2      JR 0A31 
+
+The above code loads the shift instruction (18H) into the accumulator and outputs it to the control register on port 04. As you can see it shifts the display, but this method is not very good if we want to shift only a few characters as we must wait for them to be shifted through the entire display RAM before they re-appear. To overcome this we can count the number of shifts and reset the display with a 02 command, as soon as all the letters have been shifted outside the display. The 02 instruction resets the display from shift WITHOUT CHANGING the contents of the DISPLAY RAM, CHARACTER GENERATOR RAM, or the CONTROL MODE. Because we would like the words to shift across the entire display and re-appear as soon as they have all gone, we must load the words just outside the screen to the right. The following additions make the words start shifting into the display from rightto-left. Ok, Now enter the following, AT THE ADDRESSES SHOWN: 
+
+OAOF 3E 90      LD A,90
+0A11 D3 04      OUT (04),A
+0A13 F7         RST 30
+--------------------------
+0A22 3E DO      LD A,D0 
+
+The above instructions set the DISPLAY RAM ADDRESSES to the RAM locations just right of the screen. The address of the top line is 90 and the address of the bottom line is DO. (Actually these are the addresses + 80H, the SET ADDRESS instruction).   
+
+(The D register is our shift counter).
+
+0A3D 00     NOP
+0A3E 00     NOP
+0A3F 15     DEC D
+0A40 20 EF  JRNZ 0A31
+0A42 3E 02  LD A,02
+0A44 D3 04  OUT (04),A
+0A46 F7     RST 30
+0A47 18 E6  JR 0A2F 
+
+The last group makes up the shift counter and resets the display when the counter reaches Zero. When the 02 command is received by the LCD the display is returned to its NORMAL position. This means that the inputted data is returned to WHERE IT WAS ENTERED (just right of the screen). Now, when the next shift command is received, the letters start to shift left back on to the screen. QUESTION: Why don't we need to wait for the BUSY flag to go low after the shift instruction? If you wish to change the number of characters to be shifted, you may do so by putting your new characters at OBOO for the top line +and at OB30 for the bottom line. Unused locations should have 20 (space) inserted until 16 locations are filled. (From OBOO to OB10 and from OB30 to OB40). The value of the loop counter loaded into D at 0A2F should also be changed. The value of the loop counter is best set to 10H + the number of letters occurring in the longest line. e.g. For the the example above: ELECTRONICS =11 (OBH) Letters. So add OBH + 10H = 1BH. So 1BH is loaded into D at 0A2F. To understand the above formula better, try 1C and 1A and see the result. FINAL NOTES The slow response of the LCD detracts from the effectiveness of the shifting a little but by experimenting with the delay at 0A35 you should be able to get a good compromise between speed and display clarity. The above shifting method is just one of dozens of ways we could have used. A more complex program could shift information across and out one end and load new information in the other to create a running information display. Use the blocks in this program and the others to make up your own display routines. If you come up with something interesting, write in. We would love to see what you've come up with.  
+
+DESIGNING YOUR OWN CHARACTERS
+
+You can have up to eight different characters stored in a character-generator RAM. Each character is displayed on the screen when it is addressed in the display RAM. The addresses are between 0-7. The user-defined characters are made up of an 8x8 matrix (only 5 columns are displayed, the cursor makes up the 8th row.) To set up a character, 8 bytes are outputted to the character- generator RAM. The first byte makes up the top row (only the 5 lower bits are displayed). The second byte makes up the second row etc. Before sending the 8x8 character (actually a 5x8 character), the entry mode must be set (if not already) to addressincrement with no display shift (06) and a set character RAM address operation must be done. The control byte for this is 40 + the address of the first byte of each charactermatrix. E.g: 40, 48, 50 for characters 1, 2, 3 etc. Once a character is set up, it is displayed by placing its address in the DISPLAY DATA RAM. Before doing this the DISPLAY RAM must be selected via 80 + address. OK, let's put our own character on the LCD.   
+
+0A00 F7         RST 30
+0A01 3E 01      LD A,01
+0A03 D3 04      OUT (04),A
+0A05 F7         RST 30
+0A06 3E 40      LD A,40
+0A08 D3 04      OUT (04),A
+0A0A 01 84 08   LD BC,0884
+0A0D 21 00 OB   LD HL,0600
+0A10 F7         RST 30
+0A11 ED A3      OUTI
+0A13 20 FB      JRNZ 0A10
+0A15 F7         RST 30
+0A16 3E 80      LD A,80
+0A18 D3 04      OUT (04),A
+0A1A F7         RST 30
+0A1B 3E00       LD A,00
+0A1D D3 84     OUT (84),A
+0A1F 76         HALT 
+
+0B00:
+
+11, 0A, 04, 11, 0A, 04, 11, 0A 
+
+Experiment with the values in the table and see how it all goes together. By increasing the value loaded into B, to 10(hex) (at OAOC) a second character may be programmed at the same time. The table for the second character will start at OB08. This will be displayed when a 01 is written into the DATA DISPLAY REGISTER. Experiment and 
