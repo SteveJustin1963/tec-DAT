@@ -233,7 +233,7 @@ The first type may again be broken into two groups.
 (Remember the earlier MON-1 series did not save the accumulator during the NMI routine but instead returned with the input key value inside the accumulator. A disastrous state of affairs)!! 
 
 ## JMON 
-The specially-provided routines in JMON will work for all the above types, the only difference being the way you alter the program in question. Here's how to alter the routines: To up-date any type which uses a HALT instruction (76H) as part of the keyboard input section, change the HALT instruction (76H) to a RST 08 (CF). The RST 08 routine SIMULATES the halt instruction by first looping until NO key is pressed then looping until a key IS pressed. After a key press is received the input value is masked to remove unwanted bits and stored in the input buffer, (the interrupt vector register), in identical fashion to the old interrupt routine. Now if the halt instruction is immediately followed by a LOAD A,I (ED 57), you may leave it as it is or remove it as it is not required any more as the \input value is returned in A. If a program doesn't have a HALT instruction but uses the keyboard, then look for the LOAD A,I instruction (ED 57). Change this to a RST 20 (E7) and place a NOP over the unused byte. Notice that this IS NOT the same RST instruction as above. Be careful not to mistake the LOAD A,I (ED 57) with a LOAD I,A (ED 47) otherwise you program may get upset and go on strike. 
+The specially-provided routines in JMON will work for all the above types, the only difference being the way you alter the program in question. Here's how to alter the routines: To up-date any type which uses a HALT instruction (76H) as part of the keyboard input section, change the HALT instruction (76H) to a RST 08 (CF). The RST 08 routine SIMULATES the halt instruction by first looping until NO key is pressed then looping until a key IS pressed. After a key press is received the input value is masked to remove unwanted bits and stored in the input buffer, (the interrupt vector register), in identical fashion to the old interrupt routine. Now if the halt instruction is immediately followed by a LOAD A,I (ED 57), you may leave it as it is or remove it as it is not required any more as the input value is returned in A. If a program doesn't have a HALT instruction but uses the keyboard, then look for the LOAD A,I instruction (ED 57). Change this to a RST 20 (E7) and place a NOP over the unused byte. Notice that this IS NOT the same RST instruction as above. Be careful not to mistake the LOAD A,I (ED 57) with a LOAD I,A (ED 47) otherwise you program may get upset and go on strike. 
 Programs which have neither a HALT or LD A,1 instruction cannot be altered by any of the above methods because they enter a continuous loop and require the interrupt to force an input value into the accumulator. A classic example of this is the "space invaders shooting" on page 14, issue 14. This above loop is located at 0821. (while you're looking at this, grab a pen and change the byte at 0812 from 02 to 01, at least it will run correctly with MON-1)! All the above types are among those listed as not being suitable for modification via these methods. 
 
 ## USING THE KEYBOARD IN YOUR PROGRAMS
@@ -259,13 +259,6 @@ The second RST is RST 10 (D7). This is similar to the first RST but has one very
 
 ## HOW TO INTERPRET THIS RST
 If a key is recognized as a "FIRST KEY PRESS" then the ZERO FLAG will be set to its active state (a logic 1) and the MASKED KEY INPUT will be returned in the accumulator. If the key is NOT valid then the ZERO FLAG will be clear AND the accumulator WILL HAVE ALL ITS BITS SET (FF). (FOR ADVANCED PROGRAMMERS) In addition to the zero flag being conditionally set, the RST 20 (E7) also sets the carry conditionally, according to the following conditions: If there is a key pressed then the carry will be SET REGARDLESS of whether it is a "first key pressed" or NOT. If NO key is pressed then the carry is cleared. This allows you to interpret the keyboard the way you want, while still giving you the convenience of using the RST to do some of the work.
-
-
-
-
-
-
-
 
 ## THE DAT BOARD
 
@@ -317,10 +310,10 @@ Port 3 addresses an input latch. Below is a break-down of the bits on port 3.
 BIT#
 * 0 - Serial in
 * 1 - input 1 
-* 2 input 4
+* 2 - input 4
 * 3 - input 2
-* 4 input 5
-* 5 input 3
+* 4 - input 5
+* 5 - input 3
 
 The above are the inputs from the 74C14.
 
@@ -496,8 +489,8 @@ The letter L appears in the top left corner. Ok, now as before, put this in with
 
 0A0A F7       RST 30
 0A0B 3E 43    LD A,43 "(C)"
-OAOD D3 84    OUT (84),A
-OAOF F7       RST 30
+0A0D D3 84    OUT (84),A
+0A0F F7       RST 30
 0A10 3E 44    LD A,44 "(D)"
 0Al2 D3 84    OUT (84),A
 0A14 76       HALT
@@ -507,10 +500,10 @@ Reset, Go
 The above section outputs two more bytes to the DATA REGISTER. Until now we have just been using a simple method to output data. This has shown us the basic way to talk to the LCD. Now that we have come this far and learned the basics, we'll advance to something more useful. The code below will output a word onto the bottom line of the LCD. The display DATA will be held in a table at OBOO. 
 
 0A14 F7         RST 30
-0A15 3E CO      LD A,C0
+0A15 3E C0      LD A,C0
 0A17 D3 04      OUT (04),A
 0A19 01 84 06   LD BC,0684
-0A1C 21 00 OB   LD HL,0B00
+0A1C 21 00 0B   LD HL,0B00
 0A1F F7         RST 30
 0A20 ED A3      OUTI
 0A22 20 FB      JRNZ 0A1F
@@ -521,7 +514,7 @@ The above section outputs two more bytes to the DATA REGISTER. Until now we have
 To set the cursor to the bottom line we output 80 to the instruction register (bit 7 sets the cursor address entry) + 40 (which is the actual address of bottom left display) = CO. The OUTI instruction is new to our repertoire. It's operation is to output the byte addressed by HL to the port addressed by C. HL is then incremented and B is decremented. If B becomes ZERO the ZERO FLAG is set and the operation is complete. This instruction can output up to 256 bytes at a time. Because we need to check the busy flag we loop back to the RST 30 until all the bytes have been done. If we didn't need to check the busy flag we could have used the OTIR instruction which automatically repeats itself until B=0. All the above is done with the cursor switched off. For the next section we want to have the cursor on. To switch on the cursor output OE to the instruction register on port 04. 
 
 0A00 F7     RST 30
-0A01 3E OE  LD A,0E
+0A01 3E 0E  LD A,0E
 0A03 D3 04  OUT (04),A
 0A05 76     HALT
 0A06 C7     RST 00 
@@ -546,7 +539,7 @@ Each mode is selected by outputting the byte shown to port 04. Once the entry mo
 
 ## RUNNING WORDS ON THE LCD
 
-Running words along the LCD is also simple because the LCD'S intelligent chips do most the work for us again. Our job is to enter the words we want to scroll (up to 16 characters per line for this routine) and send shift commands each time we want a shift. The routine below is entered in 3 sections. Each section is a logical progression and increases the programs abilities. You can look at the instructions in each section and compare it to what the section does. This way you can learn how to put blocks together to use the display any way you want. Before entering the code below put FF at 0821 and AA at 08FF as described before. Enter this and INCLUDE the NOPS and the table at OBOO then run it: 
+Running words along the LCD is also simple because the LCD'S intelligent chips do most the work for us again. Our job is to enter the words we want to scroll (up to 16 characters per line for this routine) and send shift commands each time we want a shift. The routine below is entered in 3 sections. Each section is a logical progression and increases the programs abilities. You can look at the instructions in each section and compare it to what the section does. This way you can learn how to put blocks together to use the display any way you want. Before entering the code below put FF at 0821 and AA at 08FF as described before. Enter this and INCLUDE the NOPS and the table at 0B00 then run it: 
 
 0A00 3E 01      LD A,01
 0A02 D3 04      OUT (04),A
@@ -554,24 +547,24 @@ Running words along the LCD is also simple because the LCD'S intelligent chips d
 0A05 3E 06      LD A,06
 0A07 D3 04      OUT (04),A
 0A09 F7         RST 30
-0A0A 3E OC      LD A,OC
-OAOC D3 04      OUT (04),A
-OAOE F7         RST 30
-OAOF 00         NOP
+0A0A 3E OC      LD A,0C
+0A0C D3 04      OUT (04),A
+0A0E F7         RST 30
+0A0F 00         NOP
 0A10 00         NOP
 0A11 00         NOP
 0Al2 00         NOP
 0A13 00         NOP
 0A14 01 84 10   LD BC,1084
-0A17 21 00 OB   LD HL,OBOO
+0A17 21 00 0B   LD HL,0B00
 0A1A F7         RST 30
 0A1C ED A3      OUTI
-°AID 20 FB      JRNZ 0A1A
+0A1D 20 FB      JRNZ 0A1A
 0A1F F7         RST 30
-0A20 3E CO      LD A,C0
+0A20 3E C0      LD A,C0
 0A22 D3 04      OUT (04),A
 0A24 F7         RST 30
-0A25 21 30 OB   LD HL,0B30
+0A25 21 30 0B   LD HL,0B30
 0A28 06 10      LD 6,10
 0A2A F7         RST 30 
 0A2B ED A3      OUTI
@@ -595,7 +588,7 @@ This will put "TALKING" on the top line and "ELECTRONICS" on the bottom line of 
 0A31 3E 18      LD A,18
 0A33 D3 04      OUT (04),A
 0A35 01 00 60   LD BC,6000
-0A38 OB         DEC BC
+0A38 0B         DEC BC
 0A39 78         LD A,B
 0A3A B1         OR C
 0A3B 20 FB      JRNZ 0A38
@@ -603,7 +596,7 @@ This will put "TALKING" on the top line and "ELECTRONICS" on the bottom line of 
 
 The above code loads the shift instruction (18H) into the accumulator and outputs it to the control register on port 04. As you can see it shifts the display, but this method is not very good if we want to shift only a few characters as we must wait for them to be shifted through the entire display RAM before they re-appear. To overcome this we can count the number of shifts and reset the display with a 02 command, as soon as all the letters have been shifted outside the display. The 02 instruction resets the display from shift WITHOUT CHANGING the contents of the DISPLAY RAM, CHARACTER GENERATOR RAM, or the CONTROL MODE. Because we would like the words to shift across the entire display and re-appear as soon as they have all gone, we must load the words just outside the screen to the right. The following additions make the words start shifting into the display from rightto-left. Ok, Now enter the following, AT THE ADDRESSES SHOWN: 
 
-OAOF 3E 90      LD A,90
+0A0F 3E 90      LD A,90
 0A11 D3 04      OUT (04),A
 0A13 F7         RST 30
 --------------------------
@@ -622,7 +615,7 @@ The above instructions set the DISPLAY RAM ADDRESSES to the RAM locations just r
 0A46 F7     RST 30
 0A47 18 E6  JR 0A2F 
 
-The last group makes up the shift counter and resets the display when the counter reaches Zero. When the 02 command is received by the LCD the display is returned to its NORMAL position. This means that the inputted data is returned to WHERE IT WAS ENTERED (just right of the screen). Now, when the next shift command is received, the letters start to shift left back on to the screen. QUESTION: Why don't we need to wait for the BUSY flag to go low after the shift instruction? If you wish to change the number of characters to be shifted, you may do so by putting your new characters at OBOO for the top line +and at OB30 for the bottom line. Unused locations should have 20 (space) inserted until 16 locations are filled. (From OBOO to OB10 and from OB30 to OB40). The value of the loop counter loaded into D at 0A2F should also be changed. The value of the loop counter is best set to 10H + the number of letters occurring in the longest line. e.g. For the the example above: ELECTRONICS =11 (OBH) Letters. So add OBH + 10H = 1BH. So 1BH is loaded into D at 0A2F. To understand the above formula better, try 1C and 1A and see the result. FINAL NOTES The slow response of the LCD detracts from the effectiveness of the shifting a little but by experimenting with the delay at 0A35 you should be able to get a good compromise between speed and display clarity. The above shifting method is just one of dozens of ways we could have used. A more complex program could shift information across and out one end and load new information in the other to create a running information display. Use the blocks in this program and the others to make up your own display routines. If you come up with something interesting, write in. We would love to see what you've come up with.  
+The last group makes up the shift counter and resets the display when the counter reaches Zero. When the 02 command is received by the LCD the display is returned to its NORMAL position. This means that the inputted data is returned to WHERE IT WAS ENTERED (just right of the screen). Now, when the next shift command is received, the letters start to shift left back on to the screen. QUESTION: Why don't we need to wait for the BUSY flag to go low after the shift instruction? If you wish to change the number of characters to be shifted, you may do so by putting your new characters at 0B00 for the top line +and at 0B30 for the bottom line. Unused locations should have 20 (space) inserted until 16 locations are filled. (From 0B00 to 0B10 and from 0B30 to 0B40). The value of the loop counter loaded into D at 0A2F should also be changed. The value of the loop counter is best set to 10H + the number of letters occurring in the longest line. e.g. For the the example above: ELECTRONICS =11 (0BH) Letters. So add 0BH + 10H = 1BH. So 1BH is loaded into D at 0A2F. To understand the above formula better, try 1C and 1A and see the result. FINAL NOTES The slow response of the LCD detracts from the effectiveness of the shifting a little but by experimenting with the delay at 0A35 you should be able to get a good compromise between speed and display clarity. The above shifting method is just one of dozens of ways we could have used. A more complex program could shift information across and out one end and load new information in the other to create a running information display. Use the blocks in this program and the others to make up your own display routines. If you come up with something interesting, write in. We would love to see what you've come up with.  
 
 ## DESIGNING YOUR OWN CHARACTERS
 
@@ -635,7 +628,7 @@ You can have up to eight different characters stored in a character-generator RA
 0A06 3E 40      LD A,40
 0A08 D3 04      OUT (04),A
 0A0A 01 84 08   LD BC,0884
-0A0D 21 00 OB   LD HL,0600
+0A0D 21 00 0B   LD HL,0600
 0A10 F7         RST 30
 0A11 ED A3      OUTI
 0A13 20 FB      JRNZ 0A10
@@ -644,7 +637,7 @@ You can have up to eight different characters stored in a character-generator RA
 0A18 D3 04      OUT (04),A
 0A1A F7         RST 30
 0A1B 3E00       LD A,00
-0A1D D3 84     OUT (84),A
+0A1D D3 84      OUT (84),A
 0A1F 76         HALT 
 
 0B00:
