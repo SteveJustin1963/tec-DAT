@@ -78,6 +78,33 @@ The Display And Tape Board • by Jim
 
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/schem.png)
 
+PARTS LIST
+* 1 - 100R
+* 1 - 470R
+* 4 - 10k
+* 1 - 10k mini trimpot
+* 1 - 100p ceramic
+* 2 - 10n greencaps
+* 3 - 100n greencaps
+* 1 - BC 547
+* 1 - 74LS373
+* 1 - 74LS74
+* 1 - 5mm LED (for trimpot handle)
+* 2 - 3.5mm sockets
+* 1 - 20 pin IC socket
+* 2 - 14 pin sockets (one to cut-up)
+* 1 - 20cm 12 way ribbon cable
+* 1 - 50cm figure-8 shielded cable
+* 1 - 1.2 metres hook-up wire
+* 4 - 3.5mm mono plugs
+* 1 - 100cm tinned copper wire
+* 1 - Female matrix connector
+* 3 - 32mm x 2.5mm bolts
+* 9 - 2.5mm nuts
+* 1 - 16 character x 2 line LCD*
+* 1 - DAT PC Board
+* Don't Forget: The LCD display can be bought separately
+
 This board will change the way you program for ever. The DAT BOARD is perhaps the most vital addition to the TEC ever. Not just a part time "add on," but rather a permanent addition to your TEC. Once you start using it, we think you'll agree. The name "DAT" is an acronym for Display And Tape. While others brawl over "their" DAT, (have you seen one?), we have quietly slipped in the back door with our version. The DAT BOARD provides these functions: 
 
 * 16x2 LCD display. 
@@ -85,14 +112,131 @@ This board will change the way you program for ever. The DAT BOARD is perhaps th
 * Single stepper module.
 * 5 Buffered and latched input bits.
 * 1 Inverter for general use.
-* Diode clipped input line. (For RS232
-input)
+* Diode clipped input line. (For RS232 input)
 * MON select switch.
 
 PORT 3
 
-Port 3 addresses an input latch. Below
-is a break-down of the bits on port 3.
-B IT#
-0 - Serial in
-1 - input 1 
+Port 3 addresses an input latch. Below is a break-down of the bits on port 3.
+
+BIT#
+* 0 - Serial in
+* 1 - input 1 
+* 2 input 4
+* 3 - input 2
+* 4 input 5
+* 5 input 3
+
+The above are the inputs from the 74C14.
+
+* 6 - key pressed signal.
+* 7 - Tape input.
+
+CONNECTION
+
+Up until now, TEC add-on's have been connected via the expansion port. We wished to avoid this as there are too many devices cluttering up this area already. The search was on for a better place to put our new board. We decided upon the blank area left of the eprom, because it is common to all TEC's and has up until now not been used by anything else. But there's nothing to connect to there! I hear you say. Well not quite, Simply solder a cut-up I.C. socket onto the links and you have an (almost) instant data buss socket. The DAT BOARD has a set of feed downs that push into the sockets and serve the dual purposes of connection and fixation. 
+
+The feed downs are simply lengths of stiff wire soldered to the underside of the P.C. that extend about 1 to 1.5 cm down to push into the I.C. sockets. The fixing of the DAT BOARD is also aided by three "stand offs," in the form of three bolts with nuts to tighten against the board. These may extend through the TEC board if you want as there is no track work underneath.
+
+CONSTRUCTING THE DAT BOARD
+
+Originally, the kit of parts for the DAT BOARD was going to be supplied in two sections. We have changed our minds since, but have decided to present these construction notes unchanged. The first thing to do, is to fit ALL the links,regardless of what section you are constructing. If you have already built the TAPE and keyboard section and/or are now constructing the LCD/SINGLE STEPPER interfaces then skip ahead to the respective notes. Once you have built the LCD section skip back to the notes on inserting the feed downs, stand-offs and control buss leads. 
+
+THE TAPE AND LATCH SECTION
+Most the components for the TAPE SECTION are fitted on the bottom left corner of the board. The exceptions being a 100n greencap, that goes on the middle left of the board, the latch chip and its socket. Fit these in the order you prefer and then solder a short piece of tinned copper wire in the hole marked "SP." This is where the female matrix connector will slide on. If you are wondering why we recommend a piece of tinned wire instead of a male matrix pin, the reason is that the force needed to push a female over a male matrix pin is far to great to be healthy for the TEC or DAT PCBs. (The keyboard is destructive enough). The tinned wire can be tinned again to give just the right fitting diameter, if required. After fitting all the components, cut the length of hook-up wire into 4 equal sections. Strip and tin each end of all the lengths. Solder two pieces to the ground strip next to the tape in and tape out pads on the DAT BOARD. The other ends of these wires solder to the top tags of the 3.5mm sockets. Solder the two remaining wires to the tape in and tape out pads. The other ends are soldered to the DIAGONALLY OPPOSITE tags on the 3.5mm sockets. Keep track of which socket the wires are joined to, and mark them accordingly Drill two holes large enough for the 3.5nun sockets in the back or side of the RETEX case and fit the sockets in place. Strip the ends of the shielded cable and twist the shield into one strand. Remove the covers of the 3.5mm plugs and slide them onto the figure 8 cables, so they are back to back. Solder the shields to the larger tags on the plugs. The middle conductor is soldered to the smaller tags. Do this for each of the four ends. Solder a 5cm piece of hook-up wire on the 1K resistor which connects the output latch to the speaker transistor. The wire is soldered on the LATCH SIDE of the resistor. The other end of the wire is soldered to the female matrix connector. This matrix connector slides over the pin marked SP on the DAT BOARD. Now you are ready to insert the feed downs.
+
+INSERTING THE FEED DOWNS
+
+The feed down are made of stiff tinned wire of about 2cm length. The easiest way to solder these is to solder a continuous length in each hole, and then trim it down afterwards. Do this for all the feed downs and try to get them straight as possible. The feed downs plug in to a cut-up IC socket soldered across the links near the EPROM. The socket is soldered where the links form a straight line as they disappear into the TEC PCB. (See diagram). If you want, you may make the feed downs longer, remove the links, and permanently solder the DAT BOARD in place. Of course, you will need to put jumpers beneath the board to replace the missing links. This arrangement will provide a far more reliable circuit connection. Make sure you have finished the board COMPLETELY before you do this, as you will not be able to solder underneath the board afterwards. 
+
+CONNECTION OF THE CONTROL LINES 
+
+There are 10 control lines that are soldered to the bottom of the TEC board. A 20 cm 12 way ribbon cable is used to make all the connections. The ribbon cable is soldered to a row of pads on the DAT BOARD about 2.5cm  below the top edge. The ribbon cable is
+soldered to the BOTTOM SIDE of the DAT BOARD and then drops down between the TEC board and the RETEX case (if you have one). All the connections to the DAT BOARD are printed on the solder side of the board while the connections to the TEC are made as per the wiring diagram. The two 3.5 mm sockets for the tape in/out are mounted in either the back or side of the RETEX CASE. If you do not have a case, then the sockets can be connected with short pieces of wire and left "floating." We do not recommend that you drill holes in either the TEC or DAT boards for the sockets. This is to save the expensive TEC board from the excessive force involved in plugging and unplugging the leads. The best idea is to hold the sockets when inserting the leads. THE STAND-OFFs In addition to the feed downs, three bolts act as stand-offs. The head of these bolts sits on the TEC board or, if you wish, you may drill into the board and feed the bolts up through the board. If you have the original TEC-1 board with the 8212 latch chips, the top bolt will not be able to be feed through the board as there is track work associated with the (now aborted) on-board tape interface and battery backed RAM. If you have drilled the holes, then feed the bolts up from the bottom of the TEC and lock each in place with a nut. A second nut is screwed down to about 1 cm off the TEC board on each bolt. This sets the height of the DAT BOARD. The DAT BOARD is then placed over the two bolts and a third nut is tightened onto the DAT BOARD. If you to not wish to drill into your TEC, which is quite understandable, then place a nut on each bolt and wind it down to about lcm from the head. Poke the bolts through the the hole in the DAT BOARD and tighten down the second nut.
+Next, insert the board and note how high it is off the TEC. Ideally it should be 1.5 to 2cm off the board. Trim the feed downs until you are happy with the height. Adjust the stand-offs until they all sit neatly on the TEC board. Finally, a blob of blu-tack can be used to secure the top stand-off on to the board. This will help keep the DAT BOARD square on the TEC. 
+
+TESTING THE LATCH/TAPE INTERFACE
+
+The latch is easily tested by running up JMON. If the keyboard works then the latch is obviously working. You can test each bit of the latch by taking the remaining inputs to ground. These pins are connected to pins 2,4,6,8 and 12 on the 74C14 socket and also pin 3 of the latch chip itself. Make sure that you don't have the 74C14 fitted as this may damage the chip. The following program will echo the latch on the LED display: 
+
+0900 3E 3F D3 02 DB 03 E6 3F
+0908 D3 01 C3 00 09
+
+To test the tape, refer to the pages on using the tape system that show how to use and trouble shoot the tape interface. 
+
+THE SINGLE STEPPER/LCD INTERFACES
+
+If you are constructing this section before the tape/latch section, you will need to make a modification to the TEC. The mod is to add a 4k7 resistor between pin 15 of the 4049 and pin 10 of the Z80. The purpose of this mod is to route the DATA AVAILABLE SIGNAL to the DATA BUSS. Without this, JMON is unable to read the keyboard. (This mod is described numerous times throughout this issue). The LCD interface consists of just four components. They are a D flip flop, a 100p cap, a 100R resistor and a 10k trimpot. The D flip flop, (that was
+spare) is configured to act as an INVERTER!! This design saved us from having to use another chip. The single stepper interface simply uses one half of a dual D flip flop! 
+
+CONSTRUCTION NOTES 
+
+These 2 interfaces are simple to construct. Just take care with the orientation of the 74LS74 chip. If you have a spare LED on hand then you can solder it onto the trimpot to use as a knob (one is provided in the kit). FITTING THE LCD Place the LCD FACE DOWN on the work bench and feed a 5cm length of tinned copper wire into each hole on the LCD. Solder the wires in place and then, starting at one end, trim the wires to form a ramp. This helps you to insert the 14 wires one-at-a-time into the DAT BOARD. The DAT BOARD edge connector is placed at the top of the DAT BOARD and the LCD overhangs the board like a verandah. Insert the LCD into the DAT BOARD as best you can. A second person with a pair of tweezers could help tremendously in getting each wire down its hole. After you have fitted the wires into their holes, position the LCD to the height you want. This should be about 1 cm to 1.5cm, and carefully solder it in place. 
+
+TESTING THE LCD
+
+After you have finished construction and wired the DAT BOARD to the TEC as shown in the wiring diagram, you're ready to go. Fit the board in place and turn the 10k trimpot clockwise when looking at it from the left. Turn it as far as it goes, then turn it back just slightly. This sets the contrast level and if it is not approximately at the position described above, nothing will appear on the LCD. If you have JMON then fit it into the EPROM socket and power up the TEC. 
+
+All things being equal, the display will show the following:
+
+0900>xx xx xx xx
+Data xx xx xx xx
+
+If not, the most likely cause is that one of the data lines is not getting to the display. The easiest way to check this is to type in the following: 
+
+0900 3E 55 D3 04 C7 
+
+AFTER you have entered this, connect a jumper between port 4 and the wait line of the Z80. When you have done this, hit go. The TEC should go "dead." Now, with a logic probe, test the edge connector of the LCD. Starting from the right, the logic levels should be: 
+
+H, L, H, L, H, L, H AND L.
+
+If not, then check all the connections and retry until right. If the connections are right, but there is nothing on the display, check the voltage on pin three of the LCD. This voltage should be in the range of 0.5v to 1 v. Adjust the trimpot until you measure this voltage. Still no luck? Turn off the TEC, hold reset down and turn the TEC back on while still holding down the reset. The top row of the LCD should be dark and the bottom line should be light. If not then there maybe no power getting to the LCD, the contrast voltage may be incorrect (but you have already checked this), or the display has been damaged, they are all tested before they leave 'TE). If the top line is dark when power is applied but the display does not respond when reset is released, then put your logic probe on pin 6 of the LCD. Hold down the "+" key and watch the logic probe. Pin three should pulse HIGH each time the TEC beeps. If not then check that you have the wire going to port 4 in the correct place. Check the track work around the 74LS74 chip and the chip itself. If pin 6 seems ok, then check that the 100p cap is fitted as this is VERY IMPORTANT. Pin 5, the r/w line, should always be pulsing. Check this with the
+logic probe. The only other line left to test is the register select (RS). This line is address 7, and the easiest way to check this is with a continuity tester. If the LCD clears when power is applied, but nothing appears on the LCD, then it is oddson that the cause is address 7 not being wired correctly. 
+
+TESTING THE SINGLE STEPPER
+This is easy. With JMON fitted, enter this at 0900: 
+
+0900: 00 00 00 00 00 C3 00 09 
+
+Now, press shift 2. The single stepper will show 0900 PC. Press any data key and the single stepper will cycle automatically. The occasional clicking you (may) hear is a result of the interaction of the interrupt response cycle and the decoding of the 74LS138 decoder chip. If the single stepper doesn't work, then check your wiring as it is doubtful that the 74LS74 chip is faulty 
+
+WHAT THE LCD INTERFACE DOES
+
+The LCD is designed to directly interface to microprocessors. Unfortunately there are two main types of microprocessor buss timing and the LCD is designed for the wrong type (as far as we are concerned). In order to get the LCD to interface to the Z80, a little bit of juggling with the tuning is needed. The first problem is the the LCD requires an active HIGH Enable signal. This has been achieved by inverting the PORT 4 I/O select line. This inverting is done by the spare D flip flop on the DAT BOARD. By looking at the TRUTH TABLE for the 74LS74, I found that it was possible to configure it as an inverter if I used the CLR pin as the DATA input! To cut a long story short, the idea worked. Eureka! The next problem is the LCD requires R/W to be stable on the falling edge of the E signal. If you look at the Z80 timing, you will see that the R/W line and the IORQ change state simultaneously. By the time that IORQ has gated port 4 and the port 4 signal has been inverted, the R/VV.line will actual ly change (slightly) before the E line on the LCD! To overcome this problem, a simple RC network has been placed on the R/W line. This RC delay holds the R/W line stable while the E line goes low. The time we are talking about here is just a fraction of a microsecond, but that is all it takes for the chips in the LCD to accept or reject the in-coming signals. Another problem is that the LCD requires 2 ports to communicate with the Z80. It also wants to decode the second port itself. This is a common requirement of many peripheral devices, and the solution provided here is also useful for all these. To give the LCD its second port, and let it decode it for itself, address line 7 has been presented to the LCD. This means that the second port is decoded (by the LCD) on port 84. 
+
+DISPLAY CONTRAST
+
+The LCD requires an external voltage to set the contrast level. The contrast of LCDs varies with temperature and viewing angle. To allow for this, the LCD has an external contrast control. The contrast is controlled by adjusting the voltage on this pin.  This is the function of the 10k trimpot, that is wired as a voltage divider. 
+
+OPTIONS 
+
+Several optional extras can be added to the DAT BOARD. Below is a description of each: 
+
+MON SELECT SWITCH 
+
+When you add the DAT BOARD, there may not be enough room between the board and the EPROM to fit your MON select switch. If this is the case, provision has been made to fit the switch to the DAT BOARD. Simply install the dotted link and move your switch to the dotted switch position on the DAT BOARD. Run a wire between the pin marked 'ROM P21' and pin 21 of the EPROM. 
+
+SERIAL INPUT
+
+The SERIAL INPUT (SI) This input is for a serial signal, or a RS232 level signal from a printer or RS232 device. This input clips the signal, which can be +/-15V to +/-25V, to safe logic levels. This signal winds up as DO on the 74LS373. 
+
+THE 74C14
+
+This has been added to increase the versatility of the DAT BOARD. Some possibilities for it include a touch sensitive qwerty key pad, an external time reference, a thermistor controlled oscillator for temperature measurement or just buffered inputs. Nothing permanent has been planned for it, it is mainly for experimentation. We are open to your ideas! 
+
+THE DIRECT CONNECT PIN
+
+This is located between the transistor and the 6 x 1M resistors. The purpose of this pin is to allow direct connection between two TECs. One TEC can down load to another through the tape software or a serial communication program. (I have a 9600 Baud routine that also talks to IBM's and compatibles). 
+
+THE UNUSED INVERTER 
+
+The input for the unused inverter is the right most matrix pin on the bottom right-hand side of the DAT BOARD. The output is the matrix pin directly above it. 
+
+HOW THE TAPE CIRCUIT WORKS
+
+There's not much to describe about the tape circuit as all the hard work is done by software. The output section consists basically of an AC coupled LOW PASS filter with some attenuation on the end to prevent the digital level voltage from over driving the cassette players input. The input section is just a simple AC coupled common emitter transistor amplifier with the base heavily biased on. The bias on the transistor is important as this ensures that the software is able to read a steady logic 0 when no (AC) input is present. 
+
+HOW THE SINGLE STEPPER INTERFACE WORKS
+
+The single stepper INTERFACE works by interrupting the Z80 after each instruction. The interrupts are generated from a D flip flop on the DAT BOARD. Each time the Z80 fetches the first byte of an instruction a special signal called Ml is generated. This Ml is used to clock the ROM CS line into the D flip flop. The Q-bar output of the flip flop is connected to the IN'Terrupt pin. This means that an interrupt will be requested on every instruction fetch unless the instruction was fetched from the MONitor ROM. It is important to prevent interrupts while executing in the MONitor ROM. If we don't, then an interrupt will occur just after it is re-enabled, at the end of the stepper routine. Immediately following the El (enable interrupt), is a RETum. If an interrupt occurs on this RETum, then the stepper routine is reinvoked and each time this RETum is reached, the program loops back to the stepper routine forever!! (If it wasn't for this problem we would not require any external hardware at all). 
+
