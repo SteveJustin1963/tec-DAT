@@ -4,12 +4,11 @@ By Jim Robertson
 
 ## From TE-15 
 
-### SENDING IN PROGRAMS VIA TAPE 
+SENDING IN PROGRAMS VIA TAPE 
 
 We are looking forward to readers sending programs to us. ... Provide us with a copy of the program. Save it on tape with a crystal speed of half 3.58MHz. ... We also need documentation on the program. Write what it does and where it runs in memory and include any notes you may have generated. The first thing we will do is disassemble it and load it into our IBM clone. Here we can format it for publishing. For the sake of our disassembler, please, if you can, put tables at the end of the program code and write down where the tables are located. This way we can use our HEX dump routine and tack the tables on at the end of the code.
 
-### JMON UP-GRADES
-(parts omitted, see full article)
+JMON UP-GRADES (parts omitted, see full article)
 
 JMON has been designed to be upgraded without losing software compatibility. Some likely changes are the removal of the low speed tape save (unless there is a storm of protest). This will decrease the software overhead in the tone routine and even-up the period measurement. The result will be an increase in the tolerance of different TEC frequencies and different tape speeds. This should make it possible to freely interchange half 3.58MHz and half 4.MHz tape software as well as allowing poorer quality tape players to be used. The single stepper, which has no effect on the MONitor at all, may be shifted to a more specialized ROM to increase the stepper's abilities.- The keyboard and LCD RST's will not be changed, so any routine you write using these will run on future up-grades. The same cannot be said if you directly call into JMON. So don't do it! 
 
@@ -37,13 +36,9 @@ The one exception is when an auto execute is performed after a successful load. 
 
 from page 22...
 
-# THE TAPE SYSTEM
-
-TEC CONSIDERATIONS
+THE TAPE SYSTEM / TEC CONSIDERATIONS
 
 The tape software works on any type of TEC, the only consideration is the various different clock speeds. The following description generally applies to TEC's with a crystal oscillator that is fitted with a colour burst (3.58MHz) crystal and divide-by-two stage. If you are still using a 4049 based oscillator, the tape system will work ok, but it will be very important to note the TEC clock speed when saving as the TEC must be set to the same speed when re-loading. Another problem can be the drift in frequency over a temperature range and the different oscillator frequencies between TEC's. When saving a tape, the best idea is to wind the clock up to full speed, and then turn back the speed control pot one quarter of a turn. This will allow you compensate for speed drift if ever required. The tape also works very reliably with a 4MHz crystal and divide by two stage, however a tape written using a 3.58MHz oscillator cannot be loaded by a TEC that uses a 4MHz oscillator, and vice versa. If you are sending programs into TE on tape, they must be recorded with the 3.58MHz crystal. (divided by two). The tape system has been extensively tested and found to be very reliable under a wide range of conditions. We don't expect you to have any trouble in getting it to work reliably for yourself. 
-
-LET'S BEGIN 
 
 To start with, you need a JMON monitor ROM as the tape software is inside this ROM. Secondly, you will need a cassette recorder with both "mic" and "ear" sockets. Any audio cassette player of reasonable quality should be ok, provided it has the two sockets mentioned above. We have tested more than six types, and found them to be quite suitable. Thirdly, you will need to have constructed the cassette interface on the LCD interface board and have made up the two connecting cables, with 3.5mm plugs on each end. Finally you will need a new C60 or C90 cassette of the better quality types, such as TDK or Sony. We found the cheap tapes from the junk shops or supermarkets to be unreliable. (Some of them didn't work AT ALL, so don't take the chance). Now connect the "mic" on the tape recorder to the "tape out" from the TECand "ear" socket to the "tape-in" on the TEC. (It's a good idea to mark the cables between the recorder and the TEC to prevent incorrectly connecting the leads). Insert a tape and we are ready to learn how to operate the system. 
 
@@ -78,8 +73,26 @@ If your tape system fails to work correctly, then check the interface board or b
 
 
 ## THE DAT BOARD
-## The Display And Tape Board • by Jim 
+
+The Display And Tape Board • by Jim 
 
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/schem.png)
 
+This board will change the way you program for ever. The DAT BOARD is perhaps the most vital addition to the TEC ever. Not just a part time "add on," but rather a permanent addition to your TEC. Once you start using it, we think you'll agree. The name "DAT" is an acronym for Display And Tape. While others brawl over "their" DAT, (have you seen one?), we have quietly slipped in the back door with our version. The DAT BOARD provides these functions: 
 
+* 16x2 LCD display. 
+* Cassette tape I/O interface.
+* Single stepper module.
+* 5 Buffered and latched input bits.
+* 1 Inverter for general use.
+* Diode clipped input line. (For RS232
+input)
+* MON select switch.
+
+PORT 3
+
+Port 3 addresses an input latch. Below
+is a break-down of the bits on port 3.
+B IT#
+0 - Serial in
+1 - input 1 
