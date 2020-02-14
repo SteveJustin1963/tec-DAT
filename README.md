@@ -240,3 +240,5 @@ HOW THE SINGLE STEPPER INTERFACE WORKS
 
 The single stepper INTERFACE works by interrupting the Z80 after each instruction. The interrupts are generated from a D flip flop on the DAT BOARD. Each time the Z80 fetches the first byte of an instruction a special signal called Ml is generated. This Ml is used to clock the ROM CS line into the D flip flop. The Q-bar output of the flip flop is connected to the IN'Terrupt pin. This means that an interrupt will be requested on every instruction fetch unless the instruction was fetched from the MONitor ROM. It is important to prevent interrupts while executing in the MONitor ROM. If we don't, then an interrupt will occur just after it is re-enabled, at the end of the stepper routine. Immediately following the El (enable interrupt), is a RETum. If an interrupt occurs on this RETum, then the stepper routine is reinvoked and each time this RETum is reached, the program loops back to the stepper routine forever!! (If it wasn't for this problem we would not require any external hardware at all). 
 
+![](https://github.com/SteveJustin1963/tec-DAT/blob/master/te-pcb.png)
+
