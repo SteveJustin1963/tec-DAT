@@ -118,10 +118,12 @@ The address of these routines are stored in a look-up table.
 ## SECTION-1 - the SHIFT-LOCK FEATURE. 
 Section-1 is selected FROM THE ADDRESS MODE by pushing the "+" key. The keys 0, 1, 2, 4, 5, 6, 7, 8, 9 and A then have the functions as listed in the shift mode. (Key 5 has the function of returning to the data mode.) Cursor control routines return back to section-1 to enable continuous cursor movement (shift-lock). The look-up table for the jump addresses for section-1 is at 07E0. 
 
-## SECTION-2 Section-2 
-is selected from the address mode by pushing the "-" key. This is unused by any existing software and is available to the user. 
+## SECTION-2 
+Section-2 is selected from the address mode by pushing the "-" key. This is unused by any existing software and is available to the user. 
 
-HERE'S HOW TO USE IT: Using the section-2 is very easy. All that is required is to enter the address(es) of the required routines in a table. The table begins at 08C0. The first two bytes at 08C0 correspond to the zero key in section 2. While the second two (08C2) correspond to key one etc. Here is a short program as an example: 
+HERE'S HOW TO USE IT: 
+
+Using the section-2 is very easy. All that is required is to enter the address(es) of the required routines in a table. The table begins at 08C0. The first two bytes at 08C0 correspond to the zero key in section 2. While the second two (08C2) correspond to key one etc. Here is a short program as an example: 
 
 08C0:00 09 04 09 08 09
 
