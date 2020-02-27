@@ -699,7 +699,5 @@ This concludes this issues instalment on the LCD. Study the previous notes caref
 
 ## References
 
-## Iterate, new hypotheses or predictions
-1. LCD; 20 x 4, LCD 128 X 64 
 
 
