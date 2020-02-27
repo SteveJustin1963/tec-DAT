@@ -125,13 +125,13 @@ HERE'S HOW TO USE IT:
 
 Using the section-2 is very easy. All that is required is to enter the address(es) of the required routines in a table. The table begins at 08C0. The first two bytes at 08C0 correspond to the zero key in section 2. While the second two (08C2) correspond to key one etc. Here is a short program as an example: 
 
-08C0:00 09 04 09 08 09
+> 08C0:00 09 04 09 08 09
 
 (These are the addresses of the routines).
 
-0900: 3E EB 18 06 3E 28 18 02
-0908: 3E CD D3 02 3E 01 D3 01
-0910: 76 C9
+> 0900: 3E EB 18 06 3E 28 18 02
+> 0908: 3E CD D3 02 3E 01 D3 01
+> 0910: 76 C9
 
 Now push ADdress, "-", "0" and the routine at 0900 will be CALLED from the MONitor. Reset the TEC and try ADdress, "-", "1" and ADdress, "-", 2. Because these routines are CALLED from the MONitor, you may use a return (RET, C9 or RET NZ etc.) instruction to re-enter the MONitor in the same state as you left it. e.g. in the function select-2 mode. 
 
@@ -183,16 +183,16 @@ To start with, you need a JMON monitor ROM as the tape software is inside this R
 ## HOW TO OPERATE THE TAPE SYSTEM.
 We will start by saving a few bytes at 0900. Enter at 0900 the following: 
 
-01 02 03 04 05 06 07 08 09 0A. OK. 
+> 01 02 03 04 05 06 07 08 09 0A. OK. 
 
 Now connect up the tape recorder as described above and call up the tape software by pushing shift and zero at the same time or Address, "+","0" consecutively. The TEC display will now show "SAVE-H" and this is the heading for SAVE at HIGH SPEED. Now select this by hitting "GO" The display will now have a random two-byte value in the address display and "-F' in the data display. The "-F' in the data display is for the file number, while the address number is just junk from the RAM. You can enter a file number by pressing the data keys. Enter anything you want. The numbers you enter will shift across in the same fashion as when entering an address on the MONitor. Then when you have entered a file number, press the "+" key. The data display will now show "-S". This is where you enter the start of the block you wish to output. Enter 0900, and then press "+". The data displays now show "-E." This is where you enter the address of the last byte of the block to be saved. Enter 090A and press "+". The next data display is "-G". This is the OPTIONAL AUTO-GO address, this is always set to FFFF by the software as this is its NON-ACTIVE state, i.e. NO AUTO-GO upon a re-load. ANY other value entered here will result in an automatic execution upon a SUCCESSFUL LOAD AT THE ADDRESS ENTERED HERE. We don't require auto execution, so leave this at FFFF. Now press play and record on the tape recorder and wait for the clear plastic leader to pass if at the start of a tape. Incidentally, it is not a good idea to remove this leader as has been advised in another magazine, as it protects the tape from stretching and possibly breaking, when rewound. When the tape is right, press GO. The display will blank and a continuous tone will be heard from the speaker. After a few seconds the file information will be outputted and then a period of high frequency tone. This "middle sync" tone is to cover the time that the filename is displayed when re-loading.   
 
 After the high tone, the code will be outputted and also a digit will appear on the TEC LED display. This is the number of COMPLETE pages to be saved. In this case it will be zero. A point to raise here is that if you ever accidentally enter a start address that is HIGHER than the end address, when GO is pressed, the software will detect this and display "Err-In". In this case, Push "+" or "-" to go back to the perimeter handler where you can correct the error. When the code has been saved, a short end tone will be heard and then the menu will re-appear with "-END-S", meaning end of save. Once the code has been saved, rewind the tape. To re-load the tape press the "+" key and you will see "SAVE-L" on the display, then "TEST-BL", "TEST-CS", then you will come to "LOAD-T" (for load tape). Note that there is no "TESTH" or "TEST-L" for low and high speeds as the test and load routine will load either speed automatically. Press GO. The data display shows "- F' for file number. This will be as you left it when you saved. When loading or testing from tape, the file number here determines which file will be subject to the selected operation. If you enter here, the next file found will be used, regardless of its file number. For now, we will leave it as it is. Next push "+". The data display will show "-S", meaning Start address. This is always set to H4114by the software. The start address allows you to optionally load a file or test a file at an address different to the one on the tape, (which is the address from which it was saved). To demonstrate its operation and to make it a more convincing trial, we will enter 0A00. The file will now be loaded at 0A00. If you press the "+" key again, you will be back at the file name. (This last point demonstrates the programmable number of "windows" feature of the perimeter handler. It was set up for 2 "windows" by a short routine entered from the Menu driver before passing control to the Perimeter handler, remember that there was 4 "windows" when you saved the file). Now press GO. The display will blank. Now start the tape playing. The sound from the tape will be echoed on the TEC speaker. Soon the leader will be heard and it should sound as crisp as when it was saved. If not, experiment with the volume. The interface allows for a wide variation of volumes but 3/4 volume is a good place to start. After the leader has passed, the file name is loaded and should appear on the display. If it was not correctly loaded, "FAIL-Ld" will appear. In this case experiment with the volume and retry. After a few seconds the file name disappears and the number of complete pages to load are displayed on the middle digit. The code is now being loaded. The code is loaded very quickly and hopefully a "PASS-Ld" will appear. If not, re-try with a different volume setting. After you have successfully loaded, hit reset and ADdress 0A00 and 01, 02 etc. will be found. If you are unable to get a successful load after many attempts, then skip ahead to the trouble shooting section. Now we have a successful load, we will experiment with the TEST BLOCK function. Change a byte in the 0A00 block. Now call up the tape software (Shift-0, or ADdress, "+" ,0), select "TEST-BL", and LEAVE F1-41+ at the optional start. ("-S") Then rewind the tape and play it back like you did when loading. At the end of the test, the display comes back with "PASS-TB". Now do this again, but this time enter 0A00 at the optional start and F141-it. for the file. This will demonstrate the load/test next file feature. Because 0A00 has been entered in the optional start "window", the test will be between tape and the code at 0A00. Rewind the tape and press "GO" on the TEC, then play the tape. Because a byte has been changed, the test this time will fail and the display will show "FAIL-TB." Use the test-block feature whenever you wish to compare a tape file with a memory block or test that a save operation was successful. If ever revising software on a tape of which you do not have a copy in memory, use the test checksum (TESTCS) to ensure that the file is good. By use of the "LOAD NEXT FILE" feature (F1-14F in the file number window) you can go through a tape completely, checking each file. THE "AUTO-GO" To use the Auto-GO feature, you must enter the required GO address WHEN YOU SAVE THE FILE. The go address is entered under the "-G" data display.
 Experiment with the following: 
 
-0900: 21 10 09 11 00 08 01 06
-0908: 00 ED B0 CD 36 08 18 FB
-0910: 6F EA C6 EB E3 EB.
+> 0900: 21 10 09 11 00 08 01 06
+> 0908: 00 ED B0 CD 36 08 18 FB
+> 0910: 6F EA C6 EB E3 EB.
 
 Save this as described above, but this time enter 0900 under the "-S" heading, 0921 under "-E", and 0900 under "-G". Now re-load it and if the load is successful, the program will start automatically and an appropriate display message will appear. 
 
@@ -242,18 +242,18 @@ Programs which have neither a HALT or LD A,1 instruction cannot be altered by an
 
 The new keyboard set-up is no more difficult to use now than before. In actual fact it is easier and requires less bytes than before thanks to the use of the RST instructions. Four RST's are provided to handle the keyboard in different ways. The first RST we shall look at is RST 08 (CFH). This RST is a "loop until a NEW key press is detected" routine. If you refer to the section on running old programs, you will see that this RST is used to simulate/replace the HALT instruction. (You know how to use it Already!) An important feature of this RST is that it ignores any current key PRESSED, that is if a key is being pressed when this RST is performed, it will not be recognized. This mimics the NMI which only recognized a key press once. (This is why the auto-repeat feature could not be done with the keyboard hooked up to the NMI). When this RST detects a valid key press, it inputs the value from the key encoder and masks the unwanted bits and stores the input in the interrupt vector register (as did the MON-1 series). The input value is also returned in the accumulator. The shift key can not be read from this (or any other MONitor keyboard routine) as the shift input bit (bit 5) is masked off. Here is, an example of its use: 
 
-0900 CF       RST 08
-0901 FE 12    CP 12
-0903 20 04    JR NZ,0909 
-0905 3E EA    LD A,EA
-0907 18 06    JR 090F
-0909 FE 01    CP 01
-090B 20 F3    JR NZ,0900
-090D 3E 28    LD A,28
-090F D3 02    OUT (02),A
-0911 3E 01    LD A,01
-0913 D3 01    OUT (01),A
-0915 18 E9    JR 0900
+> 0900 CF       RST 08
+> 0901 FE 12    CP 12
+> 0903 20 04    JR NZ,0909 
+> 0905 3E EA    LD A,EA
+> 0907 18 06    JR 090F
+> 0909 FE 01    CP 01
+> 090B 20 F3    JR NZ,0900
+> 090D 3E 28    LD A,28
+> 090F D3 02    OUT (02),A
+> 0911 3E 01    LD A,01
+> 0913 D3 01    OUT (01),A
+> 0915 18 E9    JR 0900
 
 The first thing you should notice when you enter and run the above, is that the "go" key is not detected when the routine is first started, even though it is being pressed. This is because the first part of the RST loops until the key being pressed is released. The RST then loops until a new key press is detected. When the RST returns, the input value is both in the interrupt vector register and the accumulator. The rest of the routine tests for either a 01 or "GO" key and outputs to the display. Use this RST when ever you want the TEC to go "dead" and wait for a key press.
 
@@ -264,7 +264,7 @@ If a key is recognized as a "FIRST KEY PRESS" then the ZERO FLAG will be set to 
 
 ## THE DAT BOARD
 
-The Display And Tape Board • by Jim 
+The Display And Tape Board by Jim 
 
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/schem.png)
 
@@ -349,8 +349,8 @@ Next, insert the board and note how high it is off the TEC. Ideally it should be
 
 The latch is easily tested by running up JMON. If the keyboard works then the latch is obviously working. You can test each bit of the latch by taking the remaining inputs to ground. These pins are connected to pins 2,4,6,8 and 12 on the 74C14 socket and also pin 3 of the latch chip itself. Make sure that you don't have the 74C14 fitted as this may damage the chip. The following program will echo the latch on the LED display: 
 
-0900 3E 3F D3 02 DB 03 E6 3F
-0908 D3 01 C3 00 09
+> 0900 3E 3F D3 02 DB 03 E6 3F
+> 0908 D3 01 C3 00 09
 
 To test the tape, refer to the pages on using the tape system that show how to use and trouble shoot the tape interface. 
 
@@ -369,16 +369,16 @@ After you have finished construction and wired the DAT BOARD to the TEC as shown
 
 All things being equal, the display will show the following:
 
-0900>xx xx xx xx
-Data xx xx xx xx
+> 0900>xx xx xx xx
+> Data xx xx xx xx
 
 If not, the most likely cause is that one of the data lines is not getting to the display. The easiest way to check this is to type in the following: 
 
-0900 3E 55 D3 04 C7 
+> 0900 3E 55 D3 04 C7 
 
 AFTER you have entered this, connect a jumper between port 4 and the wait line of the Z80. When you have done this, hit go. The TEC should go "dead." Now, with a logic probe, test the edge connector of the LCD. Starting from the right, the logic levels should be: 
 
-H, L, H, L, H, L, H AND L.
+> H, L, H, L, H, L, H AND L.
 
 If not, then check all the connections and retry until right. If the connections are right, but there is nothing on the display, check the voltage on pin three of the LCD. This voltage should be in the range of 0.5v to 1 v. Adjust the trimpot until you measure this voltage. Still no luck? Turn off the TEC, hold reset down and turn the TEC back on while still holding down the reset. The top row of the LCD should be dark and the bottom line should be light. If not then there maybe no power getting to the LCD, the contrast voltage may be incorrect (but you have already checked this), or the display has been damaged, they are all tested before they leave 'TE). If the top line is dark when power is applied but the display does not respond when reset is released, then put your logic probe on pin 6 of the LCD. Hold down the "+" key and watch the logic probe. Pin three should pulse HIGH each time the TEC beeps. If not then check that you have the wire going to port 4 in the correct place. Check the track work around the 74LS74 chip and the chip itself. If pin 6 seems ok, then check that the 100p cap is fitted as this is VERY IMPORTANT. Pin 5, the r/w line, should always be pulsing. Check this with the
 logic probe. The only other line left to test is the register select (RS). This line is address 7, and the easiest way to check this is with a continuity tester. If the LCD clears when power is applied, but nothing appears on the LCD, then it is oddson that the cause is address 7 not being wired correctly. 
@@ -386,7 +386,7 @@ logic probe. The only other line left to test is the register select (RS). This 
 ## TESTING THE SINGLE STEPPER
 This is easy. With JMON fitted, enter this at 0900: 
 
-0900: 00 00 00 00 00 C3 00 09 
+> 0900: 00 00 00 00 00 C3 00 09 
 
 Now, press shift 2. The single stepper will show 0900 PC. Press any data key and the single stepper will cycle automatically. The occasional clicking you (may) hear is a result of the interaction of the interrupt response cycle and the decoding of the 74LS138 decoder chip. If the single stepper doesn't work, then check your wiring as it is doubtful that the 74LS74 chip is faulty 
 
@@ -471,60 +471,60 @@ Using the LCD is easy because it contains its own "intelligent" chips which do a
 
 Ok lets type this in:
 
-0A00 F7     RST 30
-0A01 3E 01  LD A,01
-0A03 D3 04  OUT (04),A
-0A05 76     HALT
-
-Reset, Go
+> 0A00 F7     RST 30
+> 0A01 3E 01  LD A,01
+> 0A03 D3 04  OUT (04),A
+> 0A05 76     HALT
+> 
+> Reset, Go
 
 The display will go blank and the (invisible) cursor will return to home (top left-hand corner). The 01 instruction sets all the display RAM locations to 20H (space). The 01 instruction doesn't affect any previous mode setting or display options (discussed below). Now enter this with the RST over the HALT at 0A05: 
 
-0A05 F7       RST 30
-0A06 3E 4C    LD A,4C "(L)"
-0A08 D3 84    OUT (84),A
-0A0A 76       HALT
-
-Reset, Go
+> 0A05 F7       RST 30
+> 0A06 3E 4C    LD A,4C "(L)"
+> 0A08 D3 84    OUT (84),A
+> 0A0A 76       HALT
+> 
+> Reset, Go
 
 The letter L appears in the top left corner. Ok, now as before, put this in with the RST over the HALT:
 
-0A0A F7       RST 30
-0A0B 3E 43    LD A,43 "(C)"
-0A0D D3 84    OUT (84),A
-0A0F F7       RST 30
-0A10 3E 44    LD A,44 "(D)"
-0Al2 D3 84    OUT (84),A
-0A14 76       HALT
-
-Reset, Go
+> 0A0A F7       RST 30
+> 0A0B 3E 43    LD A,43 "(C)"
+> 0A0D D3 84    OUT (84),A
+> 0A0F F7       RST 30
+> 0A10 3E 44    LD A,44 "(D)"
+> 0Al2 D3 84    OUT (84),A
+> 0A14 76       HALT
+> 
+> Reset, Go
 
 The above section outputs two more bytes to the DATA REGISTER. Until now we have just been using a simple method to output data. This has shown us the basic way to talk to the LCD. Now that we have come this far and learned the basics, we'll advance to something more useful. The code below will output a word onto the bottom line of the LCD. The display DATA will be held in a table at OBOO. 
 
-0A14 F7         RST 30
-0A15 3E C0      LD A,C0
-0A17 D3 04      OUT (04),A
-0A19 01 84 06   LD BC,0684
-0A1C 21 00 0B   LD HL,0B00
-0A1F F7         RST 30
-0A20 ED A3      OUTI
-0A22 20 FB      JRNZ 0A1F
-0A24 76         HALT
-
-0B00 4D 41 53 54 45 52 
+> 0A14 F7         RST 30
+> 0A15 3E C0      LD A,C0
+> 0A17 D3 04      OUT (04),A
+> 0A19 01 84 06   LD BC,0684
+> 0A1C 21 00 0B   LD HL,0B00
+> 0A1F F7         RST 30
+> 0A20 ED A3      OUTI
+> 0A22 20 FB      JRNZ 0A1F
+> 0A24 76         HALT
+> 
+> 0B00 4D 41 53 54 45 52 
 
 To set the cursor to the bottom line we output 80 to the instruction register (bit 7 sets the cursor address entry) + 40 (which is the actual address of bottom left display) = CO. The OUTI instruction is new to our repertoire. It's operation is to output the byte addressed by HL to the port addressed by C. HL is then incremented and B is decremented. If B becomes ZERO the ZERO FLAG is set and the operation is complete. This instruction can output up to 256 bytes at a time. Because we need to check the busy flag we loop back to the RST 30 until all the bytes have been done. If we didn't need to check the busy flag we could have used the OTIR instruction which automatically repeats itself until B=0. All the above is done with the cursor switched off. For the next section we want to have the cursor on. To switch on the cursor output OE to the instruction register on port 04. 
 
-0A00 F7     RST 30
-0A01 3E 0E  LD A,0E
-0A03 D3 04  OUT (04),A
-0A05 76     HALT
-0A06 C7     RST 00 
+> 0A00 F7     RST 30
+> 0A01 3E 0E  LD A,0E
+> 0A03 D3 04  OUT (04),A
+> 0A05 76     HALT
+> 0A06 C7     RST 00 
 
 Now let's see what does what on the display. Using the above routine, output the bytes below one at a time, to port 04 and HALT between each. (leave what's on the display there). Check the function of each on the table of controls.
 
-18 1C 1C 1C 02 14
-14 10 0C 0F 08 0C
+> 18 1C 1C 1C 02 14
+> 14 10 0C 0F 08 0C
 
 Good luck!! 
 
@@ -543,79 +543,79 @@ Each mode is selected by outputting the byte shown to port 04. Once the entry mo
 
 Running words along the LCD is also simple because the LCD'S intelligent chips do most the work for us again. Our job is to enter the words we want to scroll (up to 16 characters per line for this routine) and send shift commands each time we want a shift. The routine below is entered in 3 sections. Each section is a logical progression and increases the programs abilities. You can look at the instructions in each section and compare it to what the section does. This way you can learn how to put blocks together to use the display any way you want. Before entering the code below put FF at 0821 and AA at 08FF as described before. Enter this and INCLUDE the NOPS and the table at 0B00 then run it: 
 
-0A00 3E 01      LD A,01
-0A02 D3 04      OUT (04),A
-0A04 F7         RST 30
-0A05 3E 06      LD A,06
-0A07 D3 04      OUT (04),A
-0A09 F7         RST 30
-0A0A 3E OC      LD A,0C
-0A0C D3 04      OUT (04),A
-0A0E F7         RST 30
-0A0F 00         NOP
-0A10 00         NOP
-0A11 00         NOP
-0Al2 00         NOP
-0A13 00         NOP
-0A14 01 84 10   LD BC,1084
-0A17 21 00 0B   LD HL,0B00
-0A1A F7         RST 30
-0A1C ED A3      OUTI
-0A1D 20 FB      JRNZ 0A1A
-0A1F F7         RST 30
-0A20 3E C0      LD A,C0
-0A22 D3 04      OUT (04),A
-0A24 F7         RST 30
-0A25 21 30 0B   LD HL,0B30
-0A28 06 10      LD 6,10
-0A2A F7         RST 30 
-0A2B ED A3      OUTI
-0A2D 20 FB      JRNZ 0A2A
-0A2F 76         HALT
-
-0B00: 54 41 4C 4B 49 4E 47 20
-0B08: 20 20 20 20 20 20 20 20
+> 0A00 3E 01      LD A,01
+> 0A02 D3 04      OUT (04),A
+> 0A04 F7         RST 30
+> 0A05 3E 06      LD A,06
+> 0A07 D3 04      OUT (04),A
+> 0A09 F7         RST 30
+> 0A0A 3E OC      LD A,0C
+> 0A0C D3 04      OUT (04),A
+> 0A0E F7         RST 30
+> 0A0F 00         NOP
+> 0A10 00         NOP
+> 0A11 00         NOP
+> 0Al2 00         NOP
+> 0A13 00         NOP
+> 0A14 01 84 10   LD BC,1084
+> 0A17 21 00 0B   LD HL,0B00
+> 0A1A F7         RST 30
+> 0A1C ED A3      OUTI
+> 0A1D 20 FB      JRNZ 0A1A
+> 0A1F F7         RST 30
+> 0A20 3E C0      LD A,C0
+> 0A22 D3 04      OUT (04),A
+> 0A24 F7         RST 30
+> 0A25 21 30 0B   LD HL,0B30
+> 0A28 06 10      LD 6,10
+> 0A2A F7         RST 30 
+> 0A2B ED A3      OUTI
+> 0A2D 20 FB      JRNZ 0A2A
+> 0A2F 76         HALT
+> 
+> 0B00: 54 41 4C 4B 49 4E 47 20
+> 0B08: 20 20 20 20 20 20 20 20
 
 (TALKING)
 
-0B30: 45 4C 45 43 54 52 4F 4E
-0B38: 49 43 53 20 20 20 20 20
+> 0B30: 45 4C 45 43 54 52 4F 4E
+> 0B38: 49 43 53 20 20 20 20 20
 
 (ELECTRONICS) 
 
 This will put "TALKING" on the top line and "ELECTRONICS" on the bottom line of the LCD and stop. Study the above section and see if you can work out the role of each instruction. Now we'll add the shift section. Enter this with the first "NOP" over the last "HALT" and run it:  
 
-0A2F 00         NOP
-0A30 00         NOP
-0A31 3E 18      LD A,18
-0A33 D3 04      OUT (04),A
-0A35 01 00 60   LD BC,6000
-0A38 0B         DEC BC
-0A39 78         LD A,B
-0A3A B1         OR C
-0A3B 20 FB      JRNZ 0A38
-0A3D 18 F2      JR 0A31 
+> 0A2F 00         NOP
+> 0A30 00         NOP
+> 0A31 3E 18      LD A,18
+> 0A33 D3 04      OUT (04),A
+> 0A35 01 00 60   LD BC,6000
+> 0A38 0B         DEC BC
+> 0A39 78         LD A,B
+> 0A3A B1         OR C
+> 0A3B 20 FB      JRNZ 0A38
+> 0A3D 18 F2      JR 0A31 
 
 The above code loads the shift instruction (18H) into the accumulator and outputs it to the control register on port 04. As you can see it shifts the display, but this method is not very good if we want to shift only a few characters as we must wait for them to be shifted through the entire display RAM before they re-appear. To overcome this we can count the number of shifts and reset the display with a 02 command, as soon as all the letters have been shifted outside the display. The 02 instruction resets the display from shift WITHOUT CHANGING the contents of the DISPLAY RAM, CHARACTER GENERATOR RAM, or the CONTROL MODE. Because we would like the words to shift across the entire display and re-appear as soon as they have all gone, we must load the words just outside the screen to the right. The following additions make the words start shifting into the display from rightto-left. Ok, Now enter the following, AT THE ADDRESSES SHOWN: 
 
-0A0F 3E 90      LD A,90
-0A11 D3 04      OUT (04),A
-0A13 F7         RST 30
---------------------------
-0A22 3E DO      LD A,D0 
+> 0A0F 3E 90      LD A,90
+> 0A11 D3 04      OUT (04),A
+> 0A13 F7         RST 30
+> --------------------------
+> 0A22 3E DO      LD A,D0 
 
 The above instructions set the DISPLAY RAM ADDRESSES to the RAM locations just right of the screen. The address of the top line is 90 and the address of the bottom line is DO. (Actually these are the addresses + 80H, the SET ADDRESS instruction).   
 
 (The D register is our shift counter).
 
-0A3D 00     NOP
-0A3E 00     NOP
-0A3F 15     DEC D
-0A40 20 EF  JRNZ 0A31
-0A42 3E 02  LD A,02
-0A44 D3 04  OUT (04),A
-0A46 F7     RST 30
-0A47 18 E6  JR 0A2F 
+> 0A3D 00     NOP
+> 0A3E 00     NOP
+> 0A3F 15     DEC D
+> 0A40 20 EF  JRNZ 0A31
+> 0A42 3E 02  LD A,02
+> 0A44 D3 04  OUT (04),A
+> 0A46 F7     RST 30
+> 0A47 18 E6  JR 0A2F 
 
 The last group makes up the shift counter and resets the display when the counter reaches Zero. When the 02 command is received by the LCD the display is returned to its NORMAL position. This means that the inputted data is returned to WHERE IT WAS ENTERED (just right of the screen). Now, when the next shift command is received, the letters start to shift left back on to the screen. QUESTION: Why don't we need to wait for the BUSY flag to go low after the shift instruction? If you wish to change the number of characters to be shifted, you may do so by putting your new characters at 0B00 for the top line +and at 0B30 for the bottom line. Unused locations should have 20 (space) inserted until 16 locations are filled. (From 0B00 to 0B10 and from 0B30 to 0B40). The value of the loop counter loaded into D at 0A2F should also be changed. The value of the loop counter is best set to 10H + the number of letters occurring in the longest line. e.g. For the the example above: ELECTRONICS =11 (0BH) Letters. So add 0BH + 10H = 1BH. So 1BH is loaded into D at 0A2F. To understand the above formula better, try 1C and 1A and see the result. FINAL NOTES The slow response of the LCD detracts from the effectiveness of the shifting a little but by experimenting with the delay at 0A35 you should be able to get a good compromise between speed and display clarity. The above shifting method is just one of dozens of ways we could have used. A more complex program could shift information across and out one end and load new information in the other to create a running information display. Use the blocks in this program and the others to make up your own display routines. If you come up with something interesting, write in. We would love to see what you've come up with.  
 
@@ -623,75 +623,75 @@ The last group makes up the shift counter and resets the display when the counte
 
 You can have up to eight different characters stored in a character-generator RAM. Each character is displayed on the screen when it is addressed in the display RAM. The addresses are between 0-7. The user-defined characters are made up of an 8x8 matrix (only 5 columns are displayed, the cursor makes up the 8th row.) To set up a character, 8 bytes are outputted to the character- generator RAM. The first byte makes up the top row (only the 5 lower bits are displayed). The second byte makes up the second row etc. Before sending the 8x8 character (actually a 5x8 character), the entry mode must be set (if not already) to addressincrement with no display shift (06) and a set character RAM address operation must be done. The control byte for this is 40 + the address of the first byte of each charactermatrix. E.g: 40, 48, 50 for characters 1, 2, 3 etc. Once a character is set up, it is displayed by placing its address in the DISPLAY DATA RAM. Before doing this the DISPLAY RAM must be selected via 80 + address. OK, let's put our own character on the LCD.   
 
-0A00 F7         RST 30
-0A01 3E 01      LD A,01
-0A03 D3 04      OUT (04),A
-0A05 F7         RST 30
-0A06 3E 40      LD A,40
-0A08 D3 04      OUT (04),A
-0A0A 01 84 08   LD BC,0884
-0A0D 21 00 0B   LD HL,0600
-0A10 F7         RST 30
-0A11 ED A3      OUTI
-0A13 20 FB      JRNZ 0A10
-0A15 F7         RST 30
-0A16 3E 80      LD A,80
-0A18 D3 04      OUT (04),A
-0A1A F7         RST 30
-0A1B 3E00       LD A,00
-0A1D D3 84      OUT (84),A
-0A1F 76         HALT 
-
-0B00:
-
-11, 0A, 04, 11, 0A, 04, 11, 0A 
+> 0A00 F7         RST 30
+> 0A01 3E 01      LD A,01
+> 0A03 D3 04      OUT (04),A
+> 0A05 F7         RST 30
+> 0A06 3E 40      LD A,40
+> 0A08 D3 04      OUT (04),A
+> 0A0A 01 84 08   LD BC,0884
+> 0A0D 21 00 0B   LD HL,0600
+> 0A10 F7         RST 30
+> 0A11 ED A3      OUTI
+> 0A13 20 FB      JRNZ 0A10
+> 0A15 F7         RST 30
+> 0A16 3E 80      LD A,80
+> 0A18 D3 04      OUT (04),A
+> 0A1A F7         RST 30
+> 0A1B 3E00       LD A,00
+> 0A1D D3 84      OUT (84),A
+> 0A1F 76         HALT 
+> 
+> 0B00:
+> 
+> 11, 0A, 04, 11, 0A, 04, 11, 0A 
 
 Experiment with the values in the table and see how it all goes together. By increasing the value loaded into B, to 10(hex) (at OAOC) a second character may be programmed at the same time. The table for the second character will start at OB08. This will be displayed when a 01 is written into the DATA DISPLAY REGISTER. Experiment and see if you can get 8 characters appearing in several places at once on the display.
 
 ## MYSTERY EFFECT
 The routine below produces a very interesting effect. It uses the PROGRAMMABLE CHARACTER GENERATOR to produce 8 different characters some of which are displayed several times. We won't tell you the effect, we'll let you type it in and see for yourself. You won't be disappointed! The program consolidates much of what we have learned about "driving" the LCD. If you experiment further and add a shift to it then it will be a complete revision of what we have covered in these pages. Now that you know how to use the LCD, start writing some programs that use it. If you come up with something interesting don't hesitate to send it in to TE. We would be very interested in some simple animation or an adventure game or anything that others would be interested in seeing. Go to it!
 
-0A00 F7       RST 30
-0A01 3E 01    LD A,01
-0A03 D3 04    OUT (04),A
-0A05 F7       RST 30
-0A07 3E 06    LD A,06
-0A08 D3 04    OUT 04
-0A0A 21 00 06 LD HL,0600
-OAOD 01 84 10 LD BC,1084
-0A10 F7       RST 30
-OA11 ED A3    OUTI
-0A13 20 FB    JRNZ 0A10
-0A15 F7       RST 30
-0A16 3E 40    LD A,40
-0A18 D3 04    OUT (04),A
-0A1A 21 20 OB LD HL,0B20
-0A1D 06 40    LD B,40
-0A1F F7       RST 30
-0A20 ED A3    OUTI
-0A22 20 FB    JRNZ 0A1F
-0A24 F7       RST 30
-0A25 3E CO    LD A,C0
-0A27 D3 04    OUT (04),A
-0A29 21 10 OB LD HL,OB10
-0A2C 06 10    LD B,10
-0A3E F7       RST 30
-0A3F ED A3    OUTI
-0A31 20 FB    JRNZ 0A3E
-0A33 76       HALT
-
-0600:20 4D 49 52 52 4F 52 20
-0808:49 4D 41 47 45 21 20 20
-0610:20 00 01 02 02 03 02 20
-0B18:01 00 04 05 06 07 20 20
-0620:00 11 11 11 15 15 1B 11
-0B28:00 0E 04 04 04 04 04 0E
-0630:00 11 12 14 1E 11 11 1E
-0638:00 0E 11 11 11 11 11 0E
-0640:00 11 11 1F 11 11 11 0E
-0848:00 0F 11 11 17 10 11 0E
-0B50:00 1F 10 10 1E 10 10 1F
-0B58:00 04 00 00 04 04 04 04 
+> 0A00 F7       RST 30
+> 0A01 3E 01    LD A,01
+> 0A03 D3 04    OUT (04),A
+> 0A05 F7       RST 30
+> 0A07 3E 06    LD A,06
+> 0A08 D3 04    OUT 04
+> 0A0A 21 00 06 LD HL,0600
+> 0A0D 01 84 10 LD BC,1084
+> 0A10 F7       RST 30
+> 0A11 ED A3    OUTI
+> 0A13 20 FB    JRNZ 0A10
+> 0A15 F7       RST 30
+> 0A16 3E 40    LD A,40
+> 0A18 D3 04    OUT (04),A
+> 0A1A 21 20 OB LD HL,0B20
+> 0A1D 06 40    LD B,40
+> 0A1F F7       RST 30
+> 0A20 ED A3    OUTI
+> 0A22 20 FB    JRNZ 0A1F
+> 0A24 F7       RST 30
+> 0A25 3E CO    LD A,C0
+> 0A27 D3 04    OUT (04),A
+> 0A29 21 10 OB LD HL,OB10
+> 0A2C 06 10    LD B,10
+> 0A3E F7       RST 30
+> 0A3F ED A3    OUTI
+> 0A31 20 FB    JRNZ 0A3E
+> 0A33 76       HALT
+> 
+> 0600:20 4D 49 52 52 4F 52 20
+> 0808:49 4D 41 47 45 21 20 20
+> 0610:20 00 01 02 02 03 02 20
+> 0B18:01 00 04 05 06 07 20 20
+> 0620:00 11 11 11 15 15 1B 11
+> 0B28:00 0E 04 04 04 04 04 0E
+> 0630:00 11 12 14 1E 11 11 1E
+> 0638:00 0E 11 11 11 11 11 0E
+> 0640:00 11 11 1F 11 11 11 0E
+> 0848:00 0F 11 11 17 10 11 0E
+> 0B50:00 1F 10 10 1E 10 10 1F
+> 0B58:00 04 00 00 04 04 04 04 
 
 ## CONCLUSION
 This concludes this issues instalment on the LCD. Study the previous notes carefully and get to know the LCD fully. There is enough information here for you to write routines using the LCD and we would like to see some ideas sent to us for issue 16. The LCD will be supported further in issue 16 and if all goes well, we will have a cheap, full alpha-numeric keyboard with supporting software. I am working towards the stage were you can anotate your routines and send the text and the routine in on tape. We can then load them into our desk top publisher. Don't forget if you have any good ideas or questions about the TEC, send them in to "TEC TALK."  
