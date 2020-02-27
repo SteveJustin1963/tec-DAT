@@ -696,8 +696,11 @@ OA11 ED A3    OUTI
 ## CONCLUSION
 This concludes this issues instalment on the LCD. Study the previous notes carefully and get to know the LCD fully. There is enough information here for you to write routines using the LCD and we would like to see some ideas sent to us for issue 16. The LCD will be supported further in issue 16 and if all goes well, we will have a cheap, full alpha-numeric keyboard with supporting software. I am working towards the stage were you can anotate your routines and send the text and the routine in on tape. We can then load them into our desk top publisher. Don't forget if you have any good ideas or questions about the TEC, send them in to "TEC TALK."  
 (pg55 -- Below is the table of LCD control bytes. Use these in conjunction with the previous notes and last page for ASCII DISPLAY TABLE FOR LCD)
------------------o0o-----------------
 
+## References
 
+## Iterate, new hypotheses or predictions
+1. 20x4 version of the lcd
+2. 
 
 
