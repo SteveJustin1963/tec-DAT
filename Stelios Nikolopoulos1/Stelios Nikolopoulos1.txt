@@ -1,6 +1,12 @@
 Stelios Nikolopoulos
 SatmcSSurpregmoptdSemmnsbeorr 2ieda1  · 
-as I said the simplest way you can connect it. I've got a 74hc138 decoding the base address and generating the ENABLE signal R/W goes to the ground because I'm always writing to the display, RS register select goes to A0 so 20H is command register 21H is data register and the rest is the data bus directly
+as I said the simplest way you can connect it. 
+I've got a 74hc138 decoding the base address and generating 
+the ENABLE signal R/W goes to the ground because I'm always 
+writing to the display, RS register select goes to A0 
+so 20H is command register 
+21H is data register 
+and the rest is the data bus directly
 
 
 https://www.facebook.com/groups/546186508918605/user/100003571066414
