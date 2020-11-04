@@ -1,6 +1,7 @@
 # tec-DAT
 A TEC-1 Display And Tape data system using LCD display, for saving or loading programs and displaying 16x2 ASCII characters.  
 By Jim Robertson
+
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/ccxx33.png)
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/ccvv55.png)
 
