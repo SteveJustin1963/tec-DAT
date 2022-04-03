@@ -2,7 +2,7 @@
 A TEC-1 Display And Tape data system using LCD display, for saving or loading programs and displaying 16x2 ASCII characters.  
 By Jim Robertson
 
-- TE 15, 17 amd 47
+- TE-15, pg17, pg47
 - https://github.com/SteveJustin1963/tec-MAGAZINES/blob/master/talking_electronics_15.pdf
 
 
