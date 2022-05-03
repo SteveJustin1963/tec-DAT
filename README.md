@@ -52,64 +52,8 @@ s(t) =   A cos(2 Pi Fc t)  // digital 1
 s(t) = - A cos(2 Pi Fc t ) // digital 0
 
 If we use a carrier frequency of 2 the result will look like
+
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/bpsk.jpg)
 
-
-
-9
-this so we will encode a 0 using the
-8:12
-shifted phase so this 0 gets encoded
-8:16
-with a wave that starts on a downward
-8:19
-path like so
-8:31
-and then we repeat that with the next
-8:33
-zero but when we switch to a one the
-8:42
-phase shift causes the wave to look like
-8:46
-this and also the next signal
-9:01
-for the next 0 we shift the phase so we
-9:05
-reverse directions and then for the one
-9:12
-we reverse the direction again and if we
-9:19
-continue this process we'll get the
-9:21
-following result so you can see in this
-9:24
-final result that whenever I switch from
-9:27
-0 to a 1 I get a direction change in the
-9:32
-wave this sort of sharp change that is
-9:36
-on the upward end and whenever I go from
-9:39
-a 1 to a 0 I get a similar sharp change
-9:43
-but on the bottom end so whenever I'm
-9:46
-not switching Peaks for a long period
-9:51
-like here that is a sequence of the same
-9:54
-element so these 3 encoding schemes here
-9:59
-represent three relatively
-10:01
-straightforward means of encoding
-10:03
-digital data with analog signals they
-10:07
-take advantage of the primary features
-10:09
-of a periodic wave we can modify the
-10:12
-amplitude frequency or the phase
+There are methods as well see https://en.wikipedia.org/wiki/Phase-shift_keying
 
