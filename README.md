@@ -51,13 +51,12 @@ By adding in Pi we shift this signal to a different phase. We are once again usi
 s(t) =   A cos(2 Pi Fc t)  // digital 1 
 s(t) = - A cos(2 Pi Fc t ) // digital 0
 
+If we use a carrier frequency of 2 the result will look like
+![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/bpsk.jpg)
 
 
 
-if we use a carrier
-8:06
-frequency of 2 the result will look like
-8:09
+9
 this so we will encode a 0 using the
 8:12
 shifted phase so this 0 gets encoded
