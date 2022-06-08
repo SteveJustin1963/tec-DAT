@@ -14,8 +14,8 @@ By Jim Robertson. It uses the JMON monitor code in ROM. https://github.com/Steve
 https://easyeda.com/editor#id=5436587669434d578bdf98f6c96d4d5b
 
 
-## Notes on encoding data
-DAT is done by encoding digital data using analog signals. This can be done by changing the amplitude, frequency or phase of a periodic repeating wave.
+## Theory on encoding data
+This can be done by changing the amplitude, frequency or phase of a periodic repeating wave.
 
 From www;
 For example one approach is known as ASK, amplitude shift keying and this approach involves having a way that either has a positive amplitude or an amplitude of zero to encode the bits 1 and 0. 
