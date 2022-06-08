@@ -55,5 +55,5 @@ If we use a carrier frequency of 2 the result will look like
 
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/bpsk.jpg)
 
-There are methods as well see https://en.wikipedia.org/wiki/Phase-shift_keying
+There are other methods as well see https://en.wikipedia.org/wiki/Phase-shift_keying
 
