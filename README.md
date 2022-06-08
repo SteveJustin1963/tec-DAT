@@ -1,6 +1,6 @@
 # tec-DAT
-A TEC-1 Display And Tape data system using LCD display, for saving or loading programs and displaying 16x2 ASCII characters.  
-By Jim Robertson
+A TEC-1 D_isplay A_nd T_ape (DAT) data system using LCD display, for saving or loading programs and displaying 16x2 ASCII characters.  
+By Jim Robertson. It uses the JMON monitor code in ROM.
 
 - TE-15, pg17, pg47
 - https://github.com/SteveJustin1963/tec-MAGAZINES/blob/master/talking_electronics_15.pdf
@@ -14,7 +14,7 @@ By Jim Robertson
 https://easyeda.com/editor#id=5436587669434d578bdf98f6c96d4d5b
 
 
-## Notes
+## Notes on encoding data
 DAT is done by encoding digital data using analog signals. This can be done by changing the amplitude, frequency or phase of a periodic repeating wave.
 
 From www;
