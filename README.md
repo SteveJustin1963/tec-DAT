@@ -1,6 +1,6 @@
 # tec-DAT
 A TEC-1 D_isplay A_nd T_ape (DAT) data system using LCD display, for saving or loading programs and displaying 16x2 ASCII characters.  
-By Jim Robertson. It uses the JMON monitor code in ROM.
+By Jim Robertson. It uses the JMON monitor code in ROM. https://github.com/SteveJustin1963/tec-MONITOR
 
 - TE-15, pg17, pg47
 - https://github.com/SteveJustin1963/tec-MAGAZINES/blob/master/talking_electronics_15.pdf
