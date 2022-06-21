@@ -13,7 +13,9 @@ By Jim Robertson. It uses the JMON monitor code in ROM. https://github.com/Steve
 ## Circuit
 https://easyeda.com/editor#id=5436587669434d578bdf98f6c96d4d5b
 
+The DAT encoding to tape ... see source code notes.
 
+background to encoding...
 ## Theory on encoding data
 This can be done by changing the amplitude, frequency or phase of a periodic repeating wave.
 
