@@ -59,3 +59,32 @@ If we use a carrier frequency of 2 the result will look like
 
 There are other methods as well see https://en.wikipedia.org/wiki/Phase-shift_keying
 
+
+
+### other builds
+- www.facebook.com/brian.chiha?
+" Sneak peek at the TEC-1F Ultimate Expansion board, soon to be released. It is an all-in-one expansion for all your TEC needs.  It includes an 8x8 LED Matrix, LCD display, ROM/RAM Expansion, Single Stepping interrupts, and timed 5Hz-165Hz interrupts.
+It plugs in directly on top of the TEC-1F via header pins.   Here are some pictures and a video showing how the stepper works. (this was requested).  Video also shows the LCD and 8x8 working. I'll prepare a ROM to go with BMON in the coming months."
+
+- Bens
+
+
+
+### Iterate
+
+- https://www.facebook.com/groups/AusVintage/search/?query=DAT&epa=SEARCH_BOX
+- analyze Jims comments on JMON code and flow chart the comments and code 
+- explain how the systems work wrt DAT
+- theory of presented methodology
+- Screen upgrade
+- LCD; 20 x 4 
+- LCD 128 X 64 
+- I2C OLED
+- Composite Video
+- VGA
+
+### References
+- https://hackaday.com/2018/10/07/reading-old-data-tapes-the-hard-way/
+
+
+
