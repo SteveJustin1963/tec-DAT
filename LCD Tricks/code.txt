@@ -157,6 +157,19 @@ demd = 0	'
 demdl = 0	'
 digit = 0	'
 '
+
+'''''''''''''''
+'The code above is a simple demo program that displays a moving point on the LCD screen. 
+' The point is controlled by the variables x and y, which are decremented or 'incremented each time through the main loop. 
+' The direction of the point is controlled by the variables xdir and ydir, which are set to 0 or 1 depending on the position 'of the point. 
+' The demo also includes a function that draws the rest of the ball around the moving point. 
+' This is done by drawing four additional pixels at the coordinates (x+1, y), '(x-1, y), (x, y+1), and (x, y-1). 
+' The code is written in such a way that it can be easily modified to display different patterns on the screen. 
+' For example, the point could be made to move in a spiral 'pattern by changing the values of x and y.
+''''''''''''''''''
+
+
+
 PAUSE 1200	'pause for LCD to start
 LCDOUT $FE,1	'clear LCD
 '
@@ -189,6 +202,9 @@ px = x+0 : py = y-1
 gosub setpixel
 ENDIF
 '
+''''''
+' The code checks the screen bounds for the point we are moving around. If the point is outside the bounds, the code changes the direction.
+
 IF (x > 21 && xdir = 0) THEN ' check the screen bounds
 xdir = 1		     ' for the point we are moving around
 ENDIF
@@ -201,7 +217,7 @@ ENDIF
 IF (y < 1 && ydir = 1) THEN
 ydir = 0
 ENDIF
-'
+''''''''''''''''''''''''''''''''''
 if ftick = 1 THEN 	' draw dynamic circles
 cx = x : cy  = y	' this is the second demo part
 radius = (y/2) + 2
@@ -379,6 +395,16 @@ goto cycle					' end main routine - do the next frame
 '
 '
 '
+'''''''''''''''''''''
+' The code above sets a pixel at position (px, py) on a display with a resolution of 50x50 pixels. 
+' The variable 'lind' holds the byte index for the line that the pixel is on. 
+' The variable 'pind' holds the byte index for the pixel within that line. The variable 'slug' holds the bit index for the pixel within that byte. 
+' If the pixel is on the first byte of the line, 'pind' will be 0. If the pixel is on the second byte of the line, 'pind' will be 1. 
+' If the pixel is on the third byte of 'the line, 'pind' will be 2. 
+' If the pixel is on the first bit of the byte, 'slug' will be 0. If the pixel is on the second bit of the byte, 'slug' will be 1. 
+' If the pixel is on the third bit of 'the byte, 'slug' will be 2. 
+' The code then sets the appropriate bit in the byte at index 'lind+pind' to 1.
+'
 '
 setpixel:	  ' size and performance win for V2
 lind = py * 3 ' byte index for line
@@ -403,7 +429,17 @@ NEXT CW
 dis[lind+pind] = tempb
 ENDIF
 return
-'
+'''''''''''''''''''''''''''''''''''''''''''''''''''
+'This code is responsible for writing to the LCD screen. It starts by writing the first half of the display, 
+' then skipping the invisible lines, and writing the second half of the display. Finally, it draws the first and second lines of the display.
+' The code above is used to write to the LCD.
+' First, the code sets up the variables needed to write to the LCD. Next, the code writes the first half of the display.
+' Then, the code skips the invisible line.
+' After that, the code writes the second half of the display.
+' Finally, the code draws to the LCD.
+'''
+
+
 writecg:	' size, ram and performance win for V2
 L0 = $40	' reset lines
 FOR CL = 0 TO 7 ' write first half of display
