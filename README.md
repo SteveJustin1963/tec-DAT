@@ -62,9 +62,18 @@ There are other methods as well see https://en.wikipedia.org/wiki/Phase-shift_ke
 
 
 ### other builds
-- www.facebook.com/brian.chiha?
+- Bbrian Chiha
+"Okay, me again!.  LCD Particle Physics on a TEC-1F.    If you would like an Ultimate Add-On Board for the TEC-1F (board only).  Message me.  $14 inc. postage.  I'm still working on a ROM for the board, I plan to include Disassembler, 8x8 Games and TE Magazine code + extras"
+
 " Sneak peek at the TEC-1F Ultimate Expansion board, soon to be released. It is an all-in-one expansion for all your TEC needs.  It includes an 8x8 LED Matrix, LCD display, ROM/RAM Expansion, Single Stepping interrupts, and timed 5Hz-165Hz interrupts.
 It plugs in directly on top of the TEC-1F via header pins.   Here are some pictures and a video showing how the stepper works. (this was requested).  Video also shows the LCD and 8x8 working. I'll prepare a ROM to go with BMON in the coming months."
+
+
+![310139155_10162210872284056_4000640632497298524_n](https://user-images.githubusercontent.com/58069246/194762452-aedd2334-35ea-401c-b04e-906fa4b18579.jpg)
+![310162465_10162210872249056_8638298831846877900_n](https://user-images.githubusercontent.com/58069246/194762468-8f4087ef-c286-4bac-91b6-9e306aab18c2.jpg)
+
+
+
 
 - Bens
 
