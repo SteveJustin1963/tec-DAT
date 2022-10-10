@@ -2,7 +2,7 @@
 
 Finally in issue 15 we get a D_isplay A_nd T_ape (DAT) data system; an LCD 16x2 ASCII characters and bit and character display with its own on board controller and an audio encoding and decoding program to save or load binary programs from audio cassette tape. It uses the JMON monitor code in ROM. 
 
-
+![image](https://user-images.githubusercontent.com/58069246/194963611-d41bad0c-b4dc-4c26-b323-f16f9e48dcba.png)
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/ccxx33.png)
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/ccvv55.png)
 
