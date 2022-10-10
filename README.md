@@ -8,22 +8,12 @@ Finally in issue 15 we get a D_isplay A_nd T_ape (DAT) data system; an LCD 16x2 
 
 
 ### Tape software
-
-  - 300 baud slow speed 
-  - 600 baud high speed
-  - auto execution
-- LOAD 
-  - selected
-  - next 
-  - at address 
-- TEST tape; every page (256 bytes) and also after the leader is loaded. 
-  - to memory block 
-  - check sum
-  - combined test with other options
-  - up to 16 pages can be displayed at a time
-
-
-The tape software uses the universal MENU driver and perimeter handler.  
+- 300 baud slow speed / 600 baud high speed
+- auto execution 
+- LOAD ,  selected /  next /  at address 
+- TEST tape; with check every page (256 bytes) / to memory block / 
+  
+universal MENU driver and perimeter handler.  
 - SAVE
   - shift and zero at the same time, GO 
   - or Address, "+","0" consecutively, GO
