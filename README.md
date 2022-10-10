@@ -49,9 +49,12 @@ If we use a carrier frequency of 2 the result will look like
 
 There are still other methods as well see https://en.wikipedia.org/wiki/Phase-shift_keying
 
+### How to use the tape software
+
+
 ### Tape cct 
-### tape operation
-### JMON monitor
+
+### JMON monitor code
 
 
 
