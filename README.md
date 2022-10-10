@@ -6,7 +6,58 @@ Finally in issue 15 we get a D_isplay A_nd T_ape (DAT) data system; an LCD 16x2 
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/ccxx33.png)
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/ccvv55.png)
 
-## Theory on encoding
+
+### Tape software
+Functions include: 
+- 300 and 600 baud tape SAVE, 
+- auto execution, 
+- LOAD selected file, 
+- LOAD next file, 
+- LOAD at optional address, 
+- TEST tape to memory block and TEST tape check sum. Both tests may be combined with other options. 
+
+The tape software uses 
+- the universal MENU driver and perimeter handler. 
+- These routines allow easy selection of cassette functions (e.g. Load, Save, etc.) 
+- and easy passing of variables to the tape software. 
+- The tape software contains check-sum error detection that allows the user to know if the load has failed. A checksum compare is performed after every page (256 bytes) and also after the leader is loaded. This means the user does not need to wait until the end of a load or test for error detection. 
+
+- Each full page to be loaded, tested or saved, is displayed on the TEC LED display. Up to 16 pages are displayed. 
+- Upon completion of a tape operation, the MENU is re-entered with an appropriate display showing:
+- END 
+- S (END SAVE); 
+- PASS CS (CHECK SUM); 
+- PASS Tb (TEST BLOCK); 
+- PASS LA (LOAD); 
+- FAIL CS (CHECK SUM); 
+- FAIL Tb (TEST BLOCK); 
+- FAIL Ld (LOAD). 
+
+The one exception is when an auto execute is performed after a successful load. The tape software will display each file as it is found and also echo the tape signal. 
+
+### MENU DRIVER 
+This is a universal routine used to select 
+- It is already used by the tape software 
+- various utilities routine from JMON. 
+- It may also be easily used by the TEC user.
+
+Call up the cassette software by pressing SHIFT and ZERO together. If you have not fitted a shift key, the cassette software can be addressed by pressing the address key, then the plus key, then zero. 
+
+To move forward through the MENU, press "+". To move backward, press "-". Notice the automatic FIRST-TO-LAST, LAST-TO-FIRST wrap around. Pressing "GO" will take you into the perimeter handler.  
+
+When a "GO" command is received, control is passed to the required routine via a 2-byte address stored at 0888 by the calling routine.  
+
+
+
+
+
+### Tape cct 
+
+### JMON monitor code
+
+
+
+## Theory on encoding for the tape part of DAT
 This can be done by changing the amplitude, frequency or phase of a periodic repeating wave.
 
 From www;
@@ -48,16 +99,6 @@ If we use a carrier frequency of 2 the result will look like
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/bpsk.jpg)
 
 There are still other methods as well see https://en.wikipedia.org/wiki/Phase-shift_keying
-
-### How to use the tape software
-
-
-### Tape cct 
-
-### JMON monitor code
-
-
-
 
 
 
