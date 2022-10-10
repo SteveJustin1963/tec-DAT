@@ -8,8 +8,7 @@ Finally in issue 15 we get a D_isplay A_nd T_ape (DAT) data system; an LCD 16x2 
 
 
 ### Tape software
-- 300 baud slow speed / 600 baud high speed
-- auto execution 
+- 300 baud slow speed / 600 baud high speed/  auto execution 
 - LOAD ,  selected /  next /  at address 
 - TEST tape; with check every page (256 bytes) / to memory block / 
   
