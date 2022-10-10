@@ -7,15 +7,25 @@ Finally in issue 15 we get a D_isplay A_nd T_ape (DAT) data system; an LCD 16x2 
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/ccvv55.png)
 
 
+### MENU DRIVER 
+This is a universal routine used to select 
+- It is already used by the tape software 
+- various utilities routine from JMON. 
+- It may also be easily used by the TEC user.
+
+To move forward through the MENU, press "+". To move backward, press "-". Notice the automatic FIRST-TO-LAST, LAST-TO-FIRST wrap around. Pressing "GO" will take you into the perimeter handler.  When a "GO" command is received, control is passed to the required routine via a 2-byte address stored at 0888 by the calling routine.  
+
+
 ### Tape software
-- 300 baud slow speed / 600 baud high speed/  auto execution 
-- LOAD ,  selected /  next /  at address 
-- TEST tape; with check every page (256 bytes) / to memory block / 
-  
-universal MENU driver and perimeter handler.  
+- Feature
+ - 300 baud slow speed / 600 baud high speed/  auto execution 
+ - LOAD ,  selected /  next /  at address 
+ - TEST tape; with check every page (256 bytes) / to memory block / 
+
+Access universal MENU driver and perimeter handler.  
+Call up the cassette software by pressing SHIFT and ZERO together. If you have not fitted a shift key, the cassette software can be addressed by pressing the address key, then the plus key, then zero. 
+ 
 - SAVE
-  - shift and zero at the same time, GO 
-  - or Address, "+","0" consecutively, GO
   - displays -F aka File and a random two-byte, replace with file number press "+" key
   - now shows "-S". start of the block you wish to save(output to tape). Enter 0900, and then press "+". 
   - now shows "-E." enter the address of the last byte of the block to be saved. Enter 090A and press "+". 
@@ -24,6 +34,7 @@ universal MENU driver and perimeter handler.
   - wait for the clear plastic leader to pass if at the start of a tape. Then press GO. 
   - The display will blank and a continuous tone will be heard from the speaker. After a few seconds the file information will be outputted and then a period of high frequency tone. This "middle sync" tone is to cover the time that the filename is displayed when reloading. 
 
+- LOAD
 
 - completion results showing:
   - END 
@@ -37,17 +48,6 @@ universal MENU driver and perimeter handler.
 
 The one exception is when an auto execute is performed after a successful load. The tape software will display each file as it is found and also echo the tape signal. 
 
-### MENU DRIVER 
-This is a universal routine used to select 
-- It is already used by the tape software 
-- various utilities routine from JMON. 
-- It may also be easily used by the TEC user.
-
-Call up the cassette software by pressing SHIFT and ZERO together. If you have not fitted a shift key, the cassette software can be addressed by pressing the address key, then the plus key, then zero. 
-
-To move forward through the MENU, press "+". To move backward, press "-". Notice the automatic FIRST-TO-LAST, LAST-TO-FIRST wrap around. Pressing "GO" will take you into the perimeter handler.  
-
-When a "GO" command is received, control is passed to the required routine via a 2-byte address stored at 0888 by the calling routine.  
 
 
 
