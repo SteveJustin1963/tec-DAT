@@ -6,7 +6,7 @@ Finally in issue 15 we get a D_isplay A_nd T_ape (DAT) data system; an LCD 16x2 
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/ccxx33.png)
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/ccvv55.png)
 
-## Some theory on simple analog data encoding
+## Theory on encoding
 This can be done by changing the amplitude, frequency or phase of a periodic repeating wave.
 
 From www;
@@ -49,7 +49,12 @@ If we use a carrier frequency of 2 the result will look like
 
 There are still other methods as well see https://en.wikipedia.org/wiki/Phase-shift_keying
 
-### lets unpack the jmon dat code and see how the encoding works
+### Tape cct 
+### tape operation
+### JMON monitor
+
+
+
 
 
 
