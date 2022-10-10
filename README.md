@@ -1,22 +1,12 @@
-# tec-DAT
-A TEC-1 D_isplay A_nd T_ape (DAT) data system using LCD display, for saving or loading programs and displaying 16x2 ASCII characters.  
-By Jim Robertson. It uses the JMON monitor code in ROM. https://github.com/SteveJustin1963/tec-MONITOR
+# tec-DAT TE-15, pg17, pg47 By Jim Robertson. 
 
-- TE-15, pg17, pg47
-- https://github.com/SteveJustin1963/tec-MAGAZINES/blob/master/talking_electronics_15.pdf
+Finally in issue 15 we get a D_isplay A_nd T_ape (DAT) data system; an LCD 16x2 ASCII characters and bit and character display with its own on board controller and an audio encoding and decoding program to save or load binary programs from audio cassette tape. It uses the JMON monitor code in ROM. 
 
 
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/ccxx33.png)
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/ccvv55.png)
 
-
-## Circuit
-https://easyeda.com/editor#id=5436587669434d578bdf98f6c96d4d5b
-
-The DAT encoding to tape ... see source code notes.
-
-background to encoding...
-## Theory on encoding data
+## Theory on simple signal encoding of data
 This can be done by changing the amplitude, frequency or phase of a periodic repeating wave.
 
 From www;
@@ -48,11 +38,11 @@ Another way is BPSK, binary phase-shift keying, this approach is essentially sam
 s(t) = A cos(2 Pi Fc t)      // digital 1 
 s(t) = A cos(2 Pi Fc t + Pi) // digital 0
 
-By adding in Pi we shift this signal to a different phase. We are once again using a carrier frequency but it will be the same frequency for both encoding a binary 0 and a binary 1 now. Because if you remember your trigonometric identities we can actually simplify this a bit further so when we want to encode a binary 0 we simply take the binary 1 signal and negate it and that is effectively the same as shifting the phase by PI. Therfore
-
+By adding in Pi we shift this signal to a different phase. We are once again using a carrier frequency but it will be the same frequency for both encoding a binary 0 and a binary 1 now. Because if you remember your trigonometric identities we can actually simplify this a bit further so when we want to encode a binary 0 we simply take the binary 1 signal and negate it and that is effectively the same as shifting the phase by PI. Therefore
+‘
 s(t) =   A cos(2 Pi Fc t)  // digital 1 
 s(t) = - A cos(2 Pi Fc t ) // digital 0
-
+‘
 If we use a carrier frequency of 2 the result will look like
 
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/bpsk.jpg)
@@ -61,7 +51,7 @@ There are other methods as well see https://en.wikipedia.org/wiki/Phase-shift_ke
 
 
 
-### other builds
+### Other DAT PCB builds
 - Brian Chiha
 "Okay, me again!.  LCD Particle Physics on a TEC-1F.    If you would like an Ultimate Add-On Board for the TEC-1F (board only).  Message me.  $14 inc. postage.  I'm still working on a ROM for the board, I plan to include Disassembler, 8x8 Games and TE Magazine code + extras"
 
@@ -95,6 +85,10 @@ It plugs in directly on top of the TEC-1F via header pins.   Here are some pictu
 
 ### References
 - https://hackaday.com/2018/10/07/reading-old-data-tapes-the-hard-way/
+- https://github.com/SteveJustin1963/tec-MAGAZINES/blob/master/talking_electronics_15.pdf
+- https://github.com/SteveJustin1963/tec-MONITOR
+- https://easyeda.com/editor#id=5436587669434d578bdf98f6c96d4d5b
+
 
 
 
