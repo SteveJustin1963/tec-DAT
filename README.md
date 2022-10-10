@@ -8,30 +8,43 @@ Finally in issue 15 we get a D_isplay A_nd T_ape (DAT) data system; an LCD 16x2 
 
 
 ### Tape software
-Functions include: 
-- 300 and 600 baud tape SAVE, 
-- auto execution, 
-- LOAD selected file, 
-- LOAD next file, 
-- LOAD at optional address, 
-- TEST tape to memory block and TEST tape check sum. Both tests may be combined with other options. 
 
-The tape software uses 
-- the universal MENU driver and perimeter handler. 
-- These routines allow easy selection of cassette functions (e.g. Load, Save, etc.) 
-- and easy passing of variables to the tape software. 
-- The tape software contains check-sum error detection that allows the user to know if the load has failed. A checksum compare is performed after every page (256 bytes) and also after the leader is loaded. This means the user does not need to wait until the end of a load or test for error detection. 
+  - 300 baud slow speed 
+  - 600 baud high speed
+  - auto execution
+- LOAD 
+  - selected
+  - next 
+  - at address 
+- TEST tape; every page (256 bytes) and also after the leader is loaded. 
+  - to memory block 
+  - check sum
+  - combined test with other options
+  - up to 16 pages can be displayed at a time
 
-- Each full page to be loaded, tested or saved, is displayed on the TEC LED display. Up to 16 pages are displayed. 
-- Upon completion of a tape operation, the MENU is re-entered with an appropriate display showing:
-- END 
-- S (END SAVE); 
-- PASS CS (CHECK SUM); 
-- PASS Tb (TEST BLOCK); 
-- PASS LA (LOAD); 
-- FAIL CS (CHECK SUM); 
-- FAIL Tb (TEST BLOCK); 
-- FAIL Ld (LOAD). 
+
+The tape software uses the universal MENU driver and perimeter handler.  
+- SAVE
+  - shift and zero at the same time, GO 
+  - or Address, "+","0" consecutively, GO
+  - displays -F aka File and a random two-byte, replace with file number press "+" key
+  - now shows "-S". start of the block you wish to save(output to tape). Enter 0900, and then press "+". 
+  - now shows "-E." enter the address of the last byte of the block to be saved. Enter 090A and press "+". 
+  - now shows "-G". OPTIONAL AUTO-GO address, default FFFF - NON-ACTIVE aka. NO AUTO-GO upon a re-load. ANY other value entered here will result in an automatic execution upon a SUCCESSFUL LOAD AT THE ADDRESS ENTERED HERE
+- press play and record on the tape recorder 
+  - wait for the clear plastic leader to pass if at the start of a tape. Then press GO. 
+  - The display will blank and a continuous tone will be heard from the speaker. After a few seconds the file information will be outputted and then a period of high frequency tone. This "middle sync" tone is to cover the time that the filename is displayed when reloading. 
+
+
+- completion results showing:
+  - END 
+  - S (END SAVE); 
+  - PASS CS (CHECK SUM); 
+  - PASS Tb (TEST BLOCK); 
+  - PASS LA (LOAD); 
+  - FAIL CS (CHECK SUM); 
+  - FAIL Tb (TEST BLOCK); 
+  - FAIL Ld (LOAD). 
 
 The one exception is when an auto execute is performed after a successful load. The tape software will display each file as it is found and also echo the tape signal. 
 
