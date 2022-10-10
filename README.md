@@ -6,7 +6,7 @@ Finally in issue 15 we get a D_isplay A_nd T_ape (DAT) data system; an LCD 16x2 
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/ccxx33.png)
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/ccvv55.png)
 
-## Theory on simple signal encoding of data
+## Some theory on simple analog data encoding
 This can be done by changing the amplitude, frequency or phase of a periodic repeating wave.
 
 From www;
@@ -34,15 +34,15 @@ Pick the values of `i` and the frequency in such a way that we span the range of
 
 
 Another way is BPSK, binary phase-shift keying, this approach is essentially same base formula as the others but now we will be changing the phase of our signal rather than the frequency or the amplitude. The formula looks like 
-
+```
 s(t) = A cos(2 Pi Fc t)      // digital 1 
 s(t) = A cos(2 Pi Fc t + Pi) // digital 0
-
+```
 By adding in Pi we shift this signal to a different phase. We are once again using a carrier frequency but it will be the same frequency for both encoding a binary 0 and a binary 1 now. Because if you remember your trigonometric identities we can actually simplify this a bit further so when we want to encode a binary 0 we simply take the binary 1 signal and negate it and that is effectively the same as shifting the phase by PI. Therefore
-‘
+```
 s(t) =   A cos(2 Pi Fc t)  // digital 1 
 s(t) = - A cos(2 Pi Fc t ) // digital 0
-‘
+```
 If we use a carrier frequency of 2 the result will look like
 
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/bpsk.jpg)
