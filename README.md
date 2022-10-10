@@ -9,9 +9,9 @@ Finally in issue 15 we get a D_isplay A_nd T_ape (DAT) data system; an LCD 16x2 
 
 ### MENU DRIVER 
 This is a universal routine used to select 
-- It is already used by the tape software 
 - various utilities routine from JMON. 
 - It may also be easily used by the TEC user.
+- It offers tape software 
 
 To move forward through the MENU, press "+". To move backward, press "-". Notice the automatic FIRST-TO-LAST, LAST-TO-FIRST wrap around. Pressing "GO" will take you into the perimeter handler.  When a "GO" command is received, control is passed to the required routine via a 2-byte address stored at 0888 by the calling routine.  
 
