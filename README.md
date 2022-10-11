@@ -1,7 +1,18 @@
 # tec-DAT TE-15, pg17, pg47 By Jim Robertson. 
 
-Finally in issue 15 we get a D_isplay A_nd T_ape (DAT) data system; an LCD 16x2 ASCII characters and bit and character display with its own on board controller and an audio encoding and decoding program to save or load binary programs from audio cassette tape. It uses the JMON monitor code in ROM. 
+In issue 15 we get a D_isplay A_nd T_ape (DAT) data system; 
+Need JMON monitor code in ROM. 
 
+DAT BOARD provides these functions:
+* 16x2 LCD display.
+* Cassette tape I/O interface.
+* Single stepper module.
+* 5 Buffered and latched input bits.
+* 1 Inverter for general use.
+* Diode clipped input line. (For RS232
+input)
+* MON select switch.
+ 
 ![image](https://user-images.githubusercontent.com/58069246/194963611-d41bad0c-b4dc-4c26-b323-f16f9e48dcba.png)
 ![image](https://user-images.githubusercontent.com/58069246/194963734-0883ac59-113a-43e6-a25a-58f0fb5ddad1.png)
 ![image](https://user-images.githubusercontent.com/58069246/194963815-36d04151-a8da-4b67-8188-45da40566032.png)
