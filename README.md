@@ -4,7 +4,7 @@ In issue 15 we get a D_isplay A_nd T_ape (DAT) data system;
 Need JMON monitor code in ROM. 
 
 DAT BOARD provides these functions:
-* 16x2 LCD display.
+* 16x2 LCD display. It has an embedded controller as well.
 * Cassette tape I/O interface.
 * Single stepper module.
 * 5 Buffered and latched input bits.
