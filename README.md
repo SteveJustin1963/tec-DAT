@@ -20,12 +20,11 @@ DAT BOARD provides
 From the article…
 
 ### MENU DRIVER 
-This is a universal routine used to select 
-- various utilities routine from JMON. 
-- It may also be easily used by the TEC user.
-- It offers tape software 
+with JMON are 
+- various utilities 
+- and tape software 
 
-To move forward through the MENU, press "+". To move backward, press "-". Notice the automatic FIRST-TO-LAST, LAST-TO-FIRST wrap around. Pressing "GO" will take you into the perimeter handler.  When a "GO" command is received, control is passed to the required routine via a 2-byte address stored at 0888 by the calling routine.  
+To move forward through  MENU, press "+", backward, press "-". Notice wrap around of choices. Press "GO" takes you into the perimeter handler (sub menu).  press "GO" again then control is passed to required routine via a 2-byte address stored at 0888 by the calling routine.  
 
 
 ### Tape software
