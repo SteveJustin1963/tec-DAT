@@ -20,9 +20,7 @@ see wiki
 
  
 ## Ben Grimmett
-![image](https://user-images.githubusercontent.com/58069246/213083493-99a21337-64b6-4089-8de4-12e46d6e11f4.png)
-
-![50480628_10155988682110869_7917208216545525760_n](https://user-images.githubusercontent.com/58069246/194762762-295da801-78b8-4ddc-8784-fa0a7b4743fa.jpg)
+![image](https://user-images.githubusercontent.com/58069246/213084866-9ef37d49-0787-4bee-8c27-a3b632ddba68.png)
 
 - uses z80 socket
 - allows room for eprom emulator board
