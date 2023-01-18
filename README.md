@@ -1,6 +1,10 @@
-# tec-DAT TE-15, pg17, pg47 By Jim Robertson. 
+# tec-DAT 
+- TE-15 By Jim Robertson
+  - pg17
+  - pg47
+- we get a D_isplay A_nd T_ape (DAT) data system; 
+- need JMON monitor to run display at this stage of revision.
 
-In issue 15 we get a D_isplay A_nd T_ape (DAT) data system; 
-Need JMON monitor code in ROM. 
+
 
 
