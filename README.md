@@ -21,4 +21,9 @@ see wiki
  
 ## BG Version
 
-![image](https://user-images.githubusercontent.com/58069246/213083297-f6c6bb5c-82cb-4d68-ba64-90a040616b07.png)
+![image](https://user-images.githubusercontent.com/58069246/213083493-99a21337-64b6-4089-8de4-12e46d6e11f4.png)
+
+- uses z80 socket
+- allows room for eprom emulator board
+- removed 5 digital inputs
+
