@@ -46,4 +46,264 @@ see wiki
   - plugs in directly on top of the TEC-1F via header pins
 
 
+\\\\\\\\\\\\\\\\\
+![image](https://user-images.githubusercontent.com/58069246/194963815-36d04151-a8da-4b67-8188-45da40566032.png)
+
+![image](https://user-images.githubusercontent.com/58069246/213081798-252876b8-6f4e-4a38-9460-87574991418e.png)
+
+![image](https://user-images.githubusercontent.com/58069246/213082340-afe1e256-bc56-4e52-adf9-4756c938b9f0.png)
+
+![image](https://user-images.githubusercontent.com/58069246/213083879-92184a62-b5b7-47d5-8ae6-df6216d9864b.png)
+
+![image](https://user-images.githubusercontent.com/58069246/213081906-802e885e-6195-4ec0-a6f7-d8fb87a7deda.png)
+
+![image](https://user-images.githubusercontent.com/58069246/213082010-15d121a9-a9f3-4754-85ba-6d49dc45afff.png)
+
+ 
+
+## MENU DRIVER 
+- various utilities 
+- and tape software 
+
+To move forward through  MENU, press "+", backward, press "-". Notice wrap around of choices. Press "GO" takes you into the perimeter handler (sub menu).  press "GO" again then control is passed to required routine via a 2-byte address stored at 0888 by the calling routine.  
+
+
+## Tape software
+- 300 baud slow speed / 600 baud high speed/  auto execution 
+- LOAD ,  selected /  next /  at address 
+- TEST tape; with check every page (256 bytes) / to memory block / 
+- clock speed dependant, affects baud
+
+To access universal MENU driver and perimeter handler.  
+Call up the cassette software by pressing SHIFT and ZERO together. If you have not fitted a shift key, the cassette software can be addressed by pressing the address key, then the plus key, then zero. AD + 0
+ 
+## SAVE
+- now shows SAVE-H, high speed, press GO
+- now shows hh-F, random two-byte, eg 4B-F, replace with file number say 00-F, press "+" key
+- now shows "-S". start of the block you wish to save(output to tape). Enter 0900, and then press "+". 
+- now shows "-E." enter the address of the last byte of the block to be saved. Enter 090A and press "+". 
+- now shows "-G". OPTIONAL AUTO-GO address, default FFFF - NON-ACTIVE aka. NO AUTO-GO upon a re-load. ANY other value entered here will result in an automatic execution upon a SUCCESSFUL LOAD AT THE ADDRESS ENTERED HERE
+- press play and record on the tape recorder 
+- wait for the clear plastic leader to pass if at the start of a tape. Then press GO. 
+- The display will blank and a continuous tone will be heard from the speaker. After a few seconds the file information will be outputted and then a period of high frequency tone. This "middle sync" tone is to cover the time that the filename is displayed when reloading. 
+- After the high tone, the code will be outputted and also a digit will appear on the TEC LED display. This is the number of COMPLETE pages to be saved. In this case it will be zero
+- When the code has been saved, a short end tone will be heard and then the menu will reappear with "-END-S", meaning end of save. Once the code has been saved, rewind the tape.  
+
+## LOAD
+- To reload the tape press the "+" key and you will see "SAVE-L" on the display, then "TEST-BL", "TEST-CS", then you will come to "LOAD-T" (for load tape). Note that there is no "TESTH" or "TEST-L" for low and high speeds as the test and load routine will load either speed automatically.  
+- Press GO. The data display shows "- F' for file number. This will be as you left it when you saved. When loading or testing from tape, the file number here determines which file will be subject to the selected operation. If you enter FFFF here, the next file found will be used, regardless of its file number
+- Next push "+". The data display will show "-S", meaning Start address. This is always set to H4114 by the software. The start address allows you to optionally load a file or test a file at an address different to the one on the tape, (which is the address from which it was saved). To demonstrate its operation and to make it a more convincing trial, we will enter 0A00. The file will now be loaded at 0A00. If you press the "+" key again, you will be back at the file name. (This last point demonstrates the programmable number of "windows" feature of the perimeter handler. It was set up for 2 "windows" by a short routine entered from the Menu driver before passing control to the Perimeter handler, remember that there was 4 "windows" when you saved the file). Now press GO
+
+## Completion results
+- END 
+- S (END SAVE); 
+- PASS CS (CHECK SUM); 
+- PASS Tb (TEST BLOCK); 
+- PASS LA (LOAD); 
+- FAIL CS (CHECK SUM); 
+- FAIL Tb (TEST BLOCK); 
+- FAIL Ld (LOAD). 
+- The one exception is when an auto execute is performed after a successful load. The tape software will display each file as it is found and also echo the tape signal. 
+
+
+
+ 
+
+
+
+## JMON monitor  
+
+## overall process 
+
+The tone encoding used in this code is Manchester encoding. It is a type of digital encoding in which data is encoded by the presence or absence of a transition (or edge) in the signal. In this code, a low frequency tone is used to represent a binary 0, and a high frequency tone is used to represent a binary 1. The tone routine L0686 uses the value in register C to determine whether to output a low or high frequency tone. The value in register L is used to control the duration of the tone, and is halved if the low-speed save option is enabled.
+
+- Prepare the data to be saved
+- Format the tape
+- Calibrate the tape drive
+- Run the Save Routine Preamble which shifts the file number, start address, and optional go address across to the Tape File Information Block, calculates the length of the block and transfers it to the Tape File Information Block, and check if the end address is lower than the start address, the routine will jump to display an error message
+- Final Tape Set-up by placing FFFF in the optional go window before entering the perimeter handler
+- Run the Tape Output Routine which outputs a leader of low frequency tone, the File Information Block, several seconds of high frequency middle sync, breaks the data up into blocks of 256 bytes and outputted with a checksum at the end of each block, showing a counter on the TEC LED display showing the number of complete blocks left, outputting an end of file high frequency tone at the end.
+- Input the tape by running the Tape Input Loop which detects a valid leader by counting 1000 cycles of low frequency tone, waits until it detects the start bit of the File Information Block, loads the block in and does a checksum compare, tests the file number window, and the optional start window, then loads and tests the data blocks, verifies that the correct number of bytes have been read in and loaded, clears the Tape File Information Block and the optional go address, checks that the end address is not lower than the start address, and jumps to the next operation or returns to the main program.
+
+##  more detailed
+1. The Save Routine Preamble:
+- Shifts the file number, start address, and optional go address across to the Tape File Information Block
+- Calculates the length of the block and transfers it to the Tape File Information Block
+- If the end address is lower than the start address, the routine will jump to display an error message
+
+2. Final Tape Set-up:
+- Places FFFF in the optional go window before entering the perimeter handler
+
+3. Tape Output Routine:
+- Outputs a leader of low frequency tone
+- Outputs the File Information Block
+- Outputs several seconds of high frequency middle sync
+- The data is broken up into blocks of 256 bytes and outputted with a checksum at the end of each block
+- A counter is shown on the TEC LED display showing the number of complete blocks left
+- If there is an odd-sized block, it is outputted as the last block
+- Outputs an end of file high frequency tone at the end.
+
+4. Tape Input Loop:
+- Detects a valid leader by counting 1000 cycles of low frequency tone
+- Waits until it detects the start bit of the File Information Block
+- The block is loaded in and a checksum compare is done
+- If an error is detected, the routine jumps to display "FAIL -XX", otherwise the file number is converted to display format and displayed for a few seconds.
+- Test is done on the required file number window, if it is FFFF, the routine skips ahead to load/test the file.
+- Otherwise, the required file number is subtracted from the just loaded file number.
+- If the result is zero, then the file is the one selected and is loaded/tested.
+- The optional start window is tested for FFFF.
+- If it is, the start address from the tape is used.
+- If the optional start buffer has something other than FFFF, then the address here is used as the start address to load/test the tape.
+- The Tape Input Routine loads and tests the data blocks from the tape.
+- The blocks of data are read in and checked for errors using the checksum at the end of each block.
+- A counter is shown on the TEC LED display showing the number of complete blocks left to be read in.
+- If there is an odd-sized block, it is read in as the last block.
+- After all the blocks have been read in, the routine checks for the end of file high frequency tone.
+- If the tone is not detected, the routine will jump to display an error message.
+- The routine verifies that the correct number of bytes have been read in and loaded
+- Clears the Tape File Information Block and the optional go address
+- The end address is checked against the start address, if end is lower than start, the routine will jump to display an error message.
+- The routine then jumps to the next operation or returns to the main program.
+
+
+
+## tones generating and decoding
+tones are generated using a software-based approach. The code uses two routines, L0684 and L0680, to output high and low tones respectively. These routines take a single argument, the duration of the tone in machine cycles.
+
+The high tone routine (L0684) loads the value 11H into register C and then jumps to the tone generation routine L0686. The low tone routine (L0680) loads the value 0x29 into register C and then jumps to the same tone generation routine L0686.
+
+The tone generation routine L0686 checks if the save is in low speed and if so, it halves the cycle count in L. It then repeatedly outputs a square wave on the speaker by toggling the speaker bit in a port and delaying for the number of cycles specified in C.
+
+Decoding the tones is done in another routine, L0630. This routine waits for the signal to change from high to low and then measures the duration of the low signal. Depending on the duration of the low signal, the routine can determine if the incoming signal is a binary 0 or a binary 1.
+
+In the code provided, the high tone corresponds to a binary 1 and the low tone corresponds to a binary 0. Once the tones are decoded, they are used to reconstruct the file information block that was previously saved on tape.
+
+## L0684 
+- is a label that marks the location in memory where the routine starts
+- The instruction "LD C, 11H" loads the value 11H (decimal 17) into the C register. This value represents the number of cycles that the high tone will be played for
+- The instruction "CALL L0684" transfers program execution to the L0684 routine (in this case, it is the same as the instruction "JR L0686")
+- The instruction "LD C, 11H" sets the cycle count for the high tone.
+- The instruction "JR L0686" jumps to the subroutine L0686, where the tone is generated.
+
+## L0680
+- Load register C with the value 0x29 (41 in decimal)
+- Jump to the tone routine (L0686)
+- The L0680 routine sets up for generating a low tone (long period) by loading the value 0x29 (41 in decimal) into register C. This value will be used as a delay in the tone routine (L0686) to generate the low tone.
+
+## L0686:
+- Loads the value 29 into register C
+- Jumps to the "tone routine" at L0686
+
+L0680:
+- Loads the value 29 into register C
+- Jumps to the "tone routine" at L0686 (identical to the instruction at L0686)
+- As for the tone routine, It is responsible for producing the tone for the tape. 
+  - The routine at L0686 sets up the length of the tone, either low or high, by loading the value of the cycle count into register C. 
+  - At L0680, it sets up a low tone (long period) and at L0684, it sets up a high tone (short period). 
+  - The tone is produced by outputting a square wave to the speaker, with a cycle count specified by the value in register C, the delay between each change of the wave is generated by DJNZ instruction. 
+  - It tests for low speed save and if so, it halves the cycle count in L. Finally it returns to the calling routine.
+
+## L0630:
+- Calls a period routine to determine the duration of a tone.
+- If the tone is a low tone, it jumps to L0531.
+- If the tone is high tone, it decrements the value in register BC.
+- Then it checks if the value in BC is zero.
+- If it is not zero, it loops back to call the period routine again.
+- If it is zero, it indicates that a valid file follows and continues with the next instruction.
+
+## L0531: 
+- Routine to load and check a file information block from tape
+- Initialize BC register with value 0x1000 to count number of cycles
+- Call L0630 (Period) routine
+- Loop until low tone is detected, decrement BC and check if it reaches zero
+- If BC reaches zero, continue to next step.
+- Load B with value 0x0C and HL with value 0x08A4, pointer to file information block input buffer.
+- Call L0630 (Period) routine and wait for low tone to end
+- Call L05E7 (Inblock) to get file information block
+- If there is an error, jump to L05A1 (Fail load routine)
+- Else, load BC with value 0x0800 to point to display buffer
+- Load HL with value from L08A4 (file number) and call L0830 (Convert) to convert HL to display code
+- Load A with value 0x47 and put "F" in display buffer for "File"
+- Load BC with value 0x01F2 (display on time)
+- Push BC to stack, call L0836 (Scan) and pop BC
+- Decrement BC and check if it is zero, if not loop back to step 13.
+
+
+## General Theory on encoding data onto tape 
+The DAT uses freq for 0 and 1, see monitor code for comments
+
+This can be done by changing the 
+- amplitude, 
+- frequency 
+- or phase 
+of a periodic repeating wave.
+
+
+## ASK
+For example one approach is known as ASK, `amplitude shift keying` and this approach involves having a way that either has a positive amplitude or an amplitude of zero to encode the bits 1 and 0. 
+```
+s(t) = A cos(2 Pi Fc t), for 1 then A>0, 0 for A=0
+```
+The formula over time looks like this so s is the function for the signal voltage that is being transmitted and T is the current time of the transmission and if we are encoding a binary 1 at that time then the signal is some amplitude times cosine of 2 pi times some carrier frequency times the time. otherwise 0 is the voltage of
+the signal so we can see what this looks like in the following example.
+
+The delineation of each signal element I'll be encoding this binary string using amplitude shift keying so whenever there is a 0 we simply have a flat line of 0 voltage but whenever there is a 1 we will have some wave with the given amplitude. The number of ripples within a single signal element depends on what the carrier frequency is but it ultimately doesn't matter too much for how ASK works it's just a matter of a technical detail so here when we're encoding ones we have a wave that's fluctuating and then when we go back to 0 we have a flat line again then for the one will have wave again then flat for zero then waving for the one that's throughout here as well and etc.
+
+## FSK
+Instead of changing the amplitude we could instead change the `frequency` and one scheme for doing this is 
+- BFSK, binary frequency shift keying. There's another scheme called 
+- MFSK, multi frequency shift keying where we can encode more signals in just zeros and ones but if we're only encoding zeros and ones we have a formula that looks like the following
+```
+s(t) = A cos(2 Pi Fc1 t) // digital 1 f1
+s(t) = A cos(2 Pi Fc2 t) // digital 0 f2
+```
+This function like the previous one encodes the signal as a function of time and we still have an amplitude cosine and a 2pi the only difference between encoding a one or a zero is that the frequencies are different. We have one frequency that we'll use for encoding a binary 1 and a different frequency for encoding a binary 0.
+
+for MFSK or more than 2 frequencies we can use multiple frequency shift keying and the formula looks like the following
+```
+s(t) = A cos(2 Pi Fci t) // 1<i<M 
+```
+Pick the values of `i` and the frequency in such a way that we span the range of possible values we're encoding so `i` will actually be in a given range and we will spread the frequencies out within that range to make sure that each of them is distinct. But as the number of different frequencies increases it increasingly is difficult to discern the distinction between different frequencies. There is a risk of having trouble discerning the signal.
+
+## BPSK
+Another way is BPSK, binary phase-shift keying, this approach is essentially same base formula as the others but now we will be changing the phase of our signal rather than the frequency or the amplitude. The formula looks like 
+```
+s(t) = A cos(2 Pi Fc t)      // digital 1 
+s(t) = A cos(2 Pi Fc t + Pi) // digital 0
+```
+By adding in Pi we shift this signal to a different phase. We are once again using a carrier frequency but it will be the same frequency for both encoding a binary 0 and a binary 1 now. Because if you remember your trigonometric identities we can actually simplify this a bit further so when we want to encode a binary 0 we simply take the binary 1 signal and negate it and that is effectively the same as shifting the phase by PI. Therefore
+```
+s(t) =   A cos(2 Pi Fc t)  // digital 1 
+s(t) = - A cos(2 Pi Fc t ) // digital 0
+```
+If we use a carrier frequency of 2 the result will look like
+
+![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/bpsk.jpg)
+
+There are still other methods .... https://en.wikipedia.org/wiki/Phase-shift_keying
+
+
+
+
+##  Iterate
+
+- https://www.facebook.com/groups/AusVintage/search/?query=DAT&epa=SEARCH_BOX
+- analyze Jims comments on JMON code and flow chart the comments and code 
+- explain how the systems work wrt DAT
+- theory of presented methodology
+- Screen upgrade
+- LCD; 20 x 4 
+- LCD 128 X 64 
+- I2C OLED
+- Composite Video
+- VGA
+
+##  References
+- https://hackaday.com/2018/10/07/reading-old-data-tapes-the-hard-way/
+- https://github.com/SteveJustin1963/tec-MAGAZINES/blob/master/talking_electronics_15.pdf
+- https://github.com/SteveJustin1963/tec-MONITOR
+- https://easyeda.com/editor#id=5436587669434d578bdf98f6c96d4d5b
+
+
+
 
