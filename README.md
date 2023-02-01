@@ -1,8 +1,10 @@
 # tec-DAT 
-see wiki
 
 ## By Jim Robertson
-  TE-15 pg17 and pg47
+https://github.com/SteveJustin1963/tec-BOOKS/blob/master/TE/Mag/talking_electronics_15.pdf
+
+TE-15 pg17 and pg47
+
 - we get a 2 line LCD Display (2x16) and a audio tape interface (audio jack) to tape casette deck 
 - code is in the JMON monitor
 
