@@ -19,7 +19,10 @@ TE-15 pg17 and pg47
 - Diode clipped input line. (For RS232 input)
 - MON select switch.
 
-
+Plenty of tec nuts have played and built the dat and the lcd display and more
+- https://www.facebook.com/groups/623556744820045/search/?q=dat
+- https://www.facebook.com/groups/623556744820045/search/?q=lcd
+- etc
  
 ## Ben Grimmett
 ![image](https://user-images.githubusercontent.com/58069246/213084866-9ef37d49-0787-4bee-8c27-a3b632ddba68.png)
