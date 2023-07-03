@@ -259,21 +259,40 @@ The delineation of each signal element I'll be encoding this binary string using
 ## `ask.c`
 code will output a sinusoidal wave for each binary 1 in your input and a flat line for each binary 0, simulating the ASK modulation scheme. Note that I've used the cos function instead of sin as in your original code, since cos(0) = 1 and sin(0) = 0, which fits better for representing the start of a signal element in ASK.
 
-## FSK
-Instead of changing the amplitude we could instead change the `frequency` and one scheme for doing this is 
-- BFSK, binary frequency shift keying. There's another scheme called 
-- MFSK, multi frequency shift keying where we can encode more signals in just zeros and ones but if we're only encoding zeros and ones we have a formula that looks like the following
-```
-s(t) = A cos(2 Pi Fc1 t) // digital 1 f1
-s(t) = A cos(2 Pi Fc2 t) // digital 0 f2
-```
-This function like the previous one encodes the signal as a function of time and we still have an amplitude cosine and a 2pi the only difference between encoding a one or a zero is that the frequencies are different. We have one frequency that we'll use for encoding a binary 1 and a different frequency for encoding a binary 0.
+## Frequency Shift Keying (FSK -BFSK)
 
-for MFSK or more than 2 frequencies we can use multiple frequency shift keying and the formula looks like the following
+In digital communication, rather than altering the amplitude, we can change the `frequency` as a method of data encoding. A common scheme that utilizes this approach is Binary Frequency Shift Keying (BFSK).
+
+In BFSK, the signal is defined as a function of time, maintaining a consistent amplitude cosine and 2π. The difference between encoding a digital 1 or a digital 0 lies in the frequencies used. 
+
+Here's how the frequency encoding works in BFSK:
+
+- For digital 1, the signal is represented as: 
+    ```
+    s(t) = A cos(2 Pi Fc1 t)
+    ```
+
+- For digital 0, the signal changes to:
+    ```
+    s(t) = A cos(2 Pi Fc2 t)
+    ```
+
+In these formulas, `s(t)` is the signal as a function of time, `A` is the amplitude, `Fc1` and `Fc2` are the carrier frequencies for digital 1 and digital 0, respectively.
+
+A simple BFSK implementation in C could switch the carrier frequency between these two different frequencies based on whether the binary input is a 1 or 0.
+
+## Multi Frequency Shift Keying (MFSK)
+
+Beyond binary, we can encode more diverse signals using Multi Frequency Shift Keying (MFSK), where the signal frequency can shift among more than two values. In MFSK, the formula for encoding is:
+
 ```
 s(t) = A cos(2 Pi Fci t) // 1<i<M 
 ```
-Pick the values of `i` and the frequency in such a way that we span the range of possible values we're encoding so `i` will actually be in a given range and we will spread the frequencies out within that range to make sure that each of them is distinct. But as the number of different frequencies increases it increasingly is difficult to discern the distinction between different frequencies. There is a risk of having trouble discerning the signal.
+
+Here, `M` represents the number of different frequencies or the number of possible values we are encoding, and `i` is a given value within that range. The frequency `Fci` should be chosen to span the range of possible values we're encoding. 
+
+The frequencies should be spread out within that range to ensure each is unique. However, as the number of different frequencies increases, it becomes more challenging to distinguish between them. This increases the risk of having trouble discerning the signal.
+
 
 ## BPSK
 Another way is BPSK, binary phase-shift keying, this approach is essentially same base formula as the others but now we will be changing the phase of our signal rather than the frequency or the amplitude. The formula looks like 
