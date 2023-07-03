@@ -201,7 +201,7 @@ In the code provided, the high tone corresponds to a binary 1 and the low tone c
 - Loads the value 29 into register C
 - Jumps to the "tone routine" at L0686
 
-L0680:
+## L0680:
 - Loads the value 29 into register C
 - Jumps to the "tone routine" at L0686 (identical to the instruction at L0686)
 - As for the tone routine, It is responsible for producing the tone for the tape. 
