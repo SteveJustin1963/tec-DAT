@@ -256,6 +256,9 @@ the signal so we can see what this looks like in the following example.
 
 The delineation of each signal element I'll be encoding this binary string using amplitude shift keying so whenever there is a 0 we simply have a flat line of 0 voltage but whenever there is a 1 we will have some wave with the given amplitude. The number of ripples within a single signal element depends on what the carrier frequency is but it ultimately doesn't matter too much for how ASK works it's just a matter of a technical detail so here when we're encoding ones we have a wave that's fluctuating and then when we go back to 0 we have a flat line again then for the one will have wave again then flat for zero then waving for the one that's throughout here as well and etc.
 
+## `ask.c`
+code will output a sinusoidal wave for each binary 1 in your input and a flat line for each binary 0, simulating the ASK modulation scheme. Note that I've used the cos function instead of sin as in your original code, since cos(0) = 1 and sin(0) = 0, which fits better for representing the start of a signal element in ASK.
+
 ## FSK
 Instead of changing the amplitude we could instead change the `frequency` and one scheme for doing this is 
 - BFSK, binary frequency shift keying. There's another scheme called 
