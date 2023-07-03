@@ -290,7 +290,13 @@ If we use a carrier frequency of 2 the result will look like
 
 ![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/bpsk.jpg)
 
-There are still other methods .... https://en.wikipedia.org/wiki/Phase-shift_keying
+
+`code bpsk.c` the binary 1 and binary 0 signals are in the same frequency, but they are out of phase by π radians. Here's a simple program that demonstrates this:
+This program receives the amplitude, frequency, initial time, and time interval from the user. It then generates a BPSK signal based on the given binary input array. The program prints a cosine wave for binary 1 and a negated cosine wave for binary 0, representing the phase shift, note, this program is just a simple illustration of BPSK and does not handle many aspects of real-world communication, such as noise, synchronization, or recovery of the original data from the phase-shifted signal.
+
+
+
+
 
 
 
@@ -307,13 +313,16 @@ There are still other methods .... https://en.wikipedia.org/wiki/Phase-shift_key
 - I2C OLED
 - Composite Video
 - VGA
+- 
+
+
 
 ##  References
 - https://hackaday.com/2018/10/07/reading-old-data-tapes-the-hard-way/
 - https://github.com/SteveJustin1963/tec-MAGAZINES/blob/master/talking_electronics_15.pdf
 - https://github.com/SteveJustin1963/tec-MONITOR
 - https://easyeda.com/editor#id=5436587669434d578bdf98f6c96d4d5b
-
+- https://en.wikipedia.org/wiki/Phase-shift_keying
 
 
 
