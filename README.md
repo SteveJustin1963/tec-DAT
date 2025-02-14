@@ -49,8 +49,8 @@ TE-15 pg17 and pg47
                    ▼
             Check Input Mode
                    │
-         ┌─────────┴─────────┐
-         ▼                   ▼
+         ┌─────────┴──────────┐
+         ▼                    ▼
     Data Mode           Address/Function Mode
     [00D0-00E1]         [0102-017F]
          │                    │
@@ -77,14 +77,14 @@ Process Key Input [0181-01E5]
     │         │
     ▼         ▼
    Yes        No
-   │          │
-   │          └───────┐
-   ▼                  ▼
+    │          │
+    │          └───────┐
+    ▼                  ▼
 Inc Address    Stay at Current Address
-   │                  │
-   └──────────────────┘
-         │
-         ▼
+    │                  │
+    └──────────────────┘
+            │
+            ▼
     Back to Main Loop
 ```
 
@@ -121,7 +121,7 @@ Tape Operations [04F0-05FD]
 ```
 
 ```
-POWER ON/RESET [0000]
+              POWER ON/RESET [0000]
                          │
                          ▼
               Initialize JMON [0000-006A]
@@ -160,11 +160,11 @@ Display    Keys         [03E3]        Control
          │    │  [0686] │  │[0630]│       │
          │    │Tone Gen │  │Decode│       │
          │    └────┬────┘  └──┬───┘       │
-         │         │         │            │
-         │    ┌────┴────┬────┴───┐        │
-         │    ▼         ▼        ▼        │
+         │         │          │           │
+         │    ┌────┴────┬─────┴───┐       │
+         │    ▼         ▼         ▼       │
          │  High      Low     Checksum    │
-         │  [0684]   [0680]  Verify       │
+         │  [0684]   [0680]   Verify      │
          │    │         │     [04F0]      │
          │    └────┬────┘      │          │
          │         ▼           │          │
