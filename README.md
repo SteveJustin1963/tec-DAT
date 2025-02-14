@@ -30,7 +30,7 @@ TE-15 pg17 and pg47
 
  
 ```
-POWER ON/RESET
+                   POWER ON/RESET
                          │
                          ▼
                    Initialize JMON
