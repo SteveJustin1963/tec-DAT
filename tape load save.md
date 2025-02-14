@@ -46,36 +46,36 @@ All memory locations and port I/O operations are included.
 ; SAVE ROUTINES
 ;-----------------------------------------------
 ; Save pre-amble - Sets up file information
-SAVE_SETUP:           ; 0450-046F
-    LD HL,(089E)      ; Get optional go address
-    LD (08AA),HL      ; Store in output buffer
-    LD HL,(089A)      ; Get start address
-    LD (08A6),HL      ; Store in file info buffer
+SAVE_SETUP:
+    LD HL,(089Eh)     ; Get optional go address
+    LD (08AAh),HL     ; Store in output buffer
+    LD HL,(089Ah)     ; Get start address
+    LD (08A6h),HL     ; Store in file info buffer
     EX DE,HL          ; Start address to DE
-    LD HL,(089C)      ; Get end address
-    OR A              ; Clear carry 
+    LD HL,(089Ch)     ; Get end address
+    OR A              ; Clear carry
     SBC HL,DE         ; Calculate block size
     INC HL            ; Add 1 for count
-    JP C,004A         ; If end < start, error
-    LD (08A8),HL      ; Store byte count
-    LD HL,(0898)      ; Get file number
-    LD (08A4),HL      ; Store in info block
+    JP C,004Ah        ; If end < start, error
+    LD (08A8h),HL     ; Store byte count
+    LD HL,(0898h)     ; Get file number
+    LD (08A4h),HL     ; Store in info block
     JP SAVE_MAIN      ; Go to main save routine
 
 ; Main save routine
-SAVE_MAIN:           ; 04F0-052E 
-    LD HL,3000        ; Leader cycles
+SAVE_MAIN:
+    LD HL,3000h       ; Leader cycles
     CALL LOW_TONE     ; Output leader
-    LD HL,08A4        ; Point to file info
-    LD B,0C           ; 12 bytes to output
+    LD HL,08A4h       ; Point to file info
+    LD B,0Ch          ; 12 bytes to output
     XOR A             ; Clear checksum
     CALL OUT_BLOCK    ; Output file info
-    LD HL,5000        ; Mid sync cycles
+    LD HL,5000h       ; Mid sync cycles
     CALL HIGH_TONE    ; Output sync
-    LD HL,(08A6)      ; Get data start address
+    LD HL,(08A6h)     ; Get data start address
 
 SAVE_LOOP:
-    LD BC,(08A8)      ; Get byte count
+    LD BC,(08A8h)     ; Get byte count
     CALL CONVERT_BLOCK ; Convert for display
     JR NZ,SAVE_BLOCK  ; If full block
     LD A,B            ; Check remaining
@@ -86,7 +86,7 @@ SAVE_LOOP:
 SAVE_BLOCK:
     PUSH AF           ; Save status
     EXX
-    LD HL,0214        ; Short sync
+    LD HL,0214h       ; Short sync
     CALL HIGH_TONE
     EXX
     XOR A             ; Clear checksum
@@ -95,17 +95,17 @@ SAVE_BLOCK:
     JR NZ,SAVE_LOOP   ; Continue if more
 
 SAVE_END:
-    LD HL,1000        ; End tone length
+    LD HL,1000h       ; End tone length
     CALL HIGH_TONE    ; Output end marker
-    LD A,05           ; End display
-    JP 03E6           ; Return to menu
+    LD A,05h          ; End display
+    JP 03E6h          ; Return to menu
 
 ;-----------------------------------------------
 ; LOAD ROUTINES
 ;-----------------------------------------------
 ; Main load routine
-LOAD_START:          ; 0531-05B4
-    LD BC,1000        ; Leader detect count
+LOAD_START:
+    LD BC,1000h       ; Leader detect count
 
 LOAD_DETECT:
     CALL MEASURE_PERIOD ; Check input
@@ -115,26 +115,26 @@ LOAD_DETECT:
     OR C              ; Check if enough
     JR NZ,LOAD_DETECT
 
-    LD B,0C           ; 12 bytes to read
-    LD HL,08A4        ; File info buffer
+    LD B,0Ch          ; 12 bytes to read
+    LD HL,08A4h       ; File info buffer
     CALL MEASURE_PERIOD ; Wait for sync
     JR NC,LOAD_DETECT
     CALL READ_BLOCK   ; Get file info
     JR NZ,LOAD_FAIL   ; Exit if error
 
-    LD HL,(0898)      ; Get wanted file number  
+    LD HL,(0898h)     ; Get wanted file number
     INC HL
     LD A,H
     OR L              ; Check if FFFF
     DEC HL
     JR Z,LOAD_DATA    ; Accept any file
-    LD DE,(08A4)      ; Get tape file number
+    LD DE,(08A4h)     ; Get tape file number
     OR A
     SBC HL,DE         ; Compare numbers
     JR NZ,LOAD_START  ; Try next if no match
 
 LOAD_DATA:
-    LD BC,(08A8)      ; Get byte count
+    LD BC,(08A8h)     ; Get byte count
     CALL CONVERT_BLOCK ; Show block number
     JR NZ,LOAD_BLOCK  ; If full block
     LD A,B            ; Check if done
@@ -165,20 +165,20 @@ LOAD_END:
 ; SUPPORT ROUTINES
 ;-----------------------------------------------
 ; Convert block count for display
-CONVERT_BLOCK:       ; 05C9-05E2
+CONVERT_BLOCK:
     LD A,B            ; Get count
-    AND 0F            ; Mask to digit
-    LD DE,07D0        ; Display table
+    AND 0Fh           ; Mask to digit
+    LD DE,07D0h       ; Display table
     ADD A,E           ; Add offset
     LD E,A
     LD A,(DE)         ; Get display code
-    OUT (02),A        ; Show count
+    OUT (02h),A       ; Show count
     LD A,B
     OR A              ; Test count
     JR Z,LAST_BLOCK   ; If zero
     DEC B             ; Count down
-    LD (08A8),BC      ; Save count
-    LD B,00           ; 256 byte block
+    LD (08A8h),BC     ; Save count
+    LD B,00h          ; 256 byte block
     OR A              ; Clear zero
     RET
 LAST_BLOCK:
@@ -186,11 +186,11 @@ LAST_BLOCK:
     RET
 
 ; Output block of bytes
-OUT_BLOCK:          ; 064A-0656
+OUT_BLOCK:
     EX AF,AF'         ; Save checksum
     LD E,(HL)         ; Get byte
     ADD A,E           ; Add to sum
-    EX AF,AF'         ; Save new sum  
+    EX AF,AF'         ; Save new sum
     CALL OUT_BYTE     ; Output byte
     INC HL            ; Next byte
     DJNZ OUT_BLOCK    ; Do all bytes
@@ -200,8 +200,8 @@ OUT_BLOCK:          ; 064A-0656
     RET
 
 ; Output single byte
-OUT_BYTE:           ; 0657-0665
-    LD D,08           ; 8 bits
+OUT_BYTE:
+    LD D,08h          ; 8 bits
     OR A              ; Clear carry
     CALL OUT_BIT      ; Output start bit
 OUT_BITS:
@@ -213,51 +213,51 @@ OUT_BITS:
     JR OUT_BIT        ; Output it
 
 ; Output single bit
-OUT_BIT:            ; 0666-067F
+OUT_BIT:
     EXX               ; Save regs
-    LD H,00
+    LD H,00h
     JR C,OUT_ONE      ; If outputting 1
-    LD L,10           ; High tone count
+    LD L,10h          ; High tone count
     CALL HIGH_TONE
-    LD L,04           ; Low tone count
+    LD L,04h          ; Low tone count
     JR OUT_LOW
 OUT_ONE:
-    LD L,08           ; High tone count
+    LD L,08h          ; High tone count
     CALL HIGH_TONE
-    LD L,08           ; Low tone count
+    LD L,08h          ; Low tone count
 OUT_LOW:
     CALL LOW_TONE
     EXX               ; Restore regs
     RET
 
-; Generate tones 
-LOW_TONE:           ; 0680-0682
-    LD C,29           ; Low frequency
+; Generate tones
+LOW_TONE:
+    LD C,29h          ; Low frequency
     JR TONE_GEN
 
-HIGH_TONE:          ; 0684-0685
-    LD C,11           ; High frequency
+HIGH_TONE:
+    LD C,11h          ; High frequency
 
-TONE_GEN:           ; 0686-069E
-    LD A,(088F)       ; Check speed
+TONE_GEN:
+    LD A,(088Fh)      ; Check speed
     OR A              ; Zero = high speed
     JR NZ,TONE_SLOW
     SRL L             ; Halve cycles for high speed
 TONE_SLOW:
-    LD DE,0001
-    LD A,84           ; Speaker on
-    OUT (01),A
+    LD DE,0001h
+    LD A,84h          ; Speaker on
+    OUT (01h),A
 TONE_LOOP:
     LD B,C            ; Period count
     DJNZ $            ; Delay
-    XOR 80            ; Toggle speaker
+    XOR 80h           ; Toggle speaker
     SBC HL,DE         ; Count cycles
     JR NZ,TONE_LOOP
     RET
 
 ; Read block of bytes
-READ_BLOCK:         ; 05E3-05FD
-    LD A,(088A)       ; Get operation
+READ_BLOCK:
+    LD A,(088Ah)      ; Get operation
     LD C,A
     XOR A             ; Clear checksum
 READ_LOOP:
@@ -290,9 +290,9 @@ READ_NEXT:
     JR READ_LOOP      ; Do next byte
 
 ; Read single byte
-READ_BYTE:          ; 060B-0617
+READ_BYTE:
     CALL READ_BIT     ; Get start bit
-    LD D,08           ; 8 bits
+    LD D,08h          ; 8 bits
 READ_BITS:
     CALL READ_BIT     ; Get bit
     RR E              ; Store in E
@@ -301,9 +301,9 @@ READ_BITS:
     RET
 
 ; Read single bit
-READ_BIT:           ; 0618-062F
+READ_BIT:
     EXX               ; Save regs
-    LD HL,0000        ; Clear count
+    LD HL,0000h       ; Clear count
 READ_PERIOD:
     CALL MEASURE_PERIOD ; Check input
     JR C,READ_SHORT   ; If short period
@@ -320,24 +320,24 @@ READ_SHORT:
     RET
 
 ; Measure tape input period
-MEASURE_PERIOD:     ; 0630-0649
-    LD DE,0000        ; Clear count
+MEASURE_PERIOD:
+    LD DE,0000h       ; Clear count
 PERIOD_HIGH:
-    IN A,(03)         ; Read input
+    IN A,(03h)        ; Read input
     INC DE            ; Count period
     RLA               ; Test level
     JR NC,PERIOD_HIGH ; Wait for high
     XOR A             ; Speaker feedback
-    OUT (01),A
+    OUT (01h),A
 PERIOD_LOW:
-    IN A,(03)         ; Read input
+    IN A,(03h)        ; Read input
     INC DE            ; Count period
     RLA
     JR C,PERIOD_LOW   ; Wait for low
-    LD A,84           ; Speaker feedback
-    OUT (01),A
+    LD A,84h          ; Speaker feedback
+    OUT (01h),A
     LD A,E            ; Get count
-    CP 1A             ; Compare threshold
+    CP 1Ah            ; Compare threshold
     RET               ; Return with flags
 ```
 
