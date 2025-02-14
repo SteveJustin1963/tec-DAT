@@ -131,7 +131,7 @@ POWER ON/RESET [0000]
                 ▼                   ▼
          Normal Monitor        SHIFT+0 or AD+0
          Operations            (Tape Software)
-         │                          │
+         │                         │
     ┌────┴────┐             ┌──────┴──────┐
     ▼         ▼             ▼             ▼
 Update     Process      MENU DRIVER    Hardware
@@ -148,14 +148,14 @@ Display    Keys         [03E3]        Control
          │       │Perimeter Handler│   │
          │       │     [0479]      │   │
          │       └────────┬────────┘   │
-         │                  ▼          │
+         │                ▼            │
          │         Parameter Entry     │
-         │         [04F0-04FF]        │
-         │                  │          │
-         │            ┌────┴────┐     │
-         │            ▼         ▼     │
-         │         SAVE       LOAD     │
-         │          │          │      │
+         │         [04F0-04FF]         │
+         │               │           │
+         │          ┌────┴────┐      │
+         │          ▼         ▼      │
+         │        SAVE       LOAD    │
+         │         │          │      │
          │    ┌────┴────┐  ┌──┴───┐  │
          │    │  [0686] │  │[0630]│  │
          │    │Tone Gen │  │Decode│  │
@@ -164,7 +164,7 @@ Display    Keys         [03E3]        Control
          │    ┌────┴────┬────┴───┐   │
          │    ▼         ▼        ▼    │
          │  High      Low     Checksum │
-         │  [0684]   [0680]  Verify   │
+         │  [0684]   [0680]  Verify    │
          │    │         │     [04F0]   │
          │    └────┬────┘      │      │
          │         ▼           │      │
@@ -174,7 +174,7 @@ Display    Keys         [03E3]        Control
          │         └─────┬─────┘      │
          │               ▼            │
          │      Status Display        │
-         │      [05A1-05B4]          │
+         │      [05A1-05B4]           │
          │               │            │
          └───────────────┴────────────┘
 
