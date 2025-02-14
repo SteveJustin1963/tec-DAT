@@ -29,6 +29,97 @@ TE-15 pg17 and pg47
 ![image](https://user-images.githubusercontent.com/58069246/213082010-15d121a9-a9f3-4754-85ba-6d49dc45afff.png)
 
  
+```
+POWER ON/RESET
+                         │
+                         ▼
+                   Initialize JMON
+                   [0000-006A]
+                         │
+                         ▼
+              Save Registers & Setup
+                   [006B-008F]
+                         │
+                         ▼
+     ┌────────────────────────────────────┐
+     │           Main Loop                 │
+     │    Update Display [00B2-00E1]      │
+     └─────────────┬──────────────────────┘
+                   │
+                   ▼
+            Check Input Mode
+                   │
+         ┌─────────┴─────────┐
+         ▼                   ▼
+    Data Mode           Address/Function Mode
+    [00D0-00E1]         [0102-017F]
+         │                    │
+         │                    │
+    ┌────┴────────────────────┘
+    │
+    ▼
+Process Key Input [0181-01E5]
+    │    
+    ├─── "+" Key: Increment address
+    │    
+    ├─── "-" Key: Decrement address
+    │    
+    ├─── "GO" Key: Execute at current address
+    │    
+    ├─── "AD" Key: Return to monitor
+    │    
+    └─── Data Keys: Enter data at current address
+         │
+         ▼
+    Auto-increment?
+         │
+    ┌────┴────┐
+    │         │
+    ▼         ▼
+   Yes        No
+   │          │
+   │          └───────┐
+   ▼                  ▼
+Inc Address    Stay at Current Address
+   │                  │
+   └──────────────────┘
+         │
+         ▼
+    Back to Main Loop
+```
+
+```
+LED Display Scan Routine [01BA-01D4]
+    │
+    ├─── Initialize scan bit
+    ├─── Output segment data
+    ├─── Output scan bit
+    ├─── Delay
+    └─── Move to next digit
+
+Key Input Processing [06AD-06D4]
+    │
+    ├─── Detect key press
+    ├─── Debounce
+    ├─── Validate
+    └─── Process auto-repeat
+
+LCD Interface [023C-026B]
+    │
+    ├─── Initialize LCD
+    ├─── Check busy flag
+    ├─── Send commands
+    └─── Display data
+
+Tape Operations [04F0-05FD]
+    │
+    ├─── Write leader
+    ├─── Write data blocks
+    ├─── Calculate checksums
+    ├─── Read data
+    └─── Verify checksums
+```
+
 
 ## MENU DRIVER 
 - various utilities 
@@ -204,7 +295,7 @@ The tone encoding used in this code is Manchester encoding. It is a type of digi
 
 
 
-## DAT BOARD providers  
+## DAT BOARD Providers  
 - 16x2 LCD display. It has an embedded controller as well.
 - Cassette tape I/O interface.
 - Single stepper module.
