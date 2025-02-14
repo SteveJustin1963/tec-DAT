@@ -19,46 +19,6 @@ TE-15 pg17 and pg47
 
 ![image](https://user-images.githubusercontent.com/58069246/194963734-0883ac59-113a-43e6-a25a-58f0fb5ddad1.png)
 
-## DAT BOARD provides  
-- 16x2 LCD display. It has an embedded controller as well.
-- Cassette tape I/O interface.
-- Single stepper module.
-- 5 Buffered and latched input bits.
-- 1 Inverter for general use.
-- Diode clipped input line. (For RS232 input)
-- MON select switch.
-
-Plenty of tec nuts have played and built the dat and the lcd display and more
-- https://www.facebook.com/groups/623556744820045/search/?q=dat
-- https://www.facebook.com/groups/623556744820045/search/?q=lcd
-- etc
- 
-## Ben Grimmett
-![image](https://user-images.githubusercontent.com/58069246/213084866-9ef37d49-0787-4bee-8c27-a3b632ddba68.png)
-
-- uses z80 socket
-- allows room for eprom emulator board
-- removed 5 digital inputs
-
-## Brian Chiha
-![310139155_10162210872284056_4000640632497298524_n](https://user-images.githubusercontent.com/58069246/194762452-aedd2334-35ea-401c-b04e-906fa4b18579.jpg)
-![310162465_10162210872249056_8638298831846877900_n](https://user-images.githubusercontent.com/58069246/194762468-8f4087ef-c286-4bac-91b6-9e306aab18c2.jpg)
-
-- called the "Ultimate Add-On Board for the TEC-1F"
-- board only for $14 (usd) including postage
-- software will include ROM called "BMON"
-  - Disassembler 
-  - 8x8 Games 
-  - TE Magazine code + extras in the ROM
-- hardware
-  - "all-in-one expansion" for the TEC-1F includes 
-  - 8x8 LED Matrix
-  - LCD display
-  - ROM/RAM Expansion
-  - Single Stepping interrupts
-  - timed 5Hz-165Hz interrupts.
-  - plugs in directly on top of the TEC-1F via header pins
-
 
 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 
@@ -317,6 +277,46 @@ If we use a carrier frequency of 2 the result will look like
 `code bpsk.c` the binary 1 and binary 0 signals are in the same frequency, but they are out of phase by π radians. Here's a simple program that demonstrates this:
 This program receives the amplitude, frequency, initial time, and time interval from the user. It then generates a BPSK signal based on the given binary input array. The program prints a cosine wave for binary 1 and a negated cosine wave for binary 0, representing the phase shift, note, this program is just a simple illustration of BPSK and does not handle many aspects of real-world communication, such as noise, synchronization, or recovery of the original data from the phase-shifted signal.
 
+
+## DAT BOARD providers  
+- 16x2 LCD display. It has an embedded controller as well.
+- Cassette tape I/O interface.
+- Single stepper module.
+- 5 Buffered and latched input bits.
+- 1 Inverter for general use.
+- Diode clipped input line. (For RS232 input)
+- MON select switch.
+
+Plenty of tec nuts have played and built the dat and the lcd display and more
+- https://www.facebook.com/groups/623556744820045/search/?q=dat
+- https://www.facebook.com/groups/623556744820045/search/?q=lcd
+- etc
+ 
+## Ben Grimmett
+![image](https://user-images.githubusercontent.com/58069246/213084866-9ef37d49-0787-4bee-8c27-a3b632ddba68.png)
+
+- uses z80 socket
+- allows room for eprom emulator board
+- removed 5 digital inputs
+
+## Brian Chiha
+![310139155_10162210872284056_4000640632497298524_n](https://user-images.githubusercontent.com/58069246/194762452-aedd2334-35ea-401c-b04e-906fa4b18579.jpg)
+![310162465_10162210872249056_8638298831846877900_n](https://user-images.githubusercontent.com/58069246/194762468-8f4087ef-c286-4bac-91b6-9e306aab18c2.jpg)
+
+- called the "Ultimate Add-On Board for the TEC-1F"
+- board only for $14 (usd) including postage
+- software will include ROM called "BMON"
+  - Disassembler 
+  - 8x8 Games 
+  - TE Magazine code + extras in the ROM
+- hardware
+  - "all-in-one expansion" for the TEC-1F includes 
+  - 8x8 LED Matrix
+  - LCD display
+  - ROM/RAM Expansion
+  - Single Stepping interrupts
+  - timed 5Hz-165Hz interrupts.
+  - plugs in directly on top of the TEC-1F via header pins
 
 
 
