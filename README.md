@@ -1,7 +1,16 @@
 # tec-DAT 
-
-## By Jim Robertson
 https://github.com/SteveJustin1963/tec-BOOKS/blob/master/TE/Mag/talking_electronics_15.pdf
+
+
+# The original
+
+![image](https://user-images.githubusercontent.com/58069246/194963815-36d04151-a8da-4b67-8188-45da40566032.png)
+
+![image](https://user-images.githubusercontent.com/58069246/213081798-252876b8-6f4e-4a38-9460-87574991418e.png)
+
+
+
+
 
 TE-15 pg17 and pg47
 
@@ -52,11 +61,6 @@ Plenty of tec nuts have played and built the dat and the lcd display and more
 
 
 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-
-
-![image](https://user-images.githubusercontent.com/58069246/194963815-36d04151-a8da-4b67-8188-45da40566032.png)
-
-![image](https://user-images.githubusercontent.com/58069246/213081798-252876b8-6f4e-4a38-9460-87574991418e.png)
 
 ![image](https://user-images.githubusercontent.com/58069246/213082340-afe1e256-bc56-4e52-adf9-4756c938b9f0.png)
 
