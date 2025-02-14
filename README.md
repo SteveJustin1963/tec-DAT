@@ -121,7 +121,7 @@ Tape Operations [04F0-05FD]
 ```
 
 ```
-POWER ON/RESET
+POWER ON/RESET [0000]
                          │
                          ▼
               Initialize JMON [0000-006A]
@@ -135,7 +135,7 @@ POWER ON/RESET
     ┌────┴────┐             ┌──────┴──────┐
     ▼         ▼             ▼             ▼
 Update     Process      MENU DRIVER    Hardware
-Display    Keys         Navigation     Control
+Display    Keys         [03E3]        Control
 [00B2]     [0181]           │         │
     │         │        ┌────┴────┐    │
     └────┬────┘        ▼         ▼    │
@@ -144,35 +144,28 @@ Display    Keys         Navigation     Control
          │             │         │     │
          │             └────┬────┘     │
          │                  ▼          │
-         │         ┌─────────────────┐ │
-         │         │ Operation Select│ │
-         │         └────────┬────────┘ │
-         │                  ▼          │
-         │         ┌─────────────────┐ │
-         │         │Perimeter Handler│ │
-         │         └────────┬────────┘ │
+         │       ┌─────────────────┐   │
+         │       │Perimeter Handler│   │
+         │       │     [0479]      │   │
+         │       └────────┬────────┘   │
          │                  ▼          │
          │         Parameter Entry     │
-         │         ├── File Number    │
-         │         ├── Start Address  │
-         │         ├── End Address    │
-         │         └── Auto-GO        │
+         │         [04F0-04FF]        │
          │                  │          │
          │            ┌────┴────┐     │
          │            ▼         ▼     │
          │         SAVE       LOAD     │
          │          │          │      │
          │    ┌────┴────┐  ┌──┴───┐  │
-         │    │ L0686   │  │L0630 │  │
+         │    │  [0686] │  │[0630]│  │
          │    │Tone Gen │  │Decode│  │
          │    └────┬────┘  └──┬───┘  │
          │         │         │       │
          │    ┌────┴────┬────┴───┐   │
          │    ▼         ▼        ▼    │
          │  High      Low     Checksum │
-         │  Tone     Tone    Verify   │
-         │  (L0684)  (L0680)   │      │
-         │    │         │      │      │
+         │  [0684]   [0680]  Verify   │
+         │    │         │     [04F0]   │
          │    └────┬────┘      │      │
          │         ▼           │      │
          │    Data Blocks      │      │
@@ -181,24 +174,18 @@ Display    Keys         Navigation     Control
          │         └─────┬─────┘      │
          │               ▼            │
          │      Status Display        │
-         │      ├── END-S            │
-         │      ├── PASS/FAIL CS     │
-         │      ├── PASS/FAIL Tb     │
-         │      └── PASS/FAIL Ld     │
+         │      [05A1-05B4]          │
          │               │            │
          └───────────────┴────────────┘
-                        │
-                        ▼
-                   Back to Menu
 
 Hardware Control Layer:
 ----------------------
 ┌─────────────────────────────────┐
 │ Display Buffer [082C/D]         │
-│ LED Control                     │
-│ Speaker Output                  │
-│ Keyboard Input [0820]          │
-│ Tape Interface                  │
+│ LED Control [01BA-01D4]         │
+│ Speaker Output [0680-0686]      │
+│ Keyboard Input [0820]           │
+│ Tape Interface [04F0-05FD]      │
 └─────────────────────────────────┘
 
 Memory Management:
