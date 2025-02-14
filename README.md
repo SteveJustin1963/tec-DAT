@@ -1,4 +1,4 @@
-# tec-DAT The original
+ # tec-DAT The original
 https://github.com/SteveJustin1963/tec-BOOKS/blob/master/TE/Mag/talking_electronics_15.pdf
 
 
@@ -136,47 +136,47 @@ POWER ON/RESET [0000]
     ▼         ▼             ▼             ▼
 Update     Process      MENU DRIVER    Hardware
 Display    Keys         [03E3]        Control
-[00B2]     [0181]           │            │
-    │         │        ┌────┴────┐       │
-    └────┬────┘        ▼         ▼       │
-         │          Forward    Backward  │
-         │            (+)       (-)      │
-         │             │         │       │
-         │             └────┬────┘       │
-         │                  ▼            │
-         │       ┌─────────────────┐     │
-         │       │Perimeter Handler│   │
-         │       │     [0479]      │   │
-         │       └────────┬────────┘   │
-         │                ▼            │
-         │         Parameter Entry     │
-         │         [04F0-04FF]         │
-         │               │           │
-         │          ┌────┴────┐      │
-         │          ▼         ▼      │
-         │        SAVE       LOAD    │
-         │         │          │      │
-         │    ┌────┴────┐  ┌──┴───┐  │
-         │    │  [0686] │  │[0630]│  │
-         │    │Tone Gen │  │Decode│  │
-         │    └────┬────┘  └──┬───┘  │
-         │         │         │       │
-         │    ┌────┴────┬────┴───┐   │
-         │    ▼         ▼        ▼    │
-         │  High      Low     Checksum │
-         │  [0684]   [0680]  Verify    │
-         │    │         │     [04F0]   │
-         │    └────┬────┘      │      │
-         │         ▼           │      │
-         │    Data Blocks      │      │
-         │    (256 bytes)      │      │
-         │         │           │      │
-         │         └─────┬─────┘      │
-         │               ▼            │
-         │      Status Display        │
-         │      [05A1-05B4]           │
-         │               │            │
-         └───────────────┴────────────┘
+[00B2]     [0181]           │             │
+    │         │        ┌────┴────┐        │
+    └────┬────┘        ▼         ▼        │
+         │          Forward    Backward   │
+         │            (+)       (-)       │
+         │             │         │        │
+         │             └────┬────┘        │
+         │                  ▼             │
+         │       ┌─────────────────┐      │
+         │       │Perimeter Handler│      │
+         │       │     [0479]      │      │
+         │       └────────┬────────┘      │
+         │                ▼               │
+         │         Parameter Entry        │
+         │         [04F0-04FF]            │
+         │               │                │
+         │          ┌────┴────┐           │
+         │          ▼         ▼           │
+         │        SAVE       LOAD         │
+         │         │          │           │
+         │    ┌────┴────┐  ┌──┴───┐       │
+         │    │  [0686] │  │[0630]│       │
+         │    │Tone Gen │  │Decode│       │
+         │    └────┬────┘  └──┬───┘       │
+         │         │         │            │
+         │    ┌────┴────┬────┴───┐        │
+         │    ▼         ▼        ▼        │
+         │  High      Low     Checksum    │
+         │  [0684]   [0680]  Verify       │
+         │    │         │     [04F0]      │
+         │    └────┬────┘      │          │
+         │         ▼           │          │
+         │    Data Blocks      │          │
+         │    (256 bytes)      │          │
+         │         │           │          │
+         │         └─────┬─────┘          │
+         │               ▼                │
+         │      Status Display            │
+         │      [05A1-05B4]               │
+         │               │                │
+         └───────────────┴────────────────┘
 
 Hardware Control Layer:
 ----------------------
