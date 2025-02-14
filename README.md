@@ -1,8 +1,6 @@
-# tec-DAT 
+# tec-DAT The original
 https://github.com/SteveJustin1963/tec-BOOKS/blob/master/TE/Mag/talking_electronics_15.pdf
 
-
-# The original
 
 ![image](https://user-images.githubusercontent.com/58069246/194963815-36d04151-a8da-4b67-8188-45da40566032.png)
 
