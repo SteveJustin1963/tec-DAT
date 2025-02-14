@@ -120,6 +120,98 @@ Tape Operations [04F0-05FD]
     └─── Verify checksums
 ```
 
+```
+POWER ON/RESET
+                         │
+                         ▼
+              Initialize JMON [0000-006A]
+              Save Registers [006B-008F]
+                         │
+                ┌────────┴──────────┐
+                ▼                   ▼
+         Normal Monitor        SHIFT+0 or AD+0
+         Operations            (Tape Software)
+         │                          │
+    ┌────┴────┐             ┌──────┴──────┐
+    ▼         ▼             ▼             ▼
+Update     Process      MENU DRIVER    Hardware
+Display    Keys         Navigation     Control
+[00B2]     [0181]           │         │
+    │         │        ┌────┴────┐    │
+    └────┬────┘        ▼         ▼    │
+         │          Forward    Backward │
+         │            (+)       (-)    │
+         │             │         │     │
+         │             └────┬────┘     │
+         │                  ▼          │
+         │         ┌─────────────────┐ │
+         │         │ Operation Select│ │
+         │         └────────┬────────┘ │
+         │                  ▼          │
+         │         ┌─────────────────┐ │
+         │         │Perimeter Handler│ │
+         │         └────────┬────────┘ │
+         │                  ▼          │
+         │         Parameter Entry     │
+         │         ├── File Number    │
+         │         ├── Start Address  │
+         │         ├── End Address    │
+         │         └── Auto-GO        │
+         │                  │          │
+         │            ┌────┴────┐     │
+         │            ▼         ▼     │
+         │         SAVE       LOAD     │
+         │          │          │      │
+         │    ┌────┴────┐  ┌──┴───┐  │
+         │    │ L0686   │  │L0630 │  │
+         │    │Tone Gen │  │Decode│  │
+         │    └────┬────┘  └──┬───┘  │
+         │         │         │       │
+         │    ┌────┴────┬────┴───┐   │
+         │    ▼         ▼        ▼    │
+         │  High      Low     Checksum │
+         │  Tone     Tone    Verify   │
+         │  (L0684)  (L0680)   │      │
+         │    │         │      │      │
+         │    └────┬────┘      │      │
+         │         ▼           │      │
+         │    Data Blocks      │      │
+         │    (256 bytes)      │      │
+         │         │           │      │
+         │         └─────┬─────┘      │
+         │               ▼            │
+         │      Status Display        │
+         │      ├── END-S            │
+         │      ├── PASS/FAIL CS     │
+         │      ├── PASS/FAIL Tb     │
+         │      └── PASS/FAIL Ld     │
+         │               │            │
+         └───────────────┴────────────┘
+                        │
+                        ▼
+                   Back to Menu
+
+Hardware Control Layer:
+----------------------
+┌─────────────────────────────────┐
+│ Display Buffer [082C/D]         │
+│ LED Control                     │
+│ Speaker Output                  │
+│ Keyboard Input [0820]          │
+│ Tape Interface                  │
+└─────────────────────────────────┘
+
+Memory Management:
+-----------------
+┌─────────────────────────────────┐
+│ Current Edit Location [082E]    │
+│ Monitor Control Byte [082B]     │
+│ Auto Key Status [082A]          │
+│ Key Press Flag [0825]           │
+└─────────────────────────────────┘
+```
+
+
 
 ## MENU DRIVER 
 - various utilities 
