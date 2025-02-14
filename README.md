@@ -35,8 +35,11 @@ TE-15 pg17 and pg47
 ## MENU DRIVER 
 - various utilities 
 - and tape software 
-
-To move forward through  MENU, press "+", backward, press "-". Notice wrap around of choices. Press "GO" takes you into the perimeter handler (sub menu).  press "GO" again then control is passed to required routine via a 2-byte address stored at 0888 by the calling routine.  
+- To move forward through  MENU, press "+",
+- backward, press "-".
+- Notice wrap around of choices.
+- Press "GO" takes you into the perimeter handler (sub menu).
+- press "GO" again then control is passed to required routine via a 2-byte address stored at 0888 by the calling routine.  
 
 
 # Tape software
@@ -44,16 +47,17 @@ To move forward through  MENU, press "+", backward, press "-". Notice wrap aroun
 - LOAD ,  selected /  next /  at address 
 - TEST tape; with check every page (256 bytes) / to memory block / 
 - clock speed dependant, affects baud
-
-To access universal MENU driver and perimeter handler.  
-Call up the cassette software by pressing SHIFT and ZERO together. If you have not fitted a shift key, the cassette software can be addressed by pressing the address key, then the plus key, then zero. AD + 0
+- To access universal MENU driver and perimeter handler.
+- Call up the cassette software by pressing SHIFT and ZERO together.
+- If you have not fitted a shift key, the cassette software can be addressed by pressing the address key, then the plus key, then zero. AD + 0
  
 ## SAVE
 - now shows SAVE-H, high speed, press GO
 - now shows hh-F, random two-byte, eg 4B-F, replace with file number say 00-F, press "+" key
 - now shows "-S". start of the block you wish to save(output to tape). Enter 0900, and then press "+". 
 - now shows "-E." enter the address of the last byte of the block to be saved. Enter 090A and press "+". 
-- now shows "-G". OPTIONAL AUTO-GO address, default FFFF - NON-ACTIVE aka. NO AUTO-GO upon a re-load. ANY other value entered here will result in an automatic execution upon a SUCCESSFUL LOAD AT THE ADDRESS ENTERED HERE
+- now shows "-G". OPTIONAL AUTO-GO address, default FFFF - NON-ACTIVE aka. NO AUTO-GO upon a re-load.
+- ANY other value entered here will result in an automatic execution upon a SUCCESSFUL LOAD AT THE ADDRESS ENTERED HERE
 - press play and record on the tape recorder 
 - wait for the clear plastic leader to pass if at the start of a tape. Then press GO. 
 - The display will blank and a continuous tone will be heard from the speaker. After a few seconds the file information will be outputted and then a period of high frequency tone. This "middle sync" tone is to cover the time that the filename is displayed when reloading. 
@@ -63,7 +67,14 @@ Call up the cassette software by pressing SHIFT and ZERO together. If you have n
 ## LOAD
 - To reload the tape press the "+" key and you will see "SAVE-L" on the display, then "TEST-BL", "TEST-CS", then you will come to "LOAD-T" (for load tape). Note that there is no "TESTH" or "TEST-L" for low and high speeds as the test and load routine will load either speed automatically.  
 - Press GO. The data display shows "- F' for file number. This will be as you left it when you saved. When loading or testing from tape, the file number here determines which file will be subject to the selected operation. If you enter FFFF here, the next file found will be used, regardless of its file number
-- Next push "+". The data display will show "-S", meaning Start address. This is always set to H4114 by the software. The start address allows you to optionally load a file or test a file at an address different to the one on the tape, (which is the address from which it was saved). To demonstrate its operation and to make it a more convincing trial, we will enter 0A00. The file will now be loaded at 0A00. If you press the "+" key again, you will be back at the file name. (This last point demonstrates the programmable number of "windows" feature of the perimeter handler. It was set up for 2 "windows" by a short routine entered from the Menu driver before passing control to the Perimeter handler, remember that there was 4 "windows" when you saved the file). Now press GO
+- Next push "+". The data display will show "-S", meaning Start address.
+- This is always set to H4114 by the software.
+- The start address allows you to optionally load a file or test a file at an address different to the one on the tape, (which is the address from which it was saved).
+- To demonstrate its operation and to make it a more convincing trial, we will enter 0A00.
+- The file will now be loaded at 0A00.
+- If you press the "+" key again, you will be back at the file name. (This last point demonstrates the programmable number of "windows" feature of the perimeter handler.
+- It was set up for 2 "windows" by a short routine entered from the Menu driver before passing control to the Perimeter handler, remember that there was 4 "windows" when you saved the file).
+- Now press GO
 
 ## Completion results
 - END 
@@ -75,11 +86,6 @@ Call up the cassette software by pressing SHIFT and ZERO together. If you have n
 - FAIL Tb (TEST BLOCK); 
 - FAIL Ld (LOAD). 
 - The one exception is when an auto execute is performed after a successful load. The tape software will display each file as it is found and also echo the tape signal. 
-
-
-
- 
-
 
 
 # JMON monitor  
@@ -139,15 +145,13 @@ The tone encoding used in this code is Manchester encoding. It is a type of digi
 
 
 ## tones generating and decoding
-tones are generated using a software-based approach. The code uses two routines, L0684 and L0680, to output high and low tones respectively. These routines take a single argument, the duration of the tone in machine cycles.
-
-The high tone routine (L0684) loads the value 11H into register C and then jumps to the tone generation routine L0686. The low tone routine (L0680) loads the value 0x29 into register C and then jumps to the same tone generation routine L0686.
-
-The tone generation routine L0686 checks if the save is in low speed and if so, it halves the cycle count in L. It then repeatedly outputs a square wave on the speaker by toggling the speaker bit in a port and delaying for the number of cycles specified in C.
-
-Decoding the tones is done in another routine, L0630. This routine waits for the signal to change from high to low and then measures the duration of the low signal. Depending on the duration of the low signal, the routine can determine if the incoming signal is a binary 0 or a binary 1.
-
-In the code provided, the high tone corresponds to a binary 1 and the low tone corresponds to a binary 0. Once the tones are decoded, they are used to reconstruct the file information block that was previously saved on tape.
+- tones are generated using a software-based approach. The code uses two routines, L0684 and L0680, to output high and low tones respectively. These routines take a single argument, the duration of the tone in machine cycles.
+- The high tone routine (L0684) loads the value 11H into register C and then jumps to the tone generation routine L0686. The low tone routine (L0680) loads the value 0x29 into register C and then jumps to the same tone generation routine L0686.
+- The tone generation routine L0686 checks if the save is in low speed and if so, it halves the cycle count in L. It then repeatedly outputs a square wave on the speaker by toggling the speaker bit in a port and delaying for the number of cycles specified in C.
+- Decoding the tones is done in another routine, L0630. This routine waits for the signal to change from high to low and then measures the duration of the low signal.
+- Depending on the duration of the low signal, the routine can determine if the incoming signal is a binary 0 or a binary 1.
+- In the code provided, the high tone corresponds to a binary 1 and the low tone corresponds to a binary 0.
+- Once the tones are decoded, they are used to reconstruct the file information block that was previously saved on tape.
 
 ## L0684 
 - is a label that marks the location in memory where the routine starts
@@ -241,35 +245,4 @@ Plenty of tec nuts have played and built the dat and the lcd display and more
   - Single Stepping interrupts
   - timed 5Hz-165Hz interrupts.
   - plugs in directly on top of the TEC-1F via header pins
-
-
-
-
-
-
-
-##  Iterate
-
-- https://www.facebook.com/groups/AusVintage/search/?query=DAT&epa=SEARCH_BOX
-- analyze Jims comments on JMON code and flow chart the comments and code 
-- explain how the systems work wrt DAT
-- theory of presented methodology
-- Screen upgrade
-- LCD; 20 x 4 
-- LCD 128 X 64 
-- I2C OLED
-- Composite Video
-- VGA
-- 
-
-
-
-##  References
-- https://hackaday.com/2018/10/07/reading-old-data-tapes-the-hard-way/
-- https://github.com/SteveJustin1963/tec-MAGAZINES/blob/master/talking_electronics_15.pdf
-- https://github.com/SteveJustin1963/tec-MONITOR
-- https://easyeda.com/editor#id=5436587669434d578bdf98f6c96d4d5b
-- https://en.wikipedia.org/wiki/Phase-shift_keying
-
-
 
