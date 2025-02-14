@@ -1,3 +1,5 @@
+```
+
 '
 '
 '***********************************************************************************
@@ -168,7 +170,8 @@ digit = 0	'
 ' For example, the point could be made to move in a spiral 'pattern by changing the values of x and y.
 ''''''''''''''''''
 
-
+```
+```
 
 PAUSE 1200	'pause for LCD to start
 LCDOUT $FE,1	'clear LCD
