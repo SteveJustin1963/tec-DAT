@@ -39,7 +39,7 @@ TE-15 pg17 and pg47
 To move forward through  MENU, press "+", backward, press "-". Notice wrap around of choices. Press "GO" takes you into the perimeter handler (sub menu).  press "GO" again then control is passed to required routine via a 2-byte address stored at 0888 by the calling routine.  
 
 
-## Tape software
+# Tape software
 - 300 baud slow speed / 600 baud high speed/  auto execution 
 - LOAD ,  selected /  next /  at address 
 - TEST tape; with check every page (256 bytes) / to memory block / 
@@ -82,7 +82,7 @@ Call up the cassette software by pressing SHIFT and ZERO together. If you have n
 
 
 
-## JMON monitor  
+# JMON monitor  
 
 ## overall process 
 
@@ -200,82 +200,6 @@ In the code provided, the high tone corresponds to a binary 1 and the low tone c
 - Decrement BC and check if it is zero, if not loop back to step 13.
 
 
-## General Theory on encoding data onto tape 
-The DAT uses freq for 0 and 1, see monitor code for comments
-
-This can be done by changing the 
-- amplitude, 
-- frequency 
-- or phase 
-of a periodic repeating wave.
-
-
-## ASK
-For example one approach is known as ASK, `amplitude shift keying` and this approach involves having a way that either has a positive amplitude or an amplitude of zero to encode the bits 1 and 0. 
-```
-s(t) = A cos(2 Pi Fc t), for 1 then A>0, 0 for A=0
-```
-The formula over time looks like this so s is the function for the signal voltage that is being transmitted and T is the current time of the transmission and if we are encoding a binary 1 at that time then the signal is some amplitude times cosine of 2 pi times some carrier frequency times the time. otherwise 0 is the voltage of
-the signal so we can see what this looks like in the following example.
-
-The delineation of each signal element I'll be encoding this binary string using amplitude shift keying so whenever there is a 0 we simply have a flat line of 0 voltage but whenever there is a 1 we will have some wave with the given amplitude. The number of ripples within a single signal element depends on what the carrier frequency is but it ultimately doesn't matter too much for how ASK works it's just a matter of a technical detail so here when we're encoding ones we have a wave that's fluctuating and then when we go back to 0 we have a flat line again then for the one will have wave again then flat for zero then waving for the one that's throughout here as well and etc.
-
-## `ask.c`
-code will output a sinusoidal wave for each binary 1 in your input and a flat line for each binary 0, simulating the ASK modulation scheme. Note that I've used the cos function instead of sin as in your original code, since cos(0) = 1 and sin(0) = 0, which fits better for representing the start of a signal element in ASK.
-
-## Frequency Shift Keying (FSK -BFSK)
-
-In digital communication, rather than altering the amplitude, we can change the `frequency` as a method of data encoding. A common scheme that utilizes this approach is Binary Frequency Shift Keying (BFSK).
-
-In BFSK, the signal is defined as a function of time, maintaining a consistent amplitude cosine and 2π. The difference between encoding a digital 1 or a digital 0 lies in the frequencies used. 
-
-Here's how the frequency encoding works in BFSK:
-
-- For digital 1, the signal is represented as: 
-    ```
-    s(t) = A cos(2 Pi Fc1 t)
-    ```
-
-- For digital 0, the signal changes to:
-    ```
-    s(t) = A cos(2 Pi Fc2 t)
-    ```
-
-In these formulas, `s(t)` is the signal as a function of time, `A` is the amplitude, `Fc1` and `Fc2` are the carrier frequencies for digital 1 and digital 0, respectively.
-
-A simple BFSK implementation in C could switch the carrier frequency between these two different frequencies based on whether the binary input is a 1 or 0.
-
-## Multi Frequency Shift Keying (MFSK)
-
-Beyond binary, we can encode more diverse signals using Multi Frequency Shift Keying (MFSK), where the signal frequency can shift among more than two values. In MFSK, the formula for encoding is:
-
-```
-s(t) = A cos(2 Pi Fci t) // 1<i<M 
-```
-
-Here, `M` represents the number of different frequencies or the number of possible values we are encoding, and `i` is a given value within that range. The frequency `Fci` should be chosen to span the range of possible values we're encoding. 
-
-The frequencies should be spread out within that range to ensure each is unique. However, as the number of different frequencies increases, it becomes more challenging to distinguish between them. This increases the risk of having trouble discerning the signal.
-
-
-## BPSK
-Another way is BPSK, binary phase-shift keying, this approach is essentially same base formula as the others but now we will be changing the phase of our signal rather than the frequency or the amplitude. The formula looks like 
-```
-s(t) = A cos(2 Pi Fc t)      // digital 1 
-s(t) = A cos(2 Pi Fc t + Pi) // digital 0
-```
-By adding in Pi we shift this signal to a different phase. We are once again using a carrier frequency but it will be the same frequency for both encoding a binary 0 and a binary 1 now. Because if you remember your trigonometric identities we can actually simplify this a bit further so when we want to encode a binary 0 we simply take the binary 1 signal and negate it and that is effectively the same as shifting the phase by PI. Therefore
-```
-s(t) =   A cos(2 Pi Fc t)  // digital 1 
-s(t) = - A cos(2 Pi Fc t ) // digital 0
-```
-If we use a carrier frequency of 2 the result will look like
-
-![](https://github.com/SteveJustin1963/tec-DAT/blob/master/pics/bpsk.jpg)
-
-
-`code bpsk.c` the binary 1 and binary 0 signals are in the same frequency, but they are out of phase by π radians. Here's a simple program that demonstrates this:
-This program receives the amplitude, frequency, initial time, and time interval from the user. It then generates a BPSK signal based on the given binary input array. The program prints a cosine wave for binary 1 and a negated cosine wave for binary 0, representing the phase shift, note, this program is just a simple illustration of BPSK and does not handle many aspects of real-world communication, such as noise, synchronization, or recovery of the original data from the phase-shifted signal.
 
 
 ## DAT BOARD providers  
