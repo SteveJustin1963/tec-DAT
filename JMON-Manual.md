@@ -5,7 +5,7 @@
 2. Default display shows address and data sections
 3. Initial editing location: 0800
 
-
+ 
 ## How to Enter Data
 1. Simply type hex digits (0-F)
 2. Data appears in right display
